@@ -1,0 +1,117 @@
+/* Styles for reports page */
+.reports-container {
+  max-width: 900px;
+  margin: 20px auto;
+  background: white;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.filter-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #444;
+  font-size: 1rem;
+}
+
+.filter-group select,
+.filter-group input[type="date"] {
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+  background: #f9f9f9;
+}
+
+.filter-group select:focus,
+.filter-group input[type="date"]:focus {
+  border-color: #74ebd5;
+  outline: none;
+  background: #fff;
+}
+
+.filter-group select[multiple] {
+  height: 120px;
+  overflow-y: auto;
+}
+
+.export-options {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 25px;
+  font-weight: 600;
+  color: #444;
+}
+
+.export-options label {
+  font-weight: normal;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1rem;
+}
+
+button.btn {
+  width: 100%;
+  padding: 12px 0;
+  background: linear-gradient(90deg, #74ebd5 0%, #acb6e5 100%);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button.btn:hover {
+  background: linear-gradient(90deg, #acb6e5 0%, #74ebd5 100%);
+}
+
+.report-display {
+  margin-top: 30px;
+  min-height: 200px;
+  padding: 20px;
+  border: 2px solid #74ebd5;
+  border-radius: 12px;
+  background: #f0f8ff;
+  color: #222;
+  font-size: 1.1rem;
+  box-shadow: inset 0 0 10px #d0e7f9;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .reports-container {
+    padding: 15px 20px;
+    margin: 10px;
+  }
+
+  .filter-group {
+    margin-bottom: 15px;
+  }
+
+  .export-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  button.btn {
+    font-size: 1rem;
+    padding: 10px 0;
+  }
+}

@@ -1,0 +1,502 @@
+ <link rel="stylesheet" href="/css/style.css" />
+
+<style>
+  body {
+    font-family: "Cairo", Arial, sans-serif;
+    background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+  h1 {
+    text-align: center;
+    color: #236089;
+    margin-top: 32px;
+    margin-bottom: 24px;
+    letter-spacing: 1.5px;
+    font-weight: 800;
+    font-size: 2.2em;
+    text-shadow: 0 2px 8px #b3c6e0;
+  }
+  #addAwardBtn {
+    display: block;
+    margin: 0 auto 28px auto;
+    background: linear-gradient(90deg, #3498db 60%, #6dd5fa 100%);
+    color: #fff;
+    border: none;
+    padding: 14px 36px;
+    border-radius: 8px;
+    font-size: 1.15em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.1);
+    transition: background 0.2s, transform 0.15s;
+    position: relative;
+  }
+  #addAwardBtn:hover {
+    background: linear-gradient(90deg, #217dbb 60%, #3498db 100%);
+    transform: translateY(-2px) scale(1.03);
+  }
+  #awardsTable {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(44, 62, 80, 0.1);
+    overflow: hidden;
+    margin: 0 auto 36px auto;
+    width: 97%;
+    direction: rtl;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  #awardsTable th,
+  #awardsTable td {
+    padding: 14px 12px;
+    text-align: center;
+    font-size: 1.07em;
+  }
+  #awardsTable th {
+    background: linear-gradient(90deg, #2980b9 70%, #6dd5fa 100%);
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.08em;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #e0eafc;
+  }
+  #awardsTable tr:nth-child(even) {
+    background: #f4faff;
+  }
+  #awardsTable tr:nth-child(odd) {
+    background: #f9fcff;
+  }
+  #awardsTable tr:hover {
+    background: #eaf3fb;
+    transition: background 0.2s;
+  }
+  .editAwardBtn,
+  .deleteAwardBtn {
+    padding: 7px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    margin: 0 3px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.12s;
+    font-weight: 600;
+    box-shadow: 0 1px 4px rgba(44, 62, 80, 0.07);
+    position: relative;
+  }
+  .editAwardBtn {
+    background: linear-gradient(90deg, #f1c40f 70%, #f9e79f 100%);
+    color: #fff;
+  }
+  .editAwardBtn:hover {
+    background: linear-gradient(90deg, #d4ac0d 70%, #f7ca18 100%);
+    transform: scale(1.05);
+  }
+  .deleteAwardBtn {
+    background: linear-gradient(90deg, #e74c3c 70%, #ffb6b6 100%);
+    color: #fff;
+  }
+  .deleteAwardBtn:hover {
+    background: linear-gradient(90deg, #c0392b 70%, #e57373 100%);
+    transform: scale(1.05);
+  }
+  #awardModal {
+    border-radius: 14px;
+    box-shadow: 0 6px 32px rgba(44, 62, 80, 0.18);
+    padding: 32px 28px 20px 28px;
+    width: 410px;
+    max-width: 97vw;
+    background: #fafdff;
+    border: 1.5px solid #b3c6e0;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+  }
+  #awardModal h2 {
+    margin-top: 0;
+    color: #2980b9;
+    text-align: center;
+    margin-bottom: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  #awardForm label {
+    font-weight: 600;
+    color: #2d3e50;
+    margin-bottom: 3px;
+    display: block;
+  }
+  #awardForm input[type="text"],
+  #awardForm input[type="date"] {
+    width: 100%;
+    padding: 9px 12px;
+    margin-top: 4px;
+    margin-bottom: 14px;
+    border: 1.5px solid #bfc9d1;
+    border-radius: 6px;
+    font-size: 1em;
+    background: #f8fafc;
+    transition: border 0.2s, box-shadow 0.2s;
+  }
+  #awardForm input:focus {
+    border: 2px solid #2980b9;
+    outline: none;
+    background: #fff;
+    box-shadow: 0 0 4px #b3c6e0;
+  }
+  #awardForm button[type="submit"] {
+    background: linear-gradient(90deg, #27ae60 70%, #b2f7cc 100%);
+    color: #fff;
+    border: none;
+    padding: 9px 26px;
+    border-radius: 6px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-right: 10px;
+    font-weight: 600;
+    transition: background 0.2s, transform 0.12s;
+  }
+  #awardForm button[type="submit"]:hover {
+    background: linear-gradient(90deg, #219150 70%, #27ae60 100%);
+    transform: scale(1.04);
+  }
+  #cancelBtn {
+    background: linear-gradient(90deg, #b2bec3 70%, #dfe6e9 100%);
+    color: #2d3436;
+    border: none;
+    padding: 9px 22px;
+    border-radius: 6px;
+    font-size: 1em;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s, transform 0.12s;
+  }
+  #cancelBtn:hover {
+    background: linear-gradient(90deg, #636e72 70%, #b2bec3 100%);
+    color: #fff;
+    transform: scale(1.04);
+  }
+  @media (max-width: 600px) {
+    #awardModal {
+      width: 99vw;
+      padding: 14px 6px;
+    }
+    #awardsTable th,
+    #awardsTable td {
+      padding: 8px 2px;
+      font-size: 0.97em;
+    }
+    #addAwardBtn {
+      width: 97vw;
+      font-size: 1em;
+    }
+  }
+</style>
+
+<h1>إدارة الجوائز</h1>
+
+<button id="addAwardBtn" title="إضافة جائزة جديدة">إضافة جائزة جديدة</button>
+
+<table id="awardsTable" border="0" cellpadding="0" cellspacing="0">
+  <thead>
+    <tr>
+      <th>اسم الجائزة</th>
+      <th>تاريخ الجائزة</th>
+      <th>رقم الجائزة</th>
+      <th>الشروط</th>
+      <th>إجراءات</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% awards.forEach(function(award) { %>
+    <tr data-id="<%= award._id %>">
+      <td><%= award.name %></td>
+      <td><%= new Date(award.date).toLocaleDateString() %></td>
+      <td><%= award.number %></td>
+      <td>
+        <% if (award.conditions) { %> <%= award.conditions %> <% } else { %> لا
+        توجد شروط <% } %>
+      </td>
+      <td>
+        <button class="editAwardBtn" title="تعديل الجائزة">تعديل</button>
+        <button class="deleteAwardBtn" title="حذف الجائزة">حذف</button>
+      </td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+<!-- Modal for Add/Edit Award -->
+<div id="awardModal" style="display: none">
+  <h2 id="modalTitle">إضافة جائزة جديدة</h2>
+  <form id="awardForm" autocomplete="off" enctype="multipart/form-data">
+    <input type="hidden" id="awardId" />
+    <div>
+      <label for="awardName">اسم الجائزة:</label>
+      <input type="text" id="awardName" name="name" required />
+    </div>
+    <div>
+      <label for="awardDate">تاريخ الجائزة:</label>
+      <input type="date" id="awardDate" name="date" required />
+    </div>
+    <div>
+      <label for="awardNumber">رقم الجائزة:</label>
+      <input type="text" id="awardNumber" name="number" required />
+    </div>
+    <div>
+      <label for="awardConditions">الشروط:</label>
+      <input
+        type="text"
+        id="awardConditions"
+        name="conditions"
+        placeholder="أدخل الشروط هنا"
+      />
+    </div>
+    <div>
+      <label for="awardExplanatoryText">النص التوضيحي:</label>
+      <textarea
+        id="awardExplanatoryText"
+        name="explanatoryText"
+        rows="3"
+        placeholder="أدخل النص التوضيحي هنا"
+        style="width: 100%; padding: 8px; border: 1.5px solid #bfc9d1; border-radius: 6px; font-size: 1em; background: #f8fafc; resize: vertical; margin-top: 4px; margin-bottom: 14px;"
+      ></textarea>
+    </div>
+    <div>
+      <label for="awardAttachments">المرفقات:</label>
+      <input
+        type="file"
+        id="awardAttachments"
+        name="attachments"
+        multiple
+        accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.txt"
+        style="margin-top: 4px; margin-bottom: 14px;"
+      />
+    </div>
+    <div>
+      <label for="awardCriteria">المعايير:</label>
+      <div
+        id="criteriaList"
+        style="
+          max-height: 150px;
+          overflow-y: auto;
+          border: 1px solid #bfc9d1;
+          border-radius: 6px;
+          padding: 8px;
+          background: #f8fafc;
+        "
+      >
+        <!-- Criteria checkboxes will be dynamically inserted here -->
+      </div>
+    </div>
+    <div style="margin-top: 12px; text-align: center">
+      <button type="submit" title="حفظ الجائزة">حفظ</button>
+      <button type="button" id="cancelBtn" title="إلغاء العملية">إلغاء</button>
+    </div>
+  </form>
+</div>
+
+<div
+  id="modalOverlay"
+  style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  "
+></div>
+
+<script>
+  const awardModal = document.getElementById("awardModal");
+  const modalOverlay = document.getElementById("modalOverlay");
+  const addAwardBtn = document.getElementById("addAwardBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
+  const awardForm = document.getElementById("awardForm");
+  const modalTitle = document.getElementById("modalTitle");
+  const awardIdInput = document.getElementById("awardId");
+  const awardNameInput = document.getElementById("awardName");
+  const awardDateInput = document.getElementById("awardDate");
+  const awardNumberInput = document.getElementById("awardNumber");
+  const awardConditionsInput = document.getElementById("awardConditions");
+  const awardsTable = document.getElementById("awardsTable");
+
+  function openModal() {
+    awardModal.style.display = "block";
+    modalOverlay.style.display = "block";
+  }
+
+  function closeModal() {
+    awardModal.style.display = "none";
+    modalOverlay.style.display = "none";
+    awardForm.reset();
+    awardIdInput.value = "";
+  }
+
+  addAwardBtn.addEventListener("click", () => {
+    modalTitle.textContent = "إضافة جائزة جديدة";
+    clearCriteriaSelection();
+    document.getElementById("awardExplanatoryText").value = "";
+    document.getElementById("awardAttachments").value = "";
+    openModal();
+  });
+
+  cancelBtn.addEventListener("click", () => {
+    closeModal();
+  });
+
+  awardForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const id = awardIdInput.value;
+    const formData = new FormData();
+
+    formData.append("name", awardNameInput.value.trim());
+    formData.append("date", awardDateInput.value);
+    formData.append("number", awardNumberInput.value.trim());
+    formData.append("conditions", awardConditionsInput.value.trim());
+    formData.append("explanatoryText", document.getElementById("awardExplanatoryText").value.trim());
+
+    // Append selected criteria ids
+    const selectedCriteria = Array.from(document.querySelectorAll("#criteriaList input[type='checkbox']:checked")).map(
+      (checkbox) => checkbox.value
+    );
+    selectedCriteria.forEach((id) => formData.append("criteria[]", id));
+
+    // Append selected files
+    const files = document.getElementById("awardAttachments").files;
+    for (let i = 0; i < files.length; i++) {
+      formData.append("attachments", files[i]);
+    }
+
+    try {
+      let res;
+      if (id) {
+        res = await fetch(`/awards/${id}`, {
+          method: "PUT",
+          body: formData,
+        });
+      } else {
+        res = await fetch("/awards", {
+          method: "POST",
+          body: formData,
+        });
+      }
+
+      if (res.ok) {
+        location.reload();
+      } else {
+        alert("فشل في حفظ الجائزة");
+      }
+    } catch (error) {
+      console.error("Error saving award:", error);
+      alert("حدث خطأ أثناء الحفظ");
+    }
+  });
+
+  awardsTable.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("editAwardBtn")) {
+      const tr = e.target.closest("tr");
+      const id = tr.dataset.id;
+
+      try {
+        const res = await fetch(`/awards`);
+        if (!res.ok) throw new Error("Failed to fetch awards");
+        const awards = await res.json();
+        const award = awards.find((a) => a._id === id);
+        if (!award) throw new Error("Award not found");
+
+        modalTitle.textContent = "تعديل الجائزة";
+        awardIdInput.value = award._id;
+        awardNameInput.value = award.name;
+        awardDateInput.value = new Date(award.date).toISOString().substr(0, 10);
+        awardNumberInput.value = award.number;
+        awardConditionsInput.value = award.conditions || "";
+        document.getElementById("awardExplanatoryText").value = award.explanatoryText || "";
+        document.getElementById("awardAttachments").value = "";
+
+        // Set criteria checkboxes based on award.criteria
+        setCriteriaSelection(award.criteria || []);
+
+        openModal();
+      } catch (error) {
+        console.error("Error loading award for edit:", error);
+        alert("فشل في تحميل بيانات الجائزة");
+      }
+    } else if (e.target.classList.contains("deleteAwardBtn")) {
+      if (!confirm("هل أنت متأكد من حذف هذه الجائزة؟")) return;
+      const tr = e.target.closest("tr");
+      const id = tr.dataset.id;
+
+      try {
+        const res = await fetch(`/awards/${id}`, { method: "DELETE" });
+        if (res.ok) {
+          location.reload();
+        } else {
+          alert("فشل في حذف الجائزة");
+        }
+      } catch (error) {
+        console.error("Error deleting award:", error);
+        alert("حدث خطأ أثناء الحذف");
+      }
+    }
+  });
+
+  // Helper to render criteria list as checkboxes
+  function renderCriteriaList(criteria, container) {
+    criteria.forEach((item) => {
+      const div = document.createElement("div");
+      div.style.marginLeft = item.parent ? "20px" : "0px";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.id = "criteria_" + item._id;
+      checkbox.value = item._id;
+
+      const label = document.createElement("label");
+      label.htmlFor = checkbox.id;
+      label.textContent = item.name;
+      label.style.marginLeft = "6px";
+
+      div.appendChild(checkbox);
+      div.appendChild(label);
+
+      container.appendChild(div);
+
+      if (item.children && item.children.length > 0) {
+        renderCriteriaList(item.children, container);
+      }
+    });
+  }
+
+  // Set criteria checkboxes based on selected criteria ids
+  function setCriteriaSelection(selectedIds) {
+    const checkboxes = document.querySelectorAll("#criteriaList input[type='checkbox']");
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = selectedIds.includes(checkbox.value);
+    });
+  }
+
+  // Clear all criteria selections
+  function clearCriteriaSelection() {
+    const checkboxes = document.querySelectorAll("#criteriaList input[type='checkbox']");
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+  }
+
+  // On page load, render criteria list
+  document.addEventListener("DOMContentLoaded", () => {
+    const criteriaListContainer = document.getElementById("criteriaList");
+    const criteriaData = <%- JSON.stringify(criteria) %>;
+    renderCriteriaList(criteriaData, criteriaListContainer);
+  });
+</script>
+
+</create_file>

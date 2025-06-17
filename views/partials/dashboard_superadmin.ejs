@@ -1,0 +1,407 @@
+<div
+  class="dashboard-superadmin"
+  style="
+    max-width: 900px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    font-family: 'Cairo', Arial, sans-serif;
+    direction: rtl;
+  "
+>
+  <h2
+    style="
+      color: #007bff;
+      margin-bottom: 24px;
+      font-size: 1.75rem;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 12px;
+    "
+  >
+    لوحة تحكم المشرف الأعلى
+  </h2>
+
+  <!-- التصميم 1: بطاقات أفقية ملونة -->
+  <div style="display: flex; gap: 16px; margin-bottom: 32px">
+    <div
+      style="
+        flex: 1;
+        background: linear-gradient(90deg, #007bff, #00c6ff);
+        color: #fff;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+        text-align: center;
+      "
+    >
+      <div style="font-size: 2rem; font-weight: bold">
+        <%= statistics.criteriaEntered %>
+      </div>
+      <div>المعايير المدخلة</div>
+    </div>
+    <div
+      style="
+        flex: 1;
+        background: linear-gradient(90deg, #28a745, #a8e063);
+        color: #fff;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+        text-align: center;
+      "
+    >
+      <div style="font-size: 2rem; font-weight: bold">
+        <%= statistics.criteriaRemaining %>
+      </div>
+      <div>المعايير المتبقية</div>
+    </div>
+    <div
+      style="
+        flex: 1;
+        background: linear-gradient(90deg, #ffc107, #ffecb3);
+        color: #333;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+        text-align: center;
+      "
+    >
+      <div style="font-size: 2rem; font-weight: bold">
+        <%= statistics.submissionStatusCounts.pending %>
+      </div>
+      <div>قيد الانتظار</div>
+    </div>
+    <div
+      style="
+        flex: 1;
+        background: linear-gradient(90deg, #dc3545, #ffb3b3);
+        color: #fff;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+        text-align: center;
+      "
+    >
+      <div style="font-size: 2rem; font-weight: bold">
+        <%= statistics.submissionStatusCounts.rejected %>
+      </div>
+      <div>مرفوضة</div>
+    </div>
+  </div>
+
+  <!-- التصميم 2: جدول بيانات بسيط -->
+  <div style="overflow-x: auto; margin-bottom: 32px">
+    <table
+      style="
+        width: 100%;
+        border-collapse: collapse;
+        background: #f8f9fa;
+        border-radius: 8px;
+        overflow: hidden;
+      "
+    >
+      <thead>
+        <tr style="background: #007bff; color: #fff">
+          <th style="padding: 12px">المعايير المدخلة</th>
+          <th style="padding: 12px">المعايير المتبقية</th>
+          <th style="padding: 12px">قيد الانتظار</th>
+          <th style="padding: 12px">مقبولة</th>
+          <th style="padding: 12px">مرفوضة</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="text-align: center">
+          <td style="padding: 12px"><%= statistics.criteriaEntered %></td>
+          <td style="padding: 12px"><%= statistics.criteriaRemaining %></td>
+          <td style="padding: 12px">
+            <%= statistics.submissionStatusCounts.pending %>
+          </td>
+          <td style="padding: 12px">
+            <%= statistics.submissionStatusCounts.approved %>
+          </td>
+          <td style="padding: 12px">
+            <%= statistics.submissionStatusCounts.rejected %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- التصميم 3: دوائر إحصائية -->
+  <div
+    style="
+      display: flex;
+      gap: 24px;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    "
+  >
+    <div style="flex: 1; text-align: center">
+      <div
+        style="
+          width: 90px;
+          height: 90px;
+          margin: 0 auto;
+          background: #e3f2fd;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.7rem;
+          color: #007bff;
+          font-weight: bold;
+        "
+      >
+        <%= statistics.criteriaEntered %>
+      </div>
+      <div style="margin-top: 8px">المعايير المدخلة</div>
+    </div>
+    <div style="flex: 1; text-align: center">
+      <div
+        style="
+          width: 90px;
+          height: 90px;
+          margin: 0 auto;
+          background: #e8f5e9;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.7rem;
+          color: #28a745;
+          font-weight: bold;
+        "
+      >
+        <%= statistics.criteriaRemaining %>
+      </div>
+      <div style="margin-top: 8px">المعايير المتبقية</div>
+    </div>
+    <div style="flex: 1; text-align: center">
+      <div
+        style="
+          width: 90px;
+          height: 90px;
+          margin: 0 auto;
+          background: #fffde7;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.7rem;
+          color: #ffc107;
+          font-weight: bold;
+        "
+      >
+        <%= statistics.submissionStatusCounts.pending %>
+      </div>
+      <div style="margin-top: 8px">قيد الانتظار</div>
+    </div>
+    <div style="flex: 1; text-align: center">
+      <div
+        style="
+          width: 90px;
+          height: 90px;
+          margin: 0 auto;
+          background: #ffebee;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.7rem;
+          color: #dc3545;
+          font-weight: bold;
+        "
+      >
+        <%= statistics.submissionStatusCounts.rejected %>
+      </div>
+      <div style="margin-top: 8px">مرفوضة</div>
+    </div>
+  </div>
+
+  <!-- التصميم 4: شريط تقدم متعدد -->
+  <div
+    style="
+      background: #f1f3f6;
+      padding: 24px;
+      border-radius: 12px;
+      margin-bottom: 32px;
+    "
+  >
+    <div style="margin-bottom: 12px">المعايير المدخلة</div>
+    <div
+      style="
+        background: #e3f2fd;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 16px;
+      "
+    >
+      <div
+        style="
+          width: <%=
+            Math.round(
+              (
+                  statistics.criteriaEntered/(
+                    statistics.criteriaEntered + statistics.criteriaRemaining
+                  )
+                ) * 100
+            )
+            %>%;
+          background: #007bff;
+          color: #fff;
+          padding: 8px 0;
+          text-align: center;
+        "
+      >
+        <%= statistics.criteriaEntered %> / <%=
+        statistics.criteriaEntered+statistics.criteriaRemaining %>
+      </div>
+    </div>
+    <div style="margin-bottom: 12px">حالة التقديم</div>
+    <div style="display: flex; gap: 4px">
+      <div
+        style="
+          flex: <%= statistics.submissionStatusCounts.pending %>;
+          background: #ffc107;
+          color: #333;
+          padding: 8px 0;
+          text-align: center;
+          border-radius: 8px 0 0 8px;
+        "
+      >
+        <%= statistics.submissionStatusCounts.pending %>
+      </div>
+      <div
+        style="
+          flex: <%= statistics.submissionStatusCounts.approved %>;
+          background: #28a745;
+          color: #fff;
+          padding: 8px 0;
+          text-align: center;
+        "
+      >
+        <%= statistics.submissionStatusCounts.approved %>
+      </div>
+      <div
+        style="
+          flex: <%= statistics.submissionStatusCounts.rejected %>;
+          background: #dc3545;
+          color: #fff;
+          padding: 8px 0;
+          text-align: center;
+          border-radius: 0 8px 8px 0;
+        "
+      >
+        <%= statistics.submissionStatusCounts.rejected %>
+      </div>
+    </div>
+  </div>
+
+  <!-- التصاميم الأصلية والرسوم البيانية والإشعارات -->
+   <!-- الطرق الجديدة لعرض الرسم البياني -->
+
+<!-- الطريقة 1: رسم بياني دائري (Pie Chart) باستخدام SVG -->
+<div style="background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 32px; text-align: center;">
+  <div style="font-weight: bold; margin-bottom: 12px;">نسبة المعايير المدخلة</div>
+  <svg width="120" height="120" viewBox="0 0 36 36">
+    <% 
+      const totalCriteria = statistics.criteriaEntered + statistics.criteriaRemaining;
+      const enteredPercent = totalCriteria ? (statistics.criteriaEntered / totalCriteria) * 100 : 0;
+      const remainingPercent = 100 - enteredPercent;
+    %>
+    <circle cx="18" cy="18" r="16" fill="#f1f3f6"/>
+    <circle
+      cx="18" cy="18" r="16"
+      fill="none"
+      stroke="#007bff"
+      stroke-width="3"
+      stroke-dasharray="<%= enteredPercent %>, 100"
+      stroke-linecap="round"
+      transform="rotate(-90 18 18)"
+    />
+    <text x="18" y="21" text-anchor="middle" font-size="8" fill="#007bff" font-weight="bold">
+      <%= Math.round(enteredPercent) %>%
+    </text>
+  </svg>
+  <div style="margin-top: 8px; color: #555;">المعايير المدخلة</div>
+</div>
+
+<!-- الطريقة 2: رسم بياني شريطي أفقي (Horizontal Bar Chart) -->
+<div style="background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+  <div style="font-weight: bold; margin-bottom: 12px;">حالة التقديم (شريط أفقي)</div>
+  <% 
+    const totalSubmissions = statistics.submissionStatusCounts.pending + statistics.submissionStatusCounts.approved + statistics.submissionStatusCounts.rejected;
+    const pendingBar = totalSubmissions ? (statistics.submissionStatusCounts.pending / totalSubmissions) * 100 : 0;
+    const approvedBar = totalSubmissions ? (statistics.submissionStatusCounts.approved / totalSubmissions) * 100 : 0;
+    const rejectedBar = totalSubmissions ? (statistics.submissionStatusCounts.rejected / totalSubmissions) * 100 : 0;
+  %>
+  <div style="display: flex; height: 32px; border-radius: 8px; overflow: hidden;">
+    <div style="width: <%= pendingBar %>%; background: #ffc107; color: #333; display: flex; align-items: center; justify-content: center;">
+      <% if (pendingBar > 10) { %><%= statistics.submissionStatusCounts.pending %><% } %>
+    </div>
+    <div style="width: <%= approvedBar %>%; background: #28a745; color: #fff; display: flex; align-items: center; justify-content: center;">
+      <% if (approvedBar > 10) { %><%= statistics.submissionStatusCounts.approved %><% } %>
+    </div>
+    <div style="width: <%= rejectedBar %>%; background: #dc3545; color: #fff; display: flex; align-items: center; justify-content: center;">
+      <% if (rejectedBar > 10) { %><%= statistics.submissionStatusCounts.rejected %><% } %>
+    </div>
+  </div>
+  <div style="display: flex; justify-content: space-between; font-size: 0.95rem; margin-top: 8px;">
+    <span style="color: #ffc107;">قيد الانتظار</span>
+    <span style="color: #28a745;">مقبولة</span>
+    <span style="color: #dc3545;">مرفوضة</span>
+  </div>
+</div>
+
+<!-- الطريقة 3: رسم بياني أعمدة (Column Chart) باستخدام CSS -->
+<div style="background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+  <div style="font-weight: bold; margin-bottom: 12px;">عدد المعايير (أعمدة)</div>
+  <div style="display: flex; align-items: flex-end; height: 100px; gap: 16px;">
+    <% 
+      const maxCriteria = Math.max(statistics.criteriaEntered, statistics.criteriaRemaining, 1);
+      const enteredHeight = (statistics.criteriaEntered / maxCriteria) * 100;
+      const remainingHeight = (statistics.criteriaRemaining / maxCriteria) * 100;
+    %>
+    <div style="flex:1; text-align:center;">
+      <div style="background: #007bff; height: <%= enteredHeight %>px; border-radius: 8px 8px 0 0; margin-bottom: 8px;"></div>
+      <div style="font-size: 0.95rem;">مدخلة<br><span style="font-weight:bold;"><%= statistics.criteriaEntered %></span></div>
+    </div>
+    <div style="flex:1; text-align:center;">
+      <div style="background: #28a745; height: <%= remainingHeight %>px; border-radius: 8px 8px 0 0; margin-bottom: 8px;"></div>
+      <div style="font-size: 0.95rem;">متبقية<br><span style="font-weight:bold;"><%= statistics.criteriaRemaining %></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- الطريقة 4: رسم بياني نقاط (Dot Chart) -->
+<div style="background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+  <div style="font-weight: bold; margin-bottom: 12px;">حالة التقديم (نقاط)</div>
+  <div style="display: flex; gap: 24px; justify-content: center;">
+    <% 
+      function renderDots(count, color) {
+        let dots = '';
+        for(let i=0; i<Math.min(count, 10); i++) {
+          dots += `<span style="display:inline-block;width:12px;height:12px;margin:2px;border-radius:50%;background:${color};"></span>`;
+        }
+        if(count > 10) dots += `<span style="font-size:0.9rem;color:#888;">+${count-10}</span>`;
+        return dots;
+      }
+    %>
+    <div style="text-align:center;">
+      <div><%- renderDots(statistics.submissionStatusCounts.pending, '#ffc107') %></div>
+      <div style="font-size:0.95rem; margin-top:4px;">قيد الانتظار</div>
+    </div>
+    <div style="text-align:center;">
+      <div><%- renderDots(statistics.submissionStatusCounts.approved, '#28a745') %></div>
+      <div style="font-size:0.95rem; margin-top:4px;">مقبولة</div>
+    </div>
+    <div style="text-align:center;">
+      <div><%- renderDots(statistics.submissionStatusCounts.rejected, '#dc3545') %></div>
+      <div style="font-size:0.95rem; margin-top:4px;">مرفوضة</div>
+    </div>
+  </div>
+</div>
+
+</div>

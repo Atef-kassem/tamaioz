@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>Signup</title>
+    <style>
+      body {
+        background: #f5f7fa;
+        font-family: "Segoe UI", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .login-container {
+        background: #fff;
+        max-width: 400px;
+        margin: 60px auto;
+        padding: 32px 28px 24px 28px;
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 28px;
+      }
+      label {
+        font-weight: 500;
+        color: #444;
+        margin-bottom: 6px;
+        display: block;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      select {
+        width: 100%;
+        padding: 10px 12px;
+        margin-top: 4px;
+        margin-bottom: 18px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border-color 0.2s;
+      }
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      input[type="password"]:focus,
+      select:focus {
+        border-color: #0078d7;
+        outline: none;
+        box-shadow: 0 0 0 2px #e3f0fc;
+      }
+      button[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        background: #0078d7;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      button[type="submit"]:hover,
+      button[type="submit"]:focus {
+        background: #005fa3;
+      }
+      p {
+        text-align: center;
+        margin-top: 18px;
+        color: #555;
+      }
+      a {
+        color: #0078d7;
+        text-decoration: none;
+        transition: text-decoration 0.2s;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h1>Create Account</h1>
+      <form action="/signup" method="POST">
+        <label for="username" title="ادخل اسم المستخدم الخاص بك"
+          >Username:</label
+        >
+        <input
+          type="text"
+          id="username"
+          name="username"
+          required
+          title="ادخل اسم المستخدم الخاص بك"
+        />
+
+        <label for="email" title="ادخل بريدك الالكتروني">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          title="ادخل بريدك الالكتروني"
+        />
+
+        <label for="password" title="ادخل كلمة المرور الخاصة بك"
+          >Password:</label
+        >
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+          title="ادخل كلمة المرور الخاصة بك"
+        />
+
+        <label for="role" title="اختر نوع الحساب">Role:</label>
+        <select
+          id="role"
+          name="role"
+          required
+          title="اختر نوع الحساب (مشرف أو مراجع)"
+        >
+          <option value="" disabled selected>-- Select Role --</option>
+          <option value="supervisor" title="مشرف">Supervisor</option>
+          <option value="reviewer" title="مراجع">Reviewer</option>
+          <option value="superadmin" title="مراجع">Superadmin</option>
+        </select>
+
+        <button type="submit" title="انشاء حساب جديد">Sign Up</button>
+      </form>
+      <p>
+        Already have an account?
+        <a href="/login" title="الذهاب الي صفحة تسجيل الدخول">Login here</a>
+      </p>
+    </div>
+  </body>
+</html>

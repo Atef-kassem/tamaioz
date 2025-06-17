@@ -1,0 +1,29 @@
+
+.navbar {
+  height: 60px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  color: #9ecb4b;
+  font-weight: bold;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  border: 2px solid #9ecb4b;
+}
+
+
+
+.sidebar {
+  background-color: #ffffff;
+  color: #9ecb4b;
+  width: 60px;
+  height: 100vh;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #9ecb4b;
+}
+

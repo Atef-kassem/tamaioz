@@ -1,0 +1,8 @@
+<h2>تفاصيل المستخدم</h2>
+<% if (user) { %>
+<p><strong>اسم المستخدم:</strong> <%= user.username %></p>
+<p><strong>البريد الإلكتروني:</strong> <%= user.email %></p>
+<!-- Add more user details here as needed -->
+<% } else { %>
+<p>لم يتم العثور على بيانات المستخدم.</p>
+<% } %>

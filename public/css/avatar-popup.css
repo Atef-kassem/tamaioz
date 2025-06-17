@@ -1,0 +1,54 @@
+.navbar-avatar-container {
+  position: relative;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.avatar-popup {
+  display: none;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 220px;
+  z-index: 1000;
+}
+
+.avatar-popup.show {
+  display: block;
+}
+
+.avatar-popup-content {
+  padding: 16px;
+  text-align: center;
+}
+
+.popup-avatar-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 12px;
+  object-fit: cover;
+  border: 2px solid #9ecb4b;
+}
+
+.avatar-popup-content button {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px 0;
+  background-color: #9ecb4b;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.avatar-popup-content button:hover {
+  background-color: #7ab32a;
+}

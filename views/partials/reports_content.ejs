@@ -1,0 +1,237 @@
+<div class="reports-container enhanced">
+  <h1>شاشة التقارير</h1>
+  <form id="reportForm" method="POST" action="/reports/generate">
+    <div class="filter-group">
+      <label for="association">الجمعية </label>
+      <select
+        id="association"
+        name="association"
+        multiple
+        title="اختر جمعية أو أكثر"
+      >
+        <% associations.forEach(function(assoc) { %>
+        <option value="<%= assoc.id %>"><%= assoc.name %></option>
+        <% }); %>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="startDate">الفترة الزمنية من</label>
+      <input
+        type="date"
+        id="startDate"
+        name="startDate"
+        title="حدد تاريخ البداية"
+      />
+    </div>
+    <div class="filter-group">
+      <label for="endDate">الفترة الزمنية إلى</label>
+      <input
+        type="date"
+        id="endDate"
+        name="endDate"
+        title="حدد تاريخ النهاية"
+      />
+    </div>
+    <div class="filter-group">
+      <label for="criteria">المعيار</label>
+      <select id="criteria" name="criteria" title="اختر معيار التقرير">
+        <option value="">اختر معيار</option>
+        <% criteriaList.forEach(function(crit) { %>
+        <option value="<%= crit.id %>"><%= crit.name %></option>
+        <% }); %>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="reportTemplate">نماذج التقارير لدى جمعية أبناء</label>
+      <select
+        id="reportTemplate"
+        name="reportTemplate"
+        title="اختر نموذج التقرير"
+      >
+        <option value="">اختر نموذج تقرير</option>
+        <option value="template1">نموذج 1</option>
+        <option value="template2">نموذج 2</option>
+        <option value="template3">نموذج 3</option>
+      </select>
+    </div>
+    <div class="filter-group export-options">
+      <label>اختيار صيغة التصدير:</label>
+      <div class="export-radio-group">
+        <label title="تصدير التقرير بصيغة PDF">
+          <input type="radio" name="exportFormat" value="pdf" /> PDF
+        </label>
+        <label title="تصدير التقرير إلى Excel">
+          <input type="radio" name="exportFormat" value="excel" /> Excel
+        </label>
+        <label title="عرض التقرير مباشرة على الصفحة">
+          <input type="radio" name="exportFormat" value="live" checked /> عرض
+          مباشر
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="btn main-btn" title="عرض التقرير">
+      عرض التقرير
+    </button>
+  </form>
+
+  <div class="report-display" id="reportDisplay">
+    <!-- Live report or generated report will be displayed here -->
+    <p>التقرير سيظهر هنا بعد التصفية.</p>
+  </div>
+</div>
+
+<style>
+  body {
+    background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+    font-family: "Cairo", Tahoma, Arial, sans-serif;
+  }
+  .reports-container.enhanced {
+    max-width: 650px;
+    margin: 48px auto;
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 8px 32px rgba(52, 152, 219, 0.13);
+    padding: 38px 32px 28px 32px;
+    direction: rtl;
+    border: 1.5px solid #e3eaf1;
+    transition: box-shadow 0.2s;
+  }
+  .reports-container.enhanced:hover {
+    box-shadow: 0 12px 40px rgba(52, 152, 219, 0.18);
+  }
+  .reports-container h1 {
+    text-align: center;
+    color: #2366a8;
+    margin-bottom: 32px;
+    font-size: 2.2rem;
+    letter-spacing: 1.5px;
+    font-weight: bold;
+    text-shadow: 0 2px 8px #eaf6fb;
+  }
+  .filter-group {
+    margin-bottom: 22px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .filter-group label {
+    margin-bottom: 8px;
+    color: #2366a8;
+    font-weight: 700;
+    font-size: 1.07rem;
+  }
+  .filter-group select,
+  .filter-group input[type="date"] {
+    padding: 10px 12px;
+    border: 1.5px solid #b6c9e2;
+    border-radius: 9px;
+    font-size: 1.05rem;
+    background: #f7fbff;
+    transition: border 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px #f0f6fa;
+  }
+  .filter-group select:focus,
+  .filter-group input[type="date"]:focus {
+    border-color: #3498db;
+    outline: none;
+    background: #fff;
+    box-shadow: 0 2px 8px #eaf6fb;
+  }
+  .export-options {
+    margin-top: 12px;
+  }
+  .export-radio-group {
+    display: flex;
+    gap: 22px;
+    margin-top: 8px;
+  }
+  .export-radio-group label {
+    font-weight: 600;
+    color: #2366a8;
+    cursor: pointer;
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: background 0.18s, color 0.18s;
+    border: 1px solid transparent;
+  }
+  .export-radio-group label:hover,
+  .export-radio-group input[type="radio"]:focus + label {
+    background: #eaf6fb;
+    color: #1b4d7a;
+    border: 1px solid #b6c9e2;
+  }
+  .btn.main-btn {
+    width: 100%;
+    padding: 14px 0;
+    background: linear-gradient(90deg, #3498db 0%, #2366a8 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.15rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 16px;
+    box-shadow: 0 2px 8px #eaf6fb;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .btn.main-btn:hover,
+  .btn.main-btn:focus {
+    background: linear-gradient(90deg, #2366a8 0%, #3498db 100%);
+    box-shadow: 0 4px 16px #d6eaf8;
+  }
+  .report-display {
+    margin-top: 36px;
+    min-height: 90px;
+    background: #f4f8fb;
+    border-radius: 10px;
+    padding: 22px 16px;
+    border: 1.5px solid #e1e8ed;
+    color: #2366a8;
+    font-size: 1.08rem;
+    text-align: center;
+    box-shadow: 0 1px 6px #eaf6fb;
+  }
+  @media (max-width: 700px) {
+    .reports-container.enhanced {
+      padding: 18px 6px 14px 6px;
+    }
+    .btn.main-btn {
+      font-size: 1rem;
+    }
+    .reports-container h1 {
+      font-size: 1.3rem;
+    }
+  }
+</style>
+
+<script>
+  // Client-side script to handle live report display and export options
+  const form = document.getElementById("reportForm");
+  const reportDisplay = document.getElementById("reportDisplay");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+    const exportFormat = formData.get("exportFormat");
+
+    if (exportFormat === "live") {
+      // For live display, fetch report data via AJAX and display
+      fetch("/reports/generate", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.text())
+        .then((html) => {
+          reportDisplay.innerHTML = html;
+        })
+        .catch((err) => {
+          reportDisplay.innerHTML = "<p>حدث خطأ أثناء تحميل التقرير.</p>";
+        });
+    } else {
+      // For PDF or Excel, submit form normally to trigger download
+      form.removeEventListener("submit", arguments.callee);
+      form.submit();
+    }
+  });
+</script>

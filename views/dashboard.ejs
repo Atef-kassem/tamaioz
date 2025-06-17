@@ -1,0 +1,742 @@
+
+<!doctype html>
+<html lang="ar" data-pc-preset="preset-1" data-pc-sidebar-caption="true" data-pc-direction="rtl" dir="rtl" data-pc-theme="light"></html>
+  <!-- [Head] start -->
+
+  <head>
+    <title>Home | Datta Able Dashboard Template</title>
+    <!-- [Meta] -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="description"
+      content="Datta Able is trending dashboard template made using Bootstrap 5 design framework. Datta Able is available in Bootstrap, React, CodeIgniter, Angular,  and .net Technologies."
+    />
+    <meta
+      name="keywords"
+      content="Bootstrap admin template, Dashboard UI Kit, Dashboard Template, Backend Panel, react dashboard, angular dashboard"
+    />
+    <meta name="author" content="CodedThemes" />
+
+    <!-- [Favicon] icon -->
+    <link rel="icon" href="../assets/images/favicon.svg" type="image/x-icon" />
+
+     <!-- [Font] Family -->
+     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <!-- [phosphor Icons] https://phosphoricons.com/ -->
+    <link rel="stylesheet" href="../assets/fonts/phosphor/duotone/style.css" />
+    <!-- [Tabler Icons] https://tablericons.com -->
+    <link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" />
+    <!-- [Feather Icons] https://feathericons.com -->
+    <link rel="stylesheet" href="../assets/fonts/feather.css" />
+    <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+    <link rel="stylesheet" href="../assets/fonts/fontawesome.css" />
+    <!-- [Material Icons] https://fonts.google.com/icons -->
+    <link rel="stylesheet" href="../assets/fonts/material.css" />
+    <!-- [Template CSS Files] -->
+    <link rel="stylesheet" href="../assets/css/style.css" id="main-style-link" />
+
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <style>
+      body, html {
+        direction: rtl !important;
+        text-align: right !important;
+      }
+      .pc-sidebar {
+        right: 0 !important;
+        left: auto !important;
+      }
+      .pc-header, .pc-container, .pc-content, .main-content, .page-header, .page-block, .breadcrumb {
+        direction: rtl !important;
+        text-align: right !important;
+      }
+      .breadcrumb {
+        justify-content: flex-end !important;
+      }
+      /* تحسين الشكل العام */
+      .pc-navbar .pc-link, .pc-navbar .pc-micon, .pc-navbar .pc-mtext, .btn, input, select, textarea {
+        transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      }
+      .pc-navbar .pc-link:hover, .btn:hover, input:hover, select:hover, textarea:hover, .pc-navbar .pc-link:focus, .btn:focus, input:focus, select:focus, textarea:focus {
+        background: #f0f4fa !important;
+        color: #1e88e5 !important;
+        box-shadow: 0 2px 8px rgba(30,136,229,0.08);
+        outline: none;
+      }
+      .pc-navbar .pc-link[title], .btn[title], input[title], select[title], textarea[title] {
+        position: relative;
+      }
+      /* Tooltip style */
+      .custom-tooltip {
+        position: absolute;
+        right: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #222;
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        white-space: nowrap;
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+      .has-tooltip:hover .custom-tooltip, .has-tooltip:focus .custom-tooltip {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    </style>
+    <script>
+      // إضافة tooltip تلقائيًا لكل عنصر له title
+      document.addEventListener("DOMContentLoaded", function () {
+        const tooltipElements = document.querySelectorAll('[title]');
+        tooltipElements.forEach(function (el) {
+          // تجنب تكرار التولتيب
+          if (!el.classList.contains('has-tooltip')) {
+            el.classList.add('has-tooltip');
+            const tooltip = document.createElement('span');
+            tooltip.className = 'custom-tooltip';
+            tooltip.innerText = el.getAttribute('title');
+            el.appendChild(tooltip);
+          }
+        });
+      });
+    </script>
+    </head>
+    <!-- [Head] end -->
+
+    <!-- [Body] Start -->
+  
+    <body>
+      
+      <!-- [ Pre-loader ] start -->
+  <div class="loader-bg fixed inset-0 bg-white dark:bg-themedark-cardbg z-[1034]">
+    
+    <div class="loader-track h-[5px] w-full inline-block absolute overflow-hidden top-0">
+      <div class="loader-fill w-[300px] h-[5px] bg-primary-500 absolute top-0 left-0 animate-[hitZak_0.6s_ease-in-out_infinite_alternate]"></div>
+    </div>
+  </div>
+  <!-- [ Pre-loader ] End -->
+   <!-- [ Sidebar Menu ] start -->
+  
+  <!-- Navbar Start -->
+  <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light" style="direction: rtl; text-align: right;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/dashboard">
+        <img src="/images/logo.png" alt="Logo" style="height:40px;">
+        لوحة التحكم
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="تبديل التنقل">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard">الرئيسية</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/profile">الملف الشخصي</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/settings">الإعدادات</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/criteria">إدارة المعايير</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/associations/add">إدارة الجمعيات</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/awards/page">إدارة الجوائز</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">تسجيل الخروج</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="reportsLink">شاشة التقارير</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>  -->
+  <!-- Navbar End-->
+  
+  
+    
+  
+  <nav class="pc-sidebar">
+    <div class="navbar-wrapper">
+      <div class="m-header flex items-center py-4 px-6 h-header-height">
+        <a href="../dashboard" class="b-brand flex items-center gap-3">
+          <!-- ========   Change your logo from here   ============ -->
+          <img src="/images/logo.png" class="img-fluid logo logo-lg" alt="logo" style="max-width:70px; height:auto;" />
+          <img src="/images/logo.png" class="img-fluid logo logo-sm" alt="logo" style="max-width:40px; height:auto;" />
+        </a>
+      </div>
+      <div class="navbar-content h-[calc(100vh_-_74px)] py-2.5">
+        <ul class="pc-navbar">
+          <li class="pc-item pc-caption">
+            <label>Navigation</label>
+          </li>
+          <% if (role === "reviewer") { %>
+            <li class="pc-item">
+              <a href="../dashboard" class="pc-link">
+                <span class="pc-micon">
+                  <i data-feather="home"></i>
+                </span>
+                <span class="pc-mtext">الرئيسيه</span>
+              </a>
+            </li>
+            <li class="pc-item pc-hasmenu">
+              <a href="#" class="pc-link">
+                <span class="pc-micon"><i data-feather="settings"></i></span>
+                <span class="pc-mtext">اداره النظام</span>
+                <span class="pc-arrow"><i data-feather="chevron-down"></i></span>
+              </a>
+              <ul class="pc-submenu">
+                <li>
+                  <a href="/profile" class="pc-link">
+                    <span class="pc-micon"><i data-feather="edit"></i></span>
+                    <span class="pc-mtext">الملف الشخصي</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="pc-item pc-hasmenu">
+              <a href="#" class="pc-link">
+                <span class="pc-micon"><i data-feather="settings"></i></span>
+                <span class="pc-mtext">الاعدادات </span>
+                <span class="pc-arrow"><i data-feather="chevron-down"></i></span>
+              </a>
+              <ul class="pc-submenu">
+                <li>
+                  <a href="/settings" class="pc-link" >
+                    <span class="pc-micon"><i data-feather="settings"></i></span>
+                    <span class="pc-mtext">الاعدادات العامة</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="/criteria" class="pc-link" >
+                <span class="pc-micon"><i data-feather="user-plus"></i></span>
+                <span class="pc-mtext">اداره المعايير</span>
+              </a>
+            </li>
+          <% } else { %>
+            <li class="pc-item">
+            <li class="pc-item">
+              <a href="../dashboard" class="pc-link">
+                <span class="pc-micon">
+                  <i data-feather="home"></i>
+                </span>
+                <span class="pc-mtext">الرئيسيه</span>
+              </a>
+            </li>
+            
+            <li class="pc-item pc-hasmenu">
+              <a href="#" class="pc-link">
+                <span class="pc-micon"><i data-feather="settings"></i></span>
+                <span class="pc-mtext">اداره النظام</span>
+                <span class="pc-arrow"><i data-feather="chevron-down"></i></span>
+              </a>
+              <ul class="pc-submenu">
+                <li>
+                  <a href="/profile" class="pc-link">
+                    <span class="pc-micon"><i data-feather="edit"></i></span>
+                    <span class="pc-mtext">الملف الشخصي</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="/settings/permissions" class="pc-link">
+                    <span class="pc-micon"><i data-feather="type"></i></span>
+                    <span class="pc-mtext">الصلاحيات</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="pc-link">
+                    <span class="pc-micon"><i data-feather="feather"></i></span>
+                    <span class="pc-mtext">اعدادات الحساب</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+  
+            
+            <li class="pc-item pc-hasmenu">
+              <a href="#" class="pc-link">
+                <span class="pc-micon"><i data-feather="settings"></i></span>
+                <span class="pc-mtext">الاعدادات </span>
+                <span class="pc-arrow"><i data-feather="chevron-down"></i></span>
+              </a>
+              <ul class="pc-submenu">
+                <li>
+                  <a href="/settings" class="pc-link" >
+              <span class="pc-micon"><i data-feather="settings"></i></span>
+              <span class="pc-mtext">الاعدادات العامة</span>
+                  </a>
+                </li>
+                <!-- <li>
+                  <a href="#" id="reportsLink" class="pc-link" >
+              <span class="pc-micon"><i data-feather="bar-chart-2"></i></span>
+              <span class="pc-mtext">اعدادات التقارير</span>
+                  </a>
+                </li> -->
+         
+          <li>
+            <a href="/associations/add" class="pc-link" >
+              <span class="pc-micon"><i data-feather="users"></i></span>
+              <span class="pc-mtext">اعدادات الجمعيات</span>
+            </a>
+          </li>
+                <li>
+                  <a href="/awards/page" class="pc-link" >
+              <span class="pc-micon"><i data-feather="award"></i></span>
+              <span class="pc-mtext">اعدادات الجوائز</span>
+                  </a>
+                </li>
+                <!-- <li>
+                  <a href="/criteria" class="pc-link" >
+              <span class="pc-micon"><i data-feather="list"></i></span>
+              <span class="pc-mtext">اعدادات المعايير</span>
+                  </a>
+                </li> -->
+              </ul>
+            </li>
+            <li>
+              <a href="/reports"  class="pc-link" >
+                <span class="pc-micon"><i data-feather="user-plus"></i></span>
+                <span class="pc-mtext">اداره التقارير </span>
+              </a>
+            </li>
+          <li>
+              <a href="/criteria" class="pc-link" >
+                <span class="pc-micon"><i data-feather="user-plus"></i></span>
+                <span class="pc-mtext">اداره المعايير الممكنات</span>
+              </a>
+            </li>
+            <li>
+              <a href="/criterias" class="pc-link" >
+                <span class="pc-micon"><i data-feather="list"></i></span>
+                <span class="pc-mtext">اداره معايير النتائج</span>
+              </a>
+            </li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- [ Sidebar Menu ] end -->
+   <!-- [ Header Topbar ] start -->
+  <header class="pc-header bg-white shadow-md rounded-b-lg">
+    <div class="header-wrapper flex max-sm:px-[15px] px-[25px] grow items-center justify-between">
+      <!-- [Mobile Media Block] start -->
+      <div class="me-auto pc-mob-drp">
+        <ul class="inline-flex *:min-h-header-height *:inline-flex *:items-center">
+          <!-- ======= Menu collapse Icon ===== -->
+          <li class="pc-h-item pc-sidebar-collapse max-lg:hidden lg:inline-flex">
+            <a href="#" class="pc-head-link ltr:!ml-0 rtl:!mr-0" id="sidebar-hide" title="إخفاء القائمة الجانبية">
+              <i id="sidebar-arrow" data-feather="chevron-right"></i>
+            </a>
+          </li>
+          <li class="pc-h-item pc-sidebar-popup lg:hidden">
+            <a href="#" class="pc-head-link ltr:!ml-0 rtl:!mr-0" id="mobile-collapse" title="القائمة">
+              <i data-feather="menu"></i>
+            </a>
+          </li>
+          <li class="pc-h-item hidden sm:inline-flex">
+            <span class="text-lg font-bold text-primary-600 flex items-center gap-2">
+              <i data-feather="activity"></i>
+              لوحة التحكم
+            </span>
+          </li>
+        </ul>
+      </div>
+      <!-- [Mobile Media Block end] -->
+
+      <!-- Center: Date, Time, Weather, Greeting -->
+      <div class="flex flex-col items-center gap-1 mx-4">
+        <div class="flex items-center gap-2">
+          <span id="dateTimeDisplay" class="text-base font-semibold text-theme-bodycolor dark:text-themedark-bodycolor" style="min-width: 220px; white-space: nowrap;">
+            <!-- Time and Date will be displayed here -->
+          </span>
+          <select id="localeSelect" class="form-select form-select-sm rounded border-gray-300 focus:border-primary-500 focus:ring-0 text-xs">
+            <option value="ar-EG">العربية</option>
+            <option value="en-US">English</option>
+          </select>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-500">
+          <span id="greeting"></span>
+          <span id="weatherInfo" class="flex items-center gap-1">
+            <i data-feather="cloud"></i>
+            <span id="weatherText">--°C</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Right: User, Notifications, Quick Actions -->
+      <div class="ms-auto">
+        <ul class="inline-flex *:min-h-header-height *:inline-flex *:items-center gap-2">
+          <!-- Quick Links -->
+          <li class="pc-h-item hidden md:inline-flex">
+            <a href="/profile" class="pc-head-link" title="الملف الشخصي">
+              <i data-feather="user"></i>
+            </a>
+          </li>
+          <li class="pc-h-item hidden md:inline-flex">
+            <a href="/settings" class="pc-head-link" title="الإعدادات">
+              <i data-feather="settings"></i>
+            </a>
+          </li>
+          <li class="pc-h-item hidden md:inline-flex">
+            <a href="/logout" class="pc-head-link" title="تسجيل الخروج">
+              <i data-feather="log-out"></i>
+            </a>
+          </li>
+          <!-- Theme Switcher -->
+          <li class="dropdown pc-h-item">
+            <a class="pc-head-link dropdown-toggle me-0" data-pc-toggle="dropdown" href="#" role="button"
+              aria-haspopup="false" aria-expanded="false" title="تغيير النمط">
+              <i data-feather="sun"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
+              <a href="#!" class="dropdown-item" onclick="layout_change('dark')">
+                <i data-feather="moon"></i>
+                <span>داكن</span>
+              </a>
+              <a href="#!" class="dropdown-item" onclick="layout_change('light')">
+                <i data-feather="sun"></i>
+                <span>فاتح</span>
+              </a>
+              <a href="#!" class="dropdown-item" onclick="layout_change_default()">
+                <i data-feather="settings"></i>
+                <span>افتراضي</span>
+              </a>
+            </div>
+          </li>
+          <!-- Notifications -->
+          <li class="dropdown pc-h-item">
+            <a class="pc-head-link dropdown-toggle me-0" data-pc-toggle="dropdown" href="#" role="button"
+              aria-haspopup="false" aria-expanded="false" title="الإشعارات">
+              <i data-feather="bell"></i>
+              <span class="badge bg-success-500 text-white rounded-full z-10 absolute right-0 top-0">3</span>
+            </a>
+            <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown p-2">
+              <div class="dropdown-header flex items-center justify-between py-4 px-5">
+                <h5 class="m-0">الإشعارات</h5>
+                <a href="#!" class="btn btn-link btn-sm">تحديد كمقروء</a>
+              </div>
+              <div class="dropdown-body header-notification-scroll relative py-4 px-5"
+                style="max-height: calc(100vh - 215px)">
+                <p class="text-span mb-3">اليوم</p>
+                <div class="card mb-2">
+                  <div class="card-body flex gap-4">
+                    <div class="shrink-0">
+                      <img class="img-radius w-12 h-12 rounded-0" src="../assets/images/user/avatar-1.jpg" alt="Generic placeholder image" />
+                    </div>
+                    <div class="grow">
+                      <span class="float-end text-sm text-muted">قبل دقيقتين</span>
+                      <h5 class="text-body mb-2">تحديث النظام</h5>
+                      <p class="mb-0">تم تحديث النظام بنجاح.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="card mb-2">
+                  <div class="card-body flex gap-4">
+                    <div class="shrink-0">
+                      <img class="img-radius w-12 h-12 rounded-0" src="../assets/images/user/avatar-2.jpg" alt="Generic placeholder image" />
+                    </div>
+                    <div class="grow">
+                      <span class="float-end text-sm text-muted">قبل ساعة</span>
+                      <h5 class="text-body mb-2">رسالة جديدة</h5>
+                      <p class="mb-0">لديك رسالة جديدة من الإدارة.</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-span mb-3 mt-4">أمس</p>
+                <div class="card mb-2">
+                  <div class="card-body flex gap-4">
+                    <div class="shrink-0">
+                      <img class="img-radius w-12 h-12 rounded-0" src="../assets/images/user/avatar-3.jpg" alt="Generic placeholder image" />
+                    </div>
+                    <div class="grow ms-3">
+                      <span class="float-end text-sm text-muted">قبل 5 ساعات</span>
+                      <h5 class="text-body mb-2">تنبيه أمني</h5>
+                      <p class="mb-0">تم تسجيل دخول جديد إلى حسابك.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center py-2">
+                <a href="#!" class="text-danger-500 hover:text-danger-600 focus:text-danger-600 active:text-danger-600">
+                  مسح جميع الإشعارات
+                </a>
+              </div>
+            </div>
+          </li>
+          <li class="dropdown pc-h-item header-user-profile">
+            <a class="pc-head-link dropdown-toggle arrow-none me-0" data-pc-toggle="dropdown" href="#" role="button"
+              aria-haspopup="false" data-pc-auto-close="outside" aria-expanded="false" id="navbarAvatar" title="الحساب">
+              <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="w-8 h-8 rounded-full border-2 border-primary-500" />
+            </a>
+            <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown p-2 overflow-hidden" id="avatarPopup">
+              <div class="dropdown-header flex items-center justify-between py-4 px-5 bg-primary-500">
+                <div class="flex mb-1 items-center">
+                  <div class="shrink-0">
+                    <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="w-10 rounded-full" />
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="dropdown-body py-4 px-5">
+                <div class="profile-notification-scroll position-relative" style="max-height: calc(100vh - 225px)">
+                  <a href="/profile" class="dropdown-item">
+                    <span>
+                      <i data-feather="user" class="me-2"></i>
+                      <span>الملف الشخصي</span>
+                    </span>
+                  </a>
+                  <a href="/settings" class="dropdown-item">
+                    <span>
+                      <i data-feather="settings" class="me-2"></i>
+                      <span>الإعدادات</span>
+                    </span>
+                  </a>
+                  <a href="/logout" class="dropdown-item">
+                    <span>
+                      <i data-feather="log-out" class="me-2"></i>
+                      <span>تسجيل الخروج</span>
+                    </span>
+                  </a>
+                  <div class="grid my-3">
+                    <button class="btn btn-primary flex items-center justify-center" onclick="window.location.href='/logout'">
+                      <i data-feather="log-out" class="me-2"></i>
+                      تسجيل الخروج
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      // Greeting based on time
+      function updateGreeting() {
+        const now = new Date();
+        const hour = now.getHours();
+        let greeting = "";
+        if (hour < 12) greeting = "صباح الخير";
+        else if (hour < 18) greeting = "مساء الخير";
+        else greeting = "مساء الخير";
+        document.getElementById("greeting").textContent = greeting;
+      }
+      // Weather (dummy, replace with API if needed)
+      function updateWeather() {
+        // Example: fetch from a weather API here
+        document.getElementById("weatherText").textContent = "24°C, مشمس";
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        updateGreeting();
+        updateWeather();
+      });
+    </script>
+  </header>
+  <!-- [ Header ] end -->
+  
+      <!-- [ Main Content ] start -->
+      <div class="pc-container" >
+        <!-- <div class="pc-content"> -->
+          
+          <!-- [ breadcrumb ] end -->
+  
+          <!-- [ Main Content ] start -->
+          <main class="main-content" id="mainContent">
+            <% if (typeof body !== 'undefined') { %>
+              <%- body %>
+            <% } else if (showReportsContent) { %>
+              <%- include("reports", { associations: associations, criteriaList: criteriaList }) %>
+            <% } else if (role === "superadmin") { %>
+              <%- include("partials/dashboard_superadmin", {
+                statistics: statistics,
+                notifications: notifications,
+                quickLinks: quickLinks
+              }) %>
+            <% } else if (role === "supervisor") { %>
+              <%- include("partials/dashboard_supervisor", {
+                statistics: statistics,
+                notifications: notifications,
+                quickLinks: quickLinks
+              }) %>
+            <% } else if (role === "reviewer") { %>
+              <%- include("partials/dashboard_reviewer", {
+                statistics: statistics,
+                notifications: notifications,
+                quickLinks: quickLinks
+              }) %>
+            <% } else { %>
+              <p>دور المستخدم غير معروف.</p>
+            <% } %>
+          </main>
+          <!-- [ Main Content ] end -->
+        <!-- </div> -->
+      </div>
+      
+      <!-- [ Main Content ] end -->
+      <footer class="pc-footer">
+        <div class="footer-wrapper container-fluid mx-10">
+          <div class="grid grid-cols-12 gap-1.5">
+            <div class="col-span-12 sm:col-span-6 my-1">
+              <p class="m-0"></p>
+                <a href="https://codedthemes.com/" class="text-theme-bodycolor dark:text-themedark-bodycolor hover:text-primary-500 dark:hover:text-primary-500" >CodedThemes</a>
+                , Built with ♥ for a smoother web presence.
+              </p>
+            </div>
+            
+          </div>
+        </div>
+      </footer>
+   
+      <!-- Required Js -->
+      <script src="../assets/js/plugins/simplebar.min.js"></script>
+      <script src="../assets/js/plugins/popper.min.js"></script>
+      <script src="../assets/js/icon/custom-icon.js"></script>
+      <script src="../assets/js/plugins/feather.min.js"></script>
+      <script src="../assets/js/component.js"></script>
+      <script src="../assets/js/theme.js"></script>
+      <script src="../assets/js/script.js"></script>
+  
+      <div class="floting-button fixed bottom-[50px] right-[30px] z-[1030]">
+      </div>
+  
+      
+      <script>
+        layout_change('false');
+      </script>
+        <script>
+          function updateDateTime() {
+            const now = new Date();
+            const options = {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              hour12: false,
+              timeZoneName: "short",
+            };
+            const localeSelect = document.getElementById("localeSelect");
+            const selectedLocale = localeSelect ? localeSelect.value : "ar-EG";
+            const formattedDateTime = now.toLocaleString(selectedLocale, options);
+            document.getElementById("dateTimeDisplay").textContent =
+              formattedDateTime;
+          }
+    
+          document
+            .getElementById("localeSelect")
+            .addEventListener("change", function () {
+              localStorage.setItem("selectedLocale", this.value);
+              updateDateTime();
+            });
+    
+          // Load saved locale from localStorage or default to 'ar-EG'
+          window.addEventListener("DOMContentLoaded", () => {
+            const savedLocale = localStorage.getItem("selectedLocale") || "ar-EG";
+            const localeSelect = document.getElementById("localeSelect");
+            if (localeSelect) {
+              localeSelect.value = savedLocale;
+            }
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+          });
+    
+          document
+            .getElementById("reportsLink")
+            .addEventListener("click", function (event) {
+              event.preventDefault();
+              fetch("/reports")
+                .then((response) => {
+                  if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                  }
+                  return response.text();
+                })
+                .then((html) => {
+                  document.getElementById("mainContent").innerHTML = html;
+                })
+                .catch((error) => {
+                  document.getElementById("mainContent").innerHTML =
+                    "<p>حدث خطأ أثناء تحميل شاشة التقارير.</p>";
+                  console.error("Error loading reports content:", error);
+                });
+            });
+    
+          // Avatar popup toggle
+          const navbarAvatar = document.getElementById("navbarAvatar");
+          const avatarPopup = document.getElementById("avatarPopup");
+    
+          navbarAvatar.addEventListener("click", () => {
+            avatarPopup.classList.toggle("show");
+          });
+    
+          // Close popup when clicking outside
+          window.addEventListener("click", (event) => {
+            if (
+              !avatarPopup.contains(event.target) &&
+              event.target !== navbarAvatar
+            ) {
+              avatarPopup.classList.remove("show");
+            }
+          });
+        </script>
+      <script>
+        // Toggle sidebar and arrow direction
+        document.getElementById('sidebar-hide').addEventListener('click', function(e) {
+          e.preventDefault();
+          const sidebar = document.querySelector('.pc-sidebar');
+          const arrowIcon = document.getElementById('sidebar-arrow');
+          sidebar.classList.toggle('collapsed');
+          if (sidebar.classList.contains('collapsed')) {
+            arrowIcon.setAttribute('data-feather', 'chevron-left');
+          } else {
+            arrowIcon.setAttribute('data-feather', 'chevron-right');
+          }
+          if (window.feather) feather.replace();
+        });
+      </script>
+      <script>
+        layout_theme_sidebar_change('dark');
+      </script>
+      
+       
+      <script>
+        change_box_container('false');
+      </script>
+       
+      <script>
+        layout_caption_change('true');
+      </script>
+       
+      <script>
+        layout_rtl_change('true');
+      </script>
+       
+      <script>
+        preset_change('preset-1');
+      </script>
+       
+      <script>
+        main_layout_change('vertical');
+      </script>
+      
+  
+    </body>
+  <!-- [Body] end -->
+</html>

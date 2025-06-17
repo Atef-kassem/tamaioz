@@ -1,0 +1,226 @@
+{
+  "title": "Neighborhoods",
+  "header": "Neighborhoods",
+  "form": {
+    "namePlaceholder": "Enter neighborhood name",
+    "orderPlaceholder": "Enter order",
+    "citySelect": "Select city",
+    "saveButton": "Save",
+    "updateButton": "Update",
+    "cancelLink": "Cancel"
+  },
+  "table": {
+    "name": "Name",
+    "order": "Order",
+    "city": "City",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this item?"
+  },
+  "breakingnews": {
+    "title": "Breaking News",
+    "header": "Breaking News",
+    "contentLabel": "Content:",
+    "contentPlaceholder": "Enter breaking news content here...",
+    "addButton": "Add Breaking News",
+    "allNewsHeader": "All Breaking News",
+    "editButton": "Edit",
+    "editHeader": "Edit Breaking News",
+    "updateButton": "Update Breaking News"
+  },
+  "home": {
+    "title": "Home",
+    "header": "Home",
+    "workDestinations": "Work Destinations",
+    "membershipTypes": "Membership Types",
+    "memberJobs": "Member Jobs",
+    "memberTitles": "Member Titles",
+    "meetingPlaces": "Meeting Places",
+    "cities": "Cities",
+    "neighborhoods": "Neighborhoods",
+    "suspensionReasons": "Suspension Reasons",
+    "allEntities": "All Entities"
+  },
+  "allentities": {
+    "title": "All Entities",
+    "header": "All Entities",
+    "workDestinations": {
+      "sectionTitle": "Work Destinations",
+      "namePlaceholder": "Name",
+      "descriptionPlaceholder": "Description",
+      "addButton": "Add Work Destination",
+      "table": {
+        "name": "Name",
+        "description": "Description",
+        "actions": "Actions",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteConfirm": "Are you sure you want to delete this item?"
+      }
+    },
+    "membershipTypes": {
+      "sectionTitle": "Membership Types",
+      "namePlaceholder": "Name",
+      "addButton": "Add Membership Type",
+      "table": {
+        "name": "Name",
+        "actions": "Actions",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteConfirm": "Are you sure you want to delete this item?"
+      }
+    },
+    "memberJobs": {
+      "sectionTitle": "Member Jobs",
+      "namePlaceholder": "Name",
+      "addButton": "Add Member Job",
+      "table": {
+        "name": "Name",
+        "actions": "Actions",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteConfirm": "Are you sure you want to delete this item?"
+      }
+    },
+    "memberTitles": {
+      "sectionTitle": "Member Titles",
+      "namePlaceholder": "Name",
+      "addButton": "Add Member Title",
+      "table": {
+        "name": "Name",
+        "actions": "Actions",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteConfirm": "Are you sure you want to delete this item?"
+      }
+    },
+    "meetingPlaces": {
+      "header": "Meeting Places",
+      "sectionTitle": "Meeting Places",
+      "namePlaceholder": "Enter meeting place name",
+      "saveButton": "Save",
+      "updateButton": "Update",
+      "cancelLink": "Cancel",
+      "table": {
+        "name": "Name",
+        "actions": "Actions",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteConfirm": "Are you sure you want to delete this item?"
+      }
+    }
+  },
+  "members": {
+    "title": "Members",
+    "header": "Members",
+    "printButton": "Print",
+    "searchPlaceholder": "Search members...",
+    "addMemberHeader": "Add Member",
+    "councilCodeLabel": "Council Code:",
+    "membershipNumberLabel": "Membership Number:",
+    "nameLabel": "Name:",
+    "memberTypeLabel": "Member Type:",
+    "memberTypeChairman": "Chairman",
+    "memberTypeBoardMember": "Board Member",
+    "memberTypeEmployee": "Employee",
+    "memberTypeOther": "Other",
+    "positionLabel": "Position:",
+    "appointmentDateHijriLabel": "Appointment Date (Hijri):",
+    "subscriptionStartDateLabel": "Subscription Start Date:",
+    "subscriptionEndDateLabel": "Subscription End Date:",
+    "statusLabel": "Status:",
+    "statusActive": "Active",
+    "statusInactive": "Inactive",
+    "shortNameLabel": "Short Name:",
+    "nationalIdNumberLabel": "National ID Number:",
+    "phoneNumberLabel": "Phone Number:",
+    "addButton": "Add Member",
+    "allMembersHeader": "All Members",
+    "editButton": "Edit",
+    "editHeader": "Edit Member",
+    "updateButton": "Update Member",
+    "deleteButton": "Delete",
+    "actionsLabel": "Actions"
+  },
+  "opinionPoll": {
+    "title": "Opinion Poll",
+    "header": "Create Opinion Poll",
+    "questionLabel": "Question:",
+    "option1Label": "Option 1:",
+    "option2Label": "Option 2:",
+    "statusLabel": "Status:",
+    "statusAccepted": "Accepted",
+    "statusRejected": "Rejected",
+    "statusPending": "Pending",
+    "submitButton": "Create Poll"
+  },
+  "opinionPolls": {
+    "title": "Opinion Polls",
+    "header": "Opinion Polls List",
+    "addButton": "Add Opinion Poll",
+    "questionLabel": "Question",
+    "option1Label": "Option 1",
+    "option2Label": "Option 2",
+    "statusLabel": "Status",
+    "createdAtLabel": "Created At"
+  },
+  "workDestinations": {
+    "header": "Work Destinations",
+    "namePlaceholder": "Enter work destination name",
+    "descriptionPlaceholder": "Enter description",
+    "saveButton": "Save",
+    "updateButton": "Update",
+    "cancelLink": "Cancel",
+    "table": {
+      "name": "Name",
+      "description": "Description",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteConfirm": "Are you sure you want to delete this item?"
+    }
+  },
+  "membershipTypes": {
+    "header": "Membership Types",
+    "namePlaceholder": "Enter membership type",
+    "saveButton": "Save",
+    "updateButton": "Update",
+    "cancelLink": "Cancel",
+    "table": {
+      "name": "Name",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteConfirm": "Are you sure you want to delete this item?"
+    }
+  },
+  "memberTitles": {
+    "header": "Member Titles",
+    "namePlaceholder": "Enter member title",
+    "saveButton": "Save",
+    "updateButton": "Update",
+    "cancelLink": "Cancel",
+    "table": {
+      "name": "Name",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteConfirm": "Are you sure you want to delete this item?"
+    }
+  },
+  "meetingPlaces": {
+    "header": "Meeting Places",
+    "namePlaceholder": "Enter meeting place name",
+    "saveButton": "Save",
+    "updateButton": "Update",
+    "cancelLink": "Cancel",
+    "table": {
+      "name": "Name",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteConfirm": "Are you sure you want to delete this item?"
+    }
+  }
+}

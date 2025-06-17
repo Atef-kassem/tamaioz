@@ -1,0 +1,304 @@
+<style>
+  .settings-container {
+    max-width: 900px;
+    margin: 40px auto;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 40px 28px;
+    direction: rtl;
+  }
+  .settings-sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: space-between;
+  }
+  .settings-container section {
+    flex: 1 1 260px;
+    min-width: 260px;
+    max-width: 32%;
+    margin-bottom: 0;
+    padding: 28px 20px 32px 20px;
+    border-bottom: none;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9eff5 100%);
+    border-radius: 16px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 0.2s;
+  }
+  .settings-container section:hover {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  }
+  @media (max-width: 900px) {
+    .settings-container {
+      max-width: 100%;
+      padding: 16px 4px;
+    }
+    .settings-sections {
+      gap: 12px;
+    }
+    .settings-container section {
+      min-width: 200px;
+      max-width: 100%;
+      flex: 1 1 100%;
+    }
+  }
+  .settings-container h2 {
+    color: #1a2b4c;
+    font-size: 1.35rem;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+  .settings-container label {
+    display: block;
+    margin-bottom: 10px;
+    color: #444;
+    font-weight: 500;
+  }
+  .settings-container input[type="text"],
+  .settings-container input[type="password"],
+  .settings-container select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #bfc9d1;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    font-size: 1rem;
+    background: #fafdff;
+    transition: border 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  }
+  .settings-container input[type="text"]:focus,
+  .settings-container input[type="password"]:focus,
+  .settings-container select:focus {
+    border-color: #0078d7;
+    outline: none;
+    box-shadow: 0 0 0 2px #cce6ff;
+  }
+  .settings-container input[type="checkbox"] {
+    margin-left: 8px;
+    transform: scale(1.2);
+    accent-color: #0078d7;
+  }
+  .settings-container button {
+    background: linear-gradient(90deg, #0078d7 60%, #005fa3 100%);
+    color: #fff;
+    border: none;
+    padding: 11px 32px;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 120, 215, 0.08);
+    position: relative;
+  }
+  .settings-container button:hover,
+  .settings-container button:focus {
+    background: linear-gradient(90deg, #005fa3 60%, #0078d7 100%);
+    box-shadow: 0 4px 16px rgba(0, 120, 215, 0.13);
+  }
+</style>
+
+<style>
+  .settings-container {
+    max-width: 900px;
+    margin: 40px auto;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 40px 28px;
+    direction: rtl;
+  }
+  .settings-sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: space-between;
+  }
+  .settings-container section {
+    flex: 1 1 260px;
+    min-width: 260px;
+    max-width: 32%;
+    margin-bottom: 0;
+    padding: 28px 20px 32px 20px;
+    border-bottom: none;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9eff5 100%);
+    border-radius: 16px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 0.2s;
+  }
+  .settings-container section:hover {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  }
+  @media (max-width: 900px) {
+    .settings-container {
+      max-width: 100%;
+      padding: 16px 4px;
+    }
+    .settings-sections {
+      gap: 12px;
+    }
+    .settings-container section {
+      min-width: 200px;
+      max-width: 100%;
+      flex: 1 1 100%;
+    }
+  }
+  .settings-container h2 {
+    color: #1a2b4c;
+    font-size: 1.35rem;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+  .settings-container label {
+    display: block;
+    margin-bottom: 10px;
+    color: #444;
+    font-weight: 500;
+  }
+  .settings-container input[type="text"],
+  .settings-container input[type="password"],
+  .settings-container select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #bfc9d1;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    font-size: 1rem;
+    background: #fafdff;
+    transition: border 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  }
+  .settings-container input[type="text"]:focus,
+  .settings-container input[type="password"]:focus,
+  .settings-container select:focus {
+    border-color: #0078d7;
+    outline: none;
+    box-shadow: 0 0 0 2px #cce6ff;
+  }
+  .settings-container input[type="checkbox"] {
+    margin-left: 8px;
+    transform: scale(1.2);
+    accent-color: #0078d7;
+  }
+  .settings-container button {
+    background: linear-gradient(90deg, #0078d7 60%, #005fa3 100%);
+    color: #fff;
+    border: none;
+    padding: 11px 32px;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 120, 215, 0.08);
+    position: relative;
+  }
+  .settings-container button:hover,
+  .settings-container button:focus {
+    background: linear-gradient(90deg, #005fa3 60%, #0078d7 100%);
+    box-shadow: 0 4px 16px rgba(0, 120, 215, 0.13);
+  }
+</style>
+
+<div class="settings-container">
+  <% if (successMessage && successMessage.length > 0) { %>
+  <div style="color: green; font-weight: bold; margin-bottom: 20px">
+    <%= successMessage[0] %>
+  </div>
+  <% } %> <% if (errorMessage && errorMessage.length > 0) { %>
+  <div style="color: red; font-weight: bold; margin-bottom: 20px">
+    <%= errorMessage[0] %>
+  </div>
+  <% } %>
+  <div class="settings-sections">
+    <section>
+      <h2>بيانات الحساب</h2>
+      <form action="/settings/account" method="POST">
+        <label for="username">اسم المستخدم:</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value="<%= user.username %>"
+          required
+        />
+        <label for="email">البريد الإلكتروني:</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          value="<%= user.email %>"
+          required
+        />
+        <button type="submit" title="تحديث بيانات الحساب">تحديث</button>
+      </form>
+    </section>
+    <section>
+      <h2>إعدادات عامة</h2>
+      <form action="/settings/general" method="POST">
+        <label for="language">اللغة:</label>
+        <select id="language" name="language">
+          <option value="ar" selected>العربية</option>
+          <option value="en">English</option>
+        </select>
+        <button type="submit" title="حفظ إعدادات اللغة">حفظ</button>
+      </form>
+    </section>
+    <section>
+      <h2>إعدادات الأمان</h2>
+      <form action="/settings/security" method="POST">
+        <label for="password">كلمة المرور الجديدة:</label>
+        <input type="password" id="password" name="password" required />
+        <button type="submit" title="تحديث كلمة المرور">تحديث</button>
+      </form>
+    </section>
+    <section>
+      <h2>إعدادات الإشعارات</h2>
+      <form action="/settings/notifications" method="POST">
+        <label for="emailNotifications">
+          إشعارات البريد الإلكتروني:
+          <input
+            type="checkbox"
+            id="emailNotifications"
+            name="emailNotifications"
+            checked
+          />
+        </label>
+        <button type="submit" title="حفظ إعدادات الإشعارات">حفظ</button>
+      </form>
+    </section>
+    <section>
+      <h2>إعدادات الخصوصية</h2>
+      <form action="/settings/privacy" method="POST">
+        <label for="profileVisibility">رؤية الملف الشخصي:</label>
+        <select id="profileVisibility" name="profileVisibility">
+          <option value="public">عام</option>
+          <option value="private">خاص</option>
+        </select>
+        <button type="submit" title="حفظ إعدادات الخصوصية">حفظ</button>
+      </form>
+    </section>
+    <section>
+      <h2>تكرار الإشعارات</h2>
+      <form action="/settings/notifications" method="POST">
+        <label for="notificationFrequency">تكرار الإشعارات:</label>
+        <select id="notificationFrequency" name="notificationFrequency">
+          <option value="immediate">فوري</option>
+          <option value="daily">يومي</option>
+          <option value="weekly">أسبوعي</option>
+        </select>
+        <button type="submit" title="حفظ تكرار الإشعارات">حفظ</button>
+      </form>
+    </section>
+  </div>
+</div>

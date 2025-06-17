@@ -1,0 +1,17 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+const awardSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    date: { type: String, required: true },
+    number: { type: String, required: true },
+    conditions: { type: String },
+    explanatoryText: { type: String }, // new field for explanatory text
+    attachments: [{ type: String }], // new field for attachment file paths
+    criteria: [{ type: Schema.Types.ObjectId, ref: "Criteria" }],
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("Award", awardSchema);

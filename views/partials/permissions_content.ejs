@@ -1,0 +1,109 @@
+<style>
+  .permissions-container {
+    max-width: 900px;
+    margin: 40px auto;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 40px 28px;
+    direction: rtl;
+  }
+  .permissions-sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: space-between;
+  }
+  .permissions-container section {
+    flex: 1 1 260px;
+    min-width: 260px;
+    max-width: 32%;
+    margin-bottom: 0;
+    padding: 28px 20px 32px 20px;
+    border-bottom: none;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9eff5 100%);
+    border-radius: 16px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 0.2s;
+  }
+  .permissions-container section:hover {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  }
+  @media (max-width: 900px) {
+    .permissions-container {
+      max-width: 100%;
+      padding: 16px 4px;
+    }
+    .permissions-sections {
+      gap: 12px;
+    }
+    .permissions-container section {
+      min-width: 200px;
+      max-width: 100%;
+      flex: 1 1 100%;
+    }
+  }
+  .permissions-container h2 {
+    color: #1a2b4c;
+    font-size: 1.35rem;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+  .permissions-container label {
+    display: block;
+    margin-bottom: 10px;
+    color: #444;
+    font-weight: 500;
+  }
+  .permissions-container input[type="checkbox"] {
+    margin-left: 8px;
+    transform: scale(1.2);
+    accent-color: #0078d7;
+  }
+  .permissions-container button {
+    background: linear-gradient(90deg, #0078d7 60%, #005fa3 100%);
+    color: #fff;
+    border: none;
+    padding: 11px 32px;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 120, 215, 0.08);
+    position: relative;
+  }
+  .permissions-container button:hover,
+  .permissions-container button:focus {
+    background: linear-gradient(90deg, #005fa3 60%, #0078d7 100%);
+    box-shadow: 0 4px 16px rgba(0, 120, 215, 0.13);
+  }
+</style>
+
+<div class="permissions-container">
+  <h1>صفحة الصلاحيات</h1>
+  <div class="permissions-sections">
+    <section>
+      <h2>الصلاحيات المتاحة</h2>
+      <form action="/settings/permissions" method="POST">
+        <label>
+          <input type="checkbox" name="permission1" <% if (permissions &&
+          permissions.includes('permission1')) { %>checked<% } %> /> صلاحية 1
+        </label>
+        <label>
+          <input type="checkbox" name="permission2" <% if (permissions &&
+          permissions.includes('permission2')) { %>checked<% } %> /> صلاحية 2
+        </label>
+        <label>
+          <input type="checkbox" name="permission3" <% if (permissions &&
+          permissions.includes('permission3')) { %>checked<% } %> /> صلاحية 3
+        </label>
+        <button type="submit" title="حفظ الصلاحيات">حفظ</button>
+      </form>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,215 @@
+{
+  "title": "الأحياء",
+  "header": "الأحياء",
+  "form": {
+    "namePlaceholder": "أدخل اسم الحي",
+    "orderPlaceholder": "أدخل الترتيب",
+    "citySelect": "اختر المدينة",
+    "saveButton": "حفظ",
+    "updateButton": "تحديث",
+    "cancelLink": "إلغاء"
+  },
+  "table": {
+    "name": "الاسم",
+    "order": "الترتيب",
+    "city": "المدينة",
+    "actions": "الإجراءات",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا العنصر؟"
+  },
+  "breakingnews": {
+    "title": "الأخبار العاجلة",
+    "header": "الأخبار العاجلة",
+    "contentLabel": "المحتوى:",
+    "contentPlaceholder": "أدخل محتوى الأخبار العاجلة هنا...",
+    "addButton": "إضافة خبر عاجل",
+    "allNewsHeader": "جميع الأخبار العاجلة",
+    "editButton": "تعديل",
+    "editHeader": "تعديل الخبر العاجل",
+    "updateButton": "تحديث الخبر العاجل"
+  },
+  "home": {
+    "title": "الصفحة الرئيسية",
+    "header": "الصفحة الرئيسية",
+    "workDestinations": "وجهات العمل",
+    "membershipTypes": "أنواع العضوية",
+    "memberJobs": "وظائف الأعضاء",
+    "memberTitles": "ألقاب الأعضاء",
+    "meetingPlaces": "أماكن الاجتماعات",
+    "cities": "المدن",
+    "neighborhoods": "الأحياء",
+    "suspensionReasons": "أسباب تعليق العضوية",
+    "allEntities": "جميع الكيانات"
+  },
+  "allentities": {
+    "title": "جميع الكيانات",
+    "header": "جميع الكيانات",
+    "workDestinations": {
+      "sectionTitle": "وجهات العمل",
+      "namePlaceholder": "الاسم",
+      "descriptionPlaceholder": "الوصف",
+      "addButton": "إضافة وجهة عمل",
+      "table": {
+        "name": "الاسم",
+        "description": "الوصف",
+        "actions": "الإجراءات",
+        "edit": "تعديل",
+        "delete": "حذف",
+        "deleteConfirm": "هل تريد حذف هذا العنصر؟"
+      }
+    },
+    "membershipTypes": {
+      "sectionTitle": "أنواع العضوية",
+      "namePlaceholder": "الاسم",
+      "addButton": "إضافة نوع عضوية",
+      "table": {
+        "name": "الاسم",
+        "actions": "الإجراءات",
+        "edit": "تعديل",
+        "delete": "حذف",
+        "deleteConfirm": "هل تريد حذف هذا العنصر؟"
+      }
+    },
+    "memberJobs": {
+      "sectionTitle": "وظائف الأعضاء",
+      "namePlaceholder": "الاسم",
+      "addButton": "إضافة وظيفة عضو",
+      "table": {
+        "name": "الاسم",
+        "actions": "الإجراءات",
+        "edit": "تعديل",
+        "delete": "حذف",
+        "deleteConfirm": "هل تريد حذف هذا العنصر؟"
+      }
+    },
+    "memberTitles": {
+      "sectionTitle": "ألقاب الأعضاء",
+      "namePlaceholder": "الاسم",
+      "addButton": "إضافة لقب عضو",
+      "table": {
+        "name": "الاسم",
+        "actions": "الإجراءات",
+        "edit": "تعديل",
+        "delete": "حذف",
+        "deleteConfirm": "هل تريد حذف هذا العنصر؟"
+      }
+    },
+    "meetingPlaces": {
+      "header": "أماكن الاجتماعات",
+      "sectionTitle": "أماكن الاجتماعات",
+      "namePlaceholder": "أدخل اسم مكان الاجتماع",
+      "saveButton": "حفظ",
+      "updateButton": "تحديث",
+      "cancelLink": "إلغاء",
+      "table": {
+        "name": "الاسم",
+        "actions": "الإجراءات",
+        "edit": "تعديل",
+        "delete": "حذف",
+        "deleteConfirm": "هل تريد حذف هذا العنصر؟"
+      }
+    }
+  },
+  "members": {
+    "title": "الأعضاء",
+    "header": "الأعضاء",
+    "printButton": "طباعة",
+    "searchPlaceholder": "ابحث عن الأعضاء...",
+    "addMemberHeader": "إضافة عضو",
+    "councilCodeLabel": "رمز المجلس:",
+    "membershipNumberLabel": "رقم العضوية:",
+    "nameLabel": "الاسم:",
+    "memberTypeLabel": "نوع العضو:",
+    "memberTypeChairman": "رئيس مجلس الإدارة",
+    "memberTypeBoardMember": "عضو مجلس الإدارة",
+    "memberTypeEmployee": "موظف",
+    "memberTypeOther": "أخرى",
+    "positionLabel": "المنصب:",
+    "appointmentDateHijriLabel": "تاريخ التعيين (هجري):",
+    "subscriptionStartDateLabel": "تاريخ التعيين (ميلادي):",
+    "subscriptionEndDateLabel": "تاريخ انتهاء الاشتراك:",
+    "statusLabel": "الحالة:",
+    "statusActive": "نشط",
+    "statusInactive": "غير نشط",
+    "shortNameLabel": "الاسم المختصر:",
+    "nationalIdNumberLabel": "رقم الهوية الوطنية:",
+    "phoneNumberLabel": "رقم الهاتف:",
+    "addButton": "إضافة عضو",
+    "allMembersHeader": "جميع الأعضاء",
+    "editButton": "تعديل",
+    "editHeader": "تعديل العضو",
+    "updateButton": "تحديث العضو",
+    "deleteButton": "حذف",
+    "actionsLabel": "الإجراءات"
+  },
+
+  "opinionPolls": {
+    "title": "استطلاعات الرأي",
+    "header": "قائمة استطلاعات الرأي",
+    "addButton": "إضافة استطلاع رأي",
+    "questionLabel": "السؤال",
+    "option1Label": "الخيار 1",
+    "option2Label": "الخيار 2",
+    "statusLabel": "الحالة",
+    "createdAtLabel": "تاريخ الإنشاء"
+  },
+  "workDestinations": {
+    "header": "وجهات العمل",
+    "namePlaceholder": "أدخل اسم وجهة العمل",
+    "descriptionPlaceholder": "أدخل الوصف",
+    "saveButton": "حفظ",
+    "updateButton": "تحديث",
+    "cancelLink": "إلغاء",
+    "table": {
+      "name": "الاسم",
+      "description": "الوصف",
+      "actions": "الإجراءات",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا العنصر؟"
+    }
+  },
+  "membershipTypes": {
+    "header": "أنواع العضوية",
+    "namePlaceholder": "أدخل نوع العضوية",
+    "saveButton": "حفظ",
+    "updateButton": "تحديث",
+    "cancelLink": "إلغاء",
+    "table": {
+      "name": "الاسم",
+      "actions": "الإجراءات",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا العنصر؟"
+    }
+  },
+  "memberTitles": {
+    "header": "ألقاب الأعضاء",
+    "namePlaceholder": "أدخل لقب العضو",
+    "saveButton": "حفظ",
+    "updateButton": "تحديث",
+    "cancelLink": "إلغاء",
+    "table": {
+      "name": "الاسم",
+      "actions": "الإجراءات",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا العنصر؟"
+    }
+  },
+  "meetingPlaces": {
+    "header": "أماكن الاجتماعات",
+    "namePlaceholder": "أدخل اسم مكان الاجتماع",
+    "saveButton": "حفظ",
+    "updateButton": "تحديث",
+    "cancelLink": "إلغاء",
+    "table": {
+      "name": "الاسم",
+      "actions": "الإجراءات",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا العنصر؟"
+    }
+  }
+}

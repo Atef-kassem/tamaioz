@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>إضافة جمعية جديدة</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="../assets/css/style.css"
+      id="main-style-link"
+    />
+
+    <style>
+      body {
+        background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+        min-height: 100vh;
+        margin: 0;
+        font-family: "Cairo", Arial, sans-serif;
+        direction: rtl;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 32px;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(44, 62, 80, 0.13);
+      }
+      h1,
+      h2 {
+        color: #2e86de;
+        text-align: center;
+        margin-bottom: 28px;
+        letter-spacing: 1px;
+        font-weight: 700;
+      }
+      form {
+        background: #f5f8fa;
+        padding: 28px 32px;
+        border-radius: 14px;
+        box-shadow: 0 2px 10px rgba(44, 62, 80, 0.07);
+        margin-bottom: 36px;
+        border: 1.5px solid #eaf0fb;
+      }
+      form div {
+        margin-bottom: 18px;
+      }
+      label {
+        display: block;
+        margin-bottom: 7px;
+        color: #2d3e50;
+        font-weight: 600;
+        font-size: 1.05rem;
+      }
+      input[type="text"],
+      input[type="date"],
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1.5px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 1.05rem;
+        background: #fafdff;
+        transition: border 0.2s;
+      }
+      input[type="text"]:focus,
+      input[type="date"]:focus,
+      textarea:focus,
+      select:focus {
+        border: 1.5px solid #2e86de;
+        outline: none;
+        background: #f0f7ff;
+      }
+      input[type="file"] {
+        border: none;
+        background: none;
+        font-size: 1rem;
+        color: #2e86de;
+        cursor: pointer;
+      }
+      button[type="submit"] {
+        background: linear-gradient(90deg, #2e86de 60%, #48c6ef 100%);
+        color: #fff;
+        border: none;
+        padding: 12px 36px;
+        border-radius: 8px;
+        font-size: 1.15rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.09);
+        margin-top: 10px;
+        letter-spacing: 1px;
+        position: relative;
+      }
+      button[type="submit"]:hover {
+        background: linear-gradient(90deg, #1b4f72 60%, #48c6ef 100%);
+        box-shadow: 0 4px 16px rgba(44, 62, 80, 0.16);
+      }
+      .associations-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        margin-top: 28px;
+      }
+      @media (max-width: 900px) {
+        .associations-cards {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 600px) {
+        .associations-cards {
+          grid-template-columns: 1fr;
+        }
+        .container {
+          padding: 10px;
+        }
+        form {
+          padding: 12px 8px;
+        }
+      }
+      .association-card {
+        background: #fafdff;
+        border: 1.5px solid #e1e4ea;
+        border-radius: 14px;
+        padding: 22px 14px;
+        box-shadow: 0 2px 10px rgba(44, 62, 80, 0.07);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: box-shadow 0.2s, border 0.2s;
+        position: relative;
+        cursor: pointer;
+      }
+      .association-card:hover {
+        box-shadow: 0 6px 24px rgba(44, 62, 80, 0.18);
+        border: 1.5px solid #2e86de;
+      }
+      .association-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 14px;
+        border: 3px solid #2e86de;
+        background: #f5f6fa;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.09);
+      }
+      .association-details {
+        text-align: center;
+        color: #2d3e50;
+      }
+      .association-details p {
+        margin: 8px 0;
+        font-size: 1.07rem;
+        line-height: 1.7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>إضافة جمعية جديدة</h1>
+      <form
+        action="/associations/add"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <div>
+          <label for="image">صورة الجمعية:</label>
+          <input
+            type="file"
+            id="image"
+            name="image"
+            accept="image/*"
+            title="تحميل صورة الجمعية"
+          />
+        </div>
+        <div>
+          <label for="name">اسم الجمعية:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            title="أدخل اسم الجمعية"
+          />
+        </div>
+        <div>
+          <label for="taxRecordNumber">رقم السجل :</label>
+          <input
+            type="text"
+            id="taxRecordNumber"
+            name="taxRecordNumber"
+            required
+            title="أدخل رقم السجل الضريبي"
+          />
+        </div>
+        <div>
+          <label for="phoneNumber">رقم الهاتف:</label>
+          <input
+            type="text"
+            id="phoneNumber"
+            name="phoneNumber"
+            required
+            title="أدخل رقم الهاتف"
+          />
+        </div>
+        <div>
+          <label for="creationDate">تاريخ الإنشاء:</label>
+          <input
+            type="date"
+            id="creationDate"
+            name="creationDate"
+            required
+            title="حدد تاريخ الإنشاء"
+          />
+        </div>
+        <div>
+          <label for="awards">الجوائز الحاصلة عليها:</label>
+          <select
+            id="awards"
+            name="awards[]"
+            multiple
+            size="5"
+            title="اختر الجوائز المرادة"
+            style="
+              width: 100%;
+              padding: 10px 12px;
+              border: 1.5px solid #d1d5db;
+              border-radius: 8px;
+              font-size: 1.05rem;
+              background: #fafdff;
+              transition: border 0.2s;
+            "
+          >
+            <% if (awards && awards.length > 0) { %> <%
+            awards.forEach(function(award) { %>
+            <option value="<%= award._id %>"><%= award.name %></option>
+            <% }); %> <% } else { %>
+            <option disabled>لا توجد جوائز متاحة</option>
+            <% } %>
+          </select>
+        </div>
+        <button type="submit" title="إضافة الجمعية">إضافة الجمعية</button>
+      </form>
+
+      <h2>الجمعيات المسجلة</h2>
+      <% if (associations && associations.length > 0) { %>
+      <div class="associations-cards">
+        <% associations.forEach(function(association) { %>
+        <div
+          class="association-card"
+          role="button"
+          tabindex="0"
+          data-id="<%= association._id %>"
+        >
+          <% if (association.image) { %>
+          <img
+            src="/uploads/<%= association.image %>"
+            alt="صورة الجمعية"
+            class="association-image"
+            title="صورة الجمعية"
+          />
+          <% } %>
+          <div class="association-details">
+            <p><strong>اسم الجمعية:</strong> <%= association.name %></p>
+            <p>
+              <strong>رقم السجل الضريبي:</strong> <%=
+              association.taxRecordNumber %>
+            </p>
+            <p><strong>رقم الهاتف:</strong> <%= association.phoneNumber %></p>
+            <p>
+              <strong>تاريخ الإنشاء:</strong> <%=
+              association.creationDate.toISOString().split('T')[0] %>
+            </p>
+            <p>
+              <strong>الجوائز:</strong>
+              <% if (association.awards && association.awards.length > 0) { %>
+              <% association.awards.forEach(function(award, index) { %>
+              <span
+                style="
+                  display: inline-block;
+                  margin-right: 8px;
+                  padding: 4px 8px;
+                  background-color: #2e86de;
+                  color: white;
+                  border-radius: 4px;
+                  font-size: 0.95rem;
+                  position: relative;
+                "
+              >
+                <%= award.name %>
+                <button
+                  type="button"
+                  style="
+                    margin-left: 6px;
+                    background-color: #48c6ef;
+                    border: none;
+                    border-radius: 4px;
+                    color: white;
+                    font-size: 0.8rem;
+                    cursor: pointer;
+                    padding: 2px 6px;
+                    position: absolute;
+                    top: -6px;
+                    right: -40px;
+                  "
+                  onclick="addCriterion('<%= award._id %>')"
+                  title="إضافة معيار"
+                >
+                  إضافة معيار
+                </button>
+              </span>
+              <% }); %> <% } else { %> لا توجد جوائز <% } %>
+            </p>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+      <% } else { %>
+      <p>لا توجد جمعيات مسجلة حتى الآن.</p>
+      <% } %>
+    </div>
+
+    <script>
+      // Modal elements
+      let modal, modalContent, modalClose;
+
+      function createModal() {
+        modal = document.createElement("div");
+        modal.style.position = "fixed";
+        modal.style.top = "0";
+        modal.style.left = "0";
+        modal.style.width = "100%";
+        modal.style.height = "100%";
+        modal.style.backgroundColor = "rgba(0,0,0,0.5)";
+        modal.style.display = "flex";
+        modal.style.justifyContent = "center";
+        modal.style.alignItems = "center";
+        modal.style.zIndex = "1000";
+
+        modalContent = document.createElement("div");
+        modalContent.style.backgroundColor = "#fff";
+        modalContent.style.padding = "20px";
+        modalContent.style.borderRadius = "8px";
+        modalContent.style.width = "800px";
+        modalContent.style.maxHeight = "80vh";
+        modalContent.style.overflowY = "auto";
+
+        modalClose = document.createElement("button");
+        modalClose.textContent = "إغلاق";
+        modalClose.style.marginTop = "10px";
+        modalClose.onclick = () => {
+          document.body.removeChild(modal);
+        };
+
+        modalContent.appendChild(modalClose);
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+      }
+
+      function showModal(content) {
+        if (!modal) {
+          createModal();
+        }
+        modalContent.innerHTML = "";
+        modalContent.appendChild(modalClose);
+        modalContent.insertAdjacentHTML("afterbegin", content);
+      }
+
+      async function fetchReviewContent(associationId) {
+        try {
+          const response = await fetch(
+            `/associations/${associationId}/review-content`
+          );
+          if (!response.ok) {
+            throw new Error("Failed to fetch review content");
+          }
+          const html = await response.text();
+          showModal(html);
+        } catch (error) {
+          alert(error.message);
+        }
+      }
+
+      document.querySelectorAll(".association-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const associationId = card.getAttribute("data-id");
+          fetchReviewContent(associationId);
+        });
+      });
+
+      // Include award editing, deleting, and adding criterion functions from views/review.ejs
+
+      function editAward(awardId) {
+        createModal();
+        modalContent.innerHTML = `
+          <form id="editAwardForm">
+            <label>اسم الجائزة:</label>
+            <input type="text" id="awardName" required />
+            <label>تاريخ الجائزة:</label>
+            <input type="text" id="awardDate" required />
+            <label>رقم الجائزة:</label>
+            <input type="text" id="awardNumber" required />
+            <label>الشروط:</label>
+            <textarea id="awardConditions"></textarea>
+            <button type="submit">حفظ</button>
+          </form>
+        `;
+
+        // Fetch current award data
+        fetch("/awards/" + awardId)
+          .then((res) => res.json())
+          .then((data) => {
+            document.getElementById("awardName").value = data.name || "";
+            document.getElementById("awardDate").value = data.date || "";
+            document.getElementById("awardNumber").value = data.number || "";
+            document.getElementById("awardConditions").value =
+              data.conditions || "";
+          });
+
+        document.getElementById("editAwardForm").onsubmit = function (e) {
+          e.preventDefault();
+          const updatedAward = {
+            name: document.getElementById("awardName").value,
+            date: document.getElementById("awardDate").value,
+            number: document.getElementById("awardNumber").value,
+            conditions: document.getElementById("awardConditions").value,
+          };
+          fetch("/awards/" + awardId, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedAward),
+          }).then((res) => {
+            if (res.ok) {
+              alert("تم تحديث الجائزة بنجاح");
+              location.reload();
+            } else {
+              alert("حدث خطأ أثناء تحديث الجائزة");
+            }
+          });
+        };
+      }
+
+      function deleteAward(awardId) {
+        if (confirm("هل أنت متأكد من حذف هذه الجائزة؟")) {
+          fetch("/awards/" + awardId, { method: "DELETE" }).then((response) => {
+            if (response.ok) {
+              alert("تم حذف الجائزة بنجاح");
+              location.reload();
+            } else {
+              alert("حدث خطأ أثناء حذف الجائزة");
+            }
+          });
+        }
+      }
+
+      function addCriterion(awardId) {
+        createModal();
+        modalContent.innerHTML = `
+          <button id="closeModalBtn" style="float: right; background: #ccc; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer;">إغلاق</button>
+          <form id="addCriterionForm" style="margin-top: 10px;">
+            <label>اسم المعيار:</label>
+            <input type="text" id="criterionName" required />
+            <label>النقاط:</label>
+            <input type="number" id="criterionPoints" required min="0" />
+            <button type="submit">إضافة</button>
+          </form>
+        `;
+
+        document.getElementById("closeModalBtn").onclick = () => {
+          if (modal) {
+            document.body.removeChild(modal);
+            modal = null;
+            modalContent = null;
+            modalClose = null;
+          }
+        };
+
+        document.getElementById("addCriterionForm").onsubmit = function (e) {
+          e.preventDefault();
+          const newCriterion = {
+            name: document.getElementById("criterionName").value,
+            points: parseInt(
+              document.getElementById("criterionPoints").value,
+              10
+            ),
+            parent: null,
+            type: "criterion",
+          };
+          fetch("/criteria", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newCriterion),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              // After adding criterion, update award to include this criterion
+              fetch("/awards/" + awardId, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  criteria: [...(data.criteria || []), data._id],
+                }),
+              }).then((res) => {
+                if (res.ok) {
+                  alert("تم إضافة المعيار بنجاح");
+                  location.reload();
+                } else {
+                  alert("حدث خطأ أثناء تحديث الجائزة");
+                }
+              });
+            });
+        };
+      }
+    </script>
+  </body>
+</html>

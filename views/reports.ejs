@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>شاشة التقارير</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/reports.css" />
+  </head>
+  <body>
+    <div class="reports-container">
+      <h1>شاشة التقارير</h1>
+      <form id="reportForm" method="POST" action="/reports/generate">
+        <div class="filter-group">
+          <label for="association" title="اختر جمعية أو أكثر لعرض تقاريرها"
+            >الجمعية
+          </label>
+          <select
+            id="association"
+            name="association"
+            multiple
+            title="اختر جمعية أو أكثر"
+          >
+            <% associations.forEach(function(assoc) { %>
+            <option value="<%= assoc.id %>" title="الجمعية: <%= assoc.name %>">
+              <%= assoc.name %>
+            </option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="startDate" title="حدد تاريخ البداية للفترة الزمنية"
+            >الفترة الزمنية من</label
+          >
+          <input
+            type="date"
+            id="startDate"
+            name="startDate"
+            title="تاريخ البداية"
+          />
+        </div>
+        <div class="filter-group">
+          <label for="endDate" title="حدد تاريخ النهاية للفترة الزمنية"
+            >الفترة الزمنية إلى</label
+          >
+          <input
+            type="date"
+            id="endDate"
+            name="endDate"
+            title="تاريخ النهاية"
+          />
+        </div>
+        <div class="filter-group">
+          <label for="criteria" title="اختر معيار التقرير">المعيار</label>
+          <select id="criteria" name="criteria" title="اختر معيار التقرير">
+            <option value="" title="اختر معيار">اختر معيار</option>
+            <% criteriaList.forEach(function(crit) { %>
+            <option value="<%= crit.id %>" title="<%= crit.name %>">
+              <%= crit.name %>
+            </option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="reportTemplate" title="اختر نموذج التقرير المناسب"
+            >نماذج التقارير لدى جمعية أبناء</label
+          >
+          <select
+            id="reportTemplate"
+            name="reportTemplate"
+            title="اختر نموذج تقرير"
+          >
+            <option value="" title="اختر نموذج تقرير">اختر نموذج تقرير</option>
+            <option value="template1" title="نموذج تقرير 1">نموذج 1</option>
+            <option value="template2" title="نموذج تقرير 2">نموذج 2</option>
+            <option value="template3" title="نموذج تقرير 3">نموذج 3</option>
+          </select>
+        </div>
+        <div class="filter-group export-options">
+          <label title="اختر صيغة تصدير التقرير">اختيار صيغة التصدير:</label>
+          <label title="تصدير التقرير بصيغة PDF"
+            ><input type="radio" name="exportFormat" value="pdf" title="PDF" />
+            PDF</label
+          >
+          <label title="تصدير التقرير بصيغة Excel"
+            ><input
+              type="radio"
+              name="exportFormat"
+              value="excel"
+              title="Excel"
+            />
+            Excel</label
+          >
+          <label title="عرض التقرير مباشرة على الشاشة"
+            ><input
+              type="radio"
+              name="exportFormat"
+              value="live"
+              checked
+              title="عرض مباشر"
+            />
+            عرض مباشر</label
+          >
+        </div>
+        <button
+          type="submit"
+          class="btn"
+          title="عرض التقرير حسب الخيارات المحددة"
+        >
+          عرض التقرير
+        </button>
+      </form>
+
+      <div class="report-display" id="reportDisplay">
+        <!-- Live report or generated report will be displayed here -->
+        <p>التقرير سيظهر هنا بعد التصفية.</p>
+      </div>
+    </div>
+
+    <style>
+      body {
+        background: #f7f7fa;
+        font-family: "Cairo", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .reports-container {
+        max-width: 700px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+        padding: 32px 24px;
+      }
+      h1 {
+        text-align: center;
+        color: #2d3e50;
+        margin-bottom: 32px;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      label {
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 2px;
+        cursor: pointer;
+      }
+      select,
+      input[type="date"] {
+        padding: 8px 10px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 1rem;
+        background: #f9fafb;
+        transition: border 0.2s;
+      }
+      select:focus,
+      input[type="date"]:focus {
+        border-color: #3498db;
+        outline: none;
+        background: #fff;
+      }
+      .export-options {
+        flex-direction: row;
+        align-items: center;
+        gap: 18px;
+      }
+      .export-options label {
+        font-weight: 500;
+        color: #2c3e50;
+        margin-bottom: 0;
+      }
+      .btn {
+        background: linear-gradient(90deg, #3498db 0%, #6dd5fa 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 0;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s, box-shadow 0.2s;
+        margin-top: 10px;
+        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.08);
+      }
+      .btn:hover,
+      .btn:focus {
+        background: linear-gradient(90deg, #217dbb 0%, #48c6ef 100%);
+        box-shadow: 0 4px 16px rgba(52, 152, 219, 0.13);
+      }
+      select:hover,
+      input[type="date"]:hover,
+      select:focus,
+      input[type="date"]:focus {
+        border-color: #217dbb;
+        background: #eef6fb;
+      }
+      .report-display {
+        margin-top: 32px;
+        background: #f4f8fb;
+        border-radius: 10px;
+        min-height: 80px;
+        padding: 18px 14px;
+        color: #2d3e50;
+        font-size: 1.05rem;
+        box-shadow: 0 1px 4px rgba(52, 152, 219, 0.06);
+        text-align: center;
+      }
+      @media (max-width: 600px) {
+        .reports-container {
+          padding: 12px 4px;
+        }
+        form {
+          gap: 10px;
+        }
+        .report-display {
+          padding: 10px 4px;
+        }
+      }
+    </style>
+
+    <script>
+      // Client-side script to handle live report display and export options
+      const form = document.getElementById("reportForm");
+      const reportDisplay = document.getElementById("reportDisplay");
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const exportFormat = formData.get("exportFormat");
+
+        if (exportFormat === "live") {
+          // For live display, fetch report data via AJAX and display
+          fetch("/reports/generate", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.text())
+            .then((html) => {
+              reportDisplay.innerHTML = html;
+            })
+            .catch((err) => {
+              reportDisplay.innerHTML = "<p>حدث خطأ أثناء تحميل التقرير.</p>";
+            });
+        } else {
+          // For PDF or Excel, submit form normally to trigger download
+          form.removeEventListener("submit", arguments.callee);
+          form.submit();
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+<div
+  class="dashboard-reviewer"
+  style="
+    max-width: 500px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 32px;
+    font-family: 'Cairo', Arial, sans-serif;
+    direction: rtl;
+  "
+>
+  <h2
+    style="
+      color: #2c3e50;
+      border-bottom: 2px solid #e1e1e1;
+      padding-bottom: 10px;
+      margin-bottom: 24px;
+    "
+  >
+    إحصائيات المراجع
+  </h2>
+  <ul style="list-style: none; padding: 0; margin-bottom: 28px">
+    <li style="margin-bottom: 10px">
+      المعايير المدخلة:
+      <span style="color: #27ae60; font-weight: bold"
+        ><%= statistics.criteriaEntered %></span
+      >
+    </li>
+    <li style="margin-bottom: 10px">
+      المعايير المتبقية:
+      <span style="color: #e67e22; font-weight: bold"
+        ><%= statistics.criteriaRemaining %></span
+      >
+    </li>
+    <li>
+      حالة التقديم:
+      <ul style="list-style: none; padding-right: 18px; margin-top: 6px">
+        <li style="color: #2980b9">
+          قيد الانتظار:
+          <span style="font-weight: bold"
+            ><%= statistics.submissionStatusCounts.pending %></span
+          >
+        </li>
+        <li style="color: #27ae60">
+          مقبولة:
+          <span style="font-weight: bold"
+            ><%= statistics.submissionStatusCounts.approved %></span
+          >
+        </li>
+        <li style="color: #c0392b">
+          مرفوضة:
+          <span style="font-weight: bold"
+            ><%= statistics.submissionStatusCounts.rejected %></span
+          >
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3 style="color: #34495e; margin-bottom: 12px">الإشعارات الجديدة</h3>
+  <ul
+    style="
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 12px 18px;
+      margin-bottom: 24px;
+      min-height: 38px;
+    "
+  >
+    <% if (notifications.length === 0) { %>
+    <li style="color: #888">لا توجد إشعارات جديدة</li>
+    <% } else { %> <% notifications.forEach(function(notification) { %>
+    <li style="margin-bottom: 6px; color: #555"><%= notification.message %></li>
+    <% }); %> <% } %>
+  </ul>
+
+  <h3 style="color: #34495e; margin-bottom: 12px">روابط سريعة</h3>
+  <ul
+    style="
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      list-style: none;
+      padding: 0;
+    "
+  >
+    <% quickLinks.forEach(function(link) { %>
+    <li>
+      <a
+        href="<%= link.url %>"
+        style="
+          display: inline-block;
+          background: #2980b9;
+          color: #fff;
+          padding: 8px 16px;
+          border-radius: 6px;
+          text-decoration: none;
+          transition: background 0.2s;
+        "
+      >
+        <%= link.name %>
+      </a>
+    </li>
+    <% }); %>
+  </ul>
+</div>

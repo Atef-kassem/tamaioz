@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <title>Login</title>
+    <style>
+      body {
+        background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Segoe UI", Arial, sans-serif;
+        margin: 0;
+      }
+      .login-container {
+        background: #fff;
+        padding: 2.5rem 2rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(44, 62, 80, 0.18);
+        width: 100%;
+        max-width: 370px;
+        text-align: center;
+        position: relative;
+      }
+      .login-container h1 {
+        margin-bottom: 1.5rem;
+        color: #2d3a4b;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+      }
+      label {
+        text-align: left;
+        color: #4a4a4a;
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+        font-weight: 500;
+      }
+      input[type="text"],
+      input[type="password"] {
+        padding: 0.8rem;
+        border: 1.5px solid #d1d5db;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: border 0.2s, box-shadow 0.2s;
+        outline: none;
+        background: #f7fafc;
+        box-shadow: 0 2px 8px rgba(116, 235, 213, 0.04);
+      }
+      input[type="text"]:focus,
+      input[type="password"]:focus {
+        border-color: #74ebd5;
+        box-shadow: 0 0 0 2px #acb6e555;
+      }
+      button[type="submit"] {
+        background: linear-gradient(90deg, #74ebd5 0%, #acb6e5 100%);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 0.85rem;
+        font-size: 1.05rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.1s;
+        margin-top: 0.5rem;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
+      }
+      button[type="submit"]:hover,
+      button[type="submit"]:focus {
+        background: linear-gradient(90deg, #acb6e5 0%, #74ebd5 100%);
+        transform: translateY(-2px) scale(1.03);
+      }
+      .login-container p {
+        margin-top: 1.5rem;
+        font-size: 0.97rem;
+        color: #6b7280;
+      }
+      .login-container a {
+        color: #74ebd5;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .login-container a:hover,
+      .login-container a:focus {
+        color: #2d3a4b;
+        text-decoration: underline;
+      }
+      /* Tooltip styles */
+      .tooltip {
+        position: relative;
+        display: inline-block;
+      }
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: max-content;
+        max-width: 220px;
+        background: #222;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 7px 12px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.2s;
+        font-size: 0.95rem;
+        pointer-events: none;
+      }
+      .tooltip:focus .tooltiptext,
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+      }
+      /* For better accessibility on focus */
+      input:focus + .tooltiptext,
+      button:focus + .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h1>Login</h1>
+      <form action="/login" method="POST">
+        <div class="tooltip" tabindex="0">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            required
+            aria-describedby="username-tip"
+            title="Enter your username"
+          />
+          <span class="tooltiptext" id="username-tip"
+            >ادخل اسم المستخدم الخاص بك</span
+          >
+        </div>
+
+        <div class="tooltip" tabindex="0">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            aria-describedby="password-tip"
+            title="Enter your password"
+          />
+          <span class="tooltiptext" id="password-tip"
+            >ادخل كلمة المرور الخاصة بك</span
+          >
+        </div>
+
+        <div class="tooltip" tabindex="0" style="width: 100%">
+          <button type="submit" title="Login to your account">Login</button>
+          <span class="tooltiptext">اضغط لتسجيل الدخول</span>
+        </div>
+      </form>
+      <p>
+        Don't have an account?
+        <a href="/signup" title="Sign up for a new account">Sign up here</a>
+      </p>
+    </div>
+  </body>
+</html>
