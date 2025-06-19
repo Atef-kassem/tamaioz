@@ -8,6 +8,7 @@ const flash = require("connect-flash");
 const authRoutes = require("./routes/auth");
 const criteriaRoutes = require("./routes/criteria");
 const associationsRoutes = require("./routes/associations");
+const elementsRoutes = require("./routes/elements");
 const reportsRouter = require("./routes/reports");
 const submissionsRoutes = require("./routes/submissions");
 const awardsRoutes = require("./routes/awards");
@@ -59,6 +60,7 @@ app.use("/", authRoutes);
 app.use("/api/criteria", criteriaRoutes);
 app.use("/associations", associationsRoutes);
 app.use("/awards", awardsRoutes);
+app.use("/elements", elementsRoutes);
 
 // Set view engine
 app.set("view engine", "ejs");
@@ -70,16 +72,6 @@ app.use(express.static(path.join(__dirname, "public")));
 // Basic home route
 app.get("/", (req, res) => {
   res.send("Welcome to the Home Page");
-});
-
-// Middleware to block direct access to /views directory
-app.use("/views", (req, res) => {
-  res.status(404).send("Not Found");
-});
-
-// Catch-all 404 handler for unknown routes
-app.use((req, res) => {
-  res.status(404).send("404 Not Found: " + req.originalUrl);
 });
 
 // Profile route to render profile content inside dashboard layout

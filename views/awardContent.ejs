@@ -1,5 +1,4 @@
- <link rel="stylesheet" href="/css/style.css" />
-
+<link rel="stylesheet" href="/css/style.css" />
 <style>
   body {
     font-family: "Cairo", Arial, sans-serif;
@@ -105,7 +104,7 @@
     border-radius: 14px;
     box-shadow: 0 6px 32px rgba(44, 62, 80, 0.18);
     padding: 32px 28px 20px 28px;
-    width: 410px;
+    width: 450px;
     max-width: 97vw;
     background: #fafdff;
     border: 1.5px solid #b3c6e0;
@@ -114,6 +113,7 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
+    display: none;
   }
   #awardModal h2 {
     margin-top: 0;
@@ -206,16 +206,43 @@
       <th>اسم الجائزة</th>
       <th>تاريخ الجائزة</th>
       <th>رقم الجائزة</th>
+      <th>رقم الهاتف</th>
+      <th>عنوان الجائزة</th>
+      <th>صورة الجائزة</th>
       <th>الشروط</th>
       <th>إجراءات</th>
     </tr>
   </thead>
   <tbody>
-    <% awards.forEach(function(award) { %>
-    <tr data-id="<%= award._id %>">
-      <td><%= award.name %></td>
+    <% groupedAwards.forEach(function(group) { %>
+    <tr class="award-group" data-name="<%= group.name %>">
+      <td><%= group.name %></td>
+      <td colspan="6" style="text-align: left">
+        <button class="toggleGroupBtn" title="عرض الجوائز">عرض الجوائز</button>
+      </td>
+      <td></td>
+    </tr>
+    <% group.awards.forEach(function(award) { %>
+    <tr
+      class="award-item"
+      data-group="<%= group.name %>"
+      data-id="<%= award._id %>"
+      style="display: none"
+    >
+      <td></td>
       <td><%= new Date(award.date).toLocaleDateString() %></td>
       <td><%= award.number %></td>
+      <td><%= award.phoneNumber || '' %></td>
+      <td><%= award.address || '' %></td>
+      <td>
+        <% if (award.image) { %>
+        <img
+          src="<%= award.image %>"
+          alt="صورة الجائزة"
+          style="max-width: 80px; max-height: 60px; border-radius: 4px"
+        />
+        <% } else { %> لا توجد صورة <% } %>
+      </td>
       <td>
         <% if (award.conditions) { %> <%= award.conditions %> <% } else { %> لا
         توجد شروط <% } %>
@@ -223,14 +250,16 @@
       <td>
         <button class="editAwardBtn" title="تعديل الجائزة">تعديل</button>
         <button class="deleteAwardBtn" title="حذف الجائزة">حذف</button>
+        <button class="duplicateAwardBtn" title="اضافة نسخه جديده من الجائزه">
+          نسخة جديدة
+        </button>
       </td>
     </tr>
-    <% }); %>
+    <% }); %> <% }); %>
   </tbody>
 </table>
 
-<!-- Modal for Add/Edit Award -->
-<div id="awardModal" style="display: none">
+<div id="awardModal" aria-hidden="true">
   <h2 id="modalTitle">إضافة جائزة جديدة</h2>
   <form id="awardForm" autocomplete="off" enctype="multipart/form-data">
     <input type="hidden" id="awardId" />
@@ -245,6 +274,34 @@
     <div>
       <label for="awardNumber">رقم الجائزة:</label>
       <input type="text" id="awardNumber" name="number" required />
+    </div>
+    <div>
+      <label for="awardPhoneNumber">رقم الهاتف:</label>
+      <input
+        type="text"
+        id="awardPhoneNumber"
+        name="phoneNumber"
+        placeholder="أدخل رقم الهاتف"
+      />
+    </div>
+    <div>
+      <label for="awardAddress">عنوان الجائزة:</label>
+      <input
+        type="text"
+        id="awardAddress"
+        name="address"
+        placeholder="أدخل عنوان الجائزة"
+      />
+    </div>
+    <div>
+      <label for="awardImage">صورة الجائزة:</label>
+      <input
+        type="file"
+        id="awardImage"
+        name="image"
+        accept=".jpg,.jpeg,.png"
+        style="margin-top: 4px; margin-bottom: 14px"
+      />
     </div>
     <div>
       <label for="awardConditions">الشروط:</label>
@@ -262,7 +319,17 @@
         name="explanatoryText"
         rows="3"
         placeholder="أدخل النص التوضيحي هنا"
-        style="width: 100%; padding: 8px; border: 1.5px solid #bfc9d1; border-radius: 6px; font-size: 1em; background: #f8fafc; resize: vertical; margin-top: 4px; margin-bottom: 14px;"
+        style="
+          width: 100%;
+          padding: 8px;
+          border: 1.5px solid #bfc9d1;
+          border-radius: 6px;
+          font-size: 1em;
+          background: #f8fafc;
+          resize: vertical;
+          margin-top: 4px;
+          margin-bottom: 14px;
+        "
       ></textarea>
     </div>
     <div>
@@ -273,7 +340,7 @@
         name="attachments"
         multiple
         accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.txt"
-        style="margin-top: 4px; margin-bottom: 14px;"
+        style="margin-top: 4px; margin-bottom: 14px"
       />
     </div>
     <div>
@@ -324,28 +391,36 @@
   const awardNameInput = document.getElementById("awardName");
   const awardDateInput = document.getElementById("awardDate");
   const awardNumberInput = document.getElementById("awardNumber");
+  const awardPhoneNumberInput = document.getElementById("awardPhoneNumber");
+  const awardAddressInput = document.getElementById("awardAddress");
   const awardConditionsInput = document.getElementById("awardConditions");
   const awardsTable = document.getElementById("awardsTable");
 
   function openModal() {
     awardModal.style.display = "block";
     modalOverlay.style.display = "block";
+    awardModal.setAttribute("aria-hidden", "false");
   }
 
   function closeModal() {
     awardModal.style.display = "none";
     modalOverlay.style.display = "none";
+    awardModal.setAttribute("aria-hidden", "true");
     awardForm.reset();
     awardIdInput.value = "";
   }
 
-  addAwardBtn.addEventListener("click", () => {
-    modalTitle.textContent = "إضافة جائزة جديدة";
-    clearCriteriaSelection();
-    document.getElementById("awardExplanatoryText").value = "";
-    document.getElementById("awardAttachments").value = "";
-    openModal();
-  });
+  if (addAwardBtn) {
+    addAwardBtn.addEventListener("click", () => {
+      modalTitle.textContent = "إضافة جائزة جديدة";
+      clearCriteriaSelection();
+      awardPhoneNumberInput.value = "";
+      awardAddressInput.value = "";
+      document.getElementById("awardExplanatoryText").value = "";
+      document.getElementById("awardAttachments").value = "";
+      openModal();
+    });
+  }
 
   cancelBtn.addEventListener("click", () => {
     closeModal();
@@ -360,6 +435,8 @@
     formData.append("name", awardNameInput.value.trim());
     formData.append("date", awardDateInput.value);
     formData.append("number", awardNumberInput.value.trim());
+    formData.append("phoneNumber", awardPhoneNumberInput.value.trim());
+    formData.append("address", awardAddressInput.value.trim());
     formData.append("conditions", awardConditionsInput.value.trim());
     formData.append("explanatoryText", document.getElementById("awardExplanatoryText").value.trim());
 
@@ -373,6 +450,12 @@
     const files = document.getElementById("awardAttachments").files;
     for (let i = 0; i < files.length; i++) {
       formData.append("attachments", files[i]);
+    }
+
+    // Append image file
+    const imageFile = document.getElementById("awardImage").files[0];
+    if (imageFile) {
+      formData.append("image", imageFile);
     }
 
     try {
@@ -417,6 +500,8 @@
         awardNameInput.value = award.name;
         awardDateInput.value = new Date(award.date).toISOString().substr(0, 10);
         awardNumberInput.value = award.number;
+        awardPhoneNumberInput.value = award.phoneNumber || "";
+        awardAddressInput.value = award.address || "";
         awardConditionsInput.value = award.conditions || "";
         document.getElementById("awardExplanatoryText").value = award.explanatoryText || "";
         document.getElementById("awardAttachments").value = "";
@@ -445,6 +530,36 @@
         console.error("Error deleting award:", error);
         alert("حدث خطأ أثناء الحذف");
       }
+    } else if (e.target.classList.contains("duplicateAwardBtn")) {
+      const tr = e.target.closest("tr");
+      const id = tr.dataset.id;
+
+      try {
+        const res = await fetch(`/awards/duplicate/${id}`, { method: "POST" });
+        if (res.ok) {
+          location.reload();
+        } else {
+          alert("فشل في نسخ الجائزة");
+        }
+      } catch (error) {
+        console.error("Error duplicating award:", error);
+        alert("حدث خطأ أثناء نسخ الجائزة");
+      }
+    }
+    // Toggle awards group
+    else if (e.target.classList.contains("toggleGroupBtn")) {
+      const groupTr = e.target.closest("tr");
+      const groupName = groupTr.getAttribute("data-name");
+      const awardRows = awardsTable.querySelectorAll(`tr.award-item[data-group="${groupName}"]`);
+      let anyVisible = false;
+      awardRows.forEach(row => {
+        if (row.style.display !== "none") anyVisible = true;
+      });
+      awardRows.forEach(row => {
+        row.style.display = anyVisible ? "none" : "";
+      });
+      // Optionally change button text
+      e.target.textContent = anyVisible ? "عرض الجوائز" : "إخفاء الجوائز";
     }
   });
 
@@ -498,5 +613,3 @@
     renderCriteriaList(criteriaData, criteriaListContainer);
   });
 </script>
-
-</create_file>

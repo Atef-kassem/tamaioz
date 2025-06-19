@@ -38,4 +38,6 @@ router.post(
   criteriaController.uploadAttachmentsWithText
 );
 
+// Removed the route for criteriasContent page
+
 module.exports = router;

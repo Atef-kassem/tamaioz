@@ -248,8 +248,8 @@
       <form action="/settings/general" method="POST">
         <label for="language">اللغة:</label>
         <select id="language" name="language">
-          <option value="ar" selected>العربية</option>
-          <option value="en">English</option>
+          <option value="ar" <%= user.language === 'ar' ? 'selected' : '' %>>العربية</option>
+          <option value="en" <%= user.language === 'en' ? 'selected' : '' %>>English</option>
         </select>
         <button type="submit" title="حفظ إعدادات اللغة">حفظ</button>
       </form>
@@ -271,7 +271,7 @@
             type="checkbox"
             id="emailNotifications"
             name="emailNotifications"
-            checked
+            <%= user.emailNotifications ? 'checked' : '' %>
           />
         </label>
         <button type="submit" title="حفظ إعدادات الإشعارات">حفظ</button>
@@ -282,8 +282,8 @@
       <form action="/settings/privacy" method="POST">
         <label for="profileVisibility">رؤية الملف الشخصي:</label>
         <select id="profileVisibility" name="profileVisibility">
-          <option value="public">عام</option>
-          <option value="private">خاص</option>
+          <option value="public" <%= user.profileVisibility === 'public' ? 'selected' : '' %>>عام</option>
+          <option value="private" <%= user.profileVisibility === 'private' ? 'selected' : '' %>>خاص</option>
         </select>
         <button type="submit" title="حفظ إعدادات الخصوصية">حفظ</button>
       </form>
@@ -293,11 +293,96 @@
       <form action="/settings/notifications" method="POST">
         <label for="notificationFrequency">تكرار الإشعارات:</label>
         <select id="notificationFrequency" name="notificationFrequency">
-          <option value="immediate">فوري</option>
-          <option value="daily">يومي</option>
-          <option value="weekly">أسبوعي</option>
+          <option value="immediate" <%= user.notificationFrequency === 'immediate' ? 'selected' : '' %>>فوري</option>
+          <option value="daily" <%= user.notificationFrequency === 'daily' ? 'selected' : '' %>>يومي</option>
+          <option value="weekly" <%= user.notificationFrequency === 'weekly' ? 'selected' : '' %>>أسبوعي</option>
         </select>
         <button type="submit" title="حفظ تكرار الإشعارات">حفظ</button>
+      </form>
+    </section>
+    <section>
+      <h2>المظهر</h2>
+      <form action="/settings/theme" method="POST">
+        <label for="theme">اختر المظهر:</label>
+        <select id="theme" name="theme">
+          <option value="light" <%= user.theme === 'light' ? 'selected' : '' %>>فاتح</option>
+          <option value="dark" <%= user.theme === 'dark' ? 'selected' : '' %>>داكن</option>
+        </select>
+        <button type="submit" title="حفظ إعدادات المظهر">حفظ</button>
+      </form>
+    </section>
+    <section>
+      <h2>المنطقة الزمنية</h2>
+      <form action="/settings/timezone" method="POST">
+        <label for="timezone">المنطقة الزمنية:</label>
+        <input
+          type="text"
+          id="timezone"
+          name="timezone"
+          value="<%= user.timezone %>"
+          required
+        />
+        <button type="submit" title="حفظ إعدادات المنطقة الزمنية">حفظ</button>
+      </form>
+    </section>
+    <section>
+      <h2>المصادقة الثنائية</h2>
+      <form action="/settings/twoFactorAuth" method="POST">
+        <label for="twoFactorAuth">
+          تمكين المصادقة الثنائية:
+          <input
+            type="checkbox"
+            id="twoFactorAuth"
+            name="twoFactorAuth"
+            <%= user.twoFactorAuth ? 'checked' : '' %>
+          />
+        </label>
+        <button type="submit" title="حفظ إعدادات المصادقة الثنائية">حفظ</button>
+      </form>
+    </section>
+    <section>
+      <h2>حالة الاتصال</h2>
+      <form action="/settings/showOnlineStatus" method="POST">
+        <label for="showOnlineStatus">
+          إظهار حالة الاتصال:
+          <input
+            type="checkbox"
+            id="showOnlineStatus"
+            name="showOnlineStatus"
+            <%= user.showOnlineStatus ? 'checked' : '' %>
+          />
+        </label>
+        <button type="submit" title="حفظ إعدادات حالة الاتصال">حفظ</button>
+      </form>
+    </section>
+    <section>
+      <h2>حفظ المسودات تلقائيًا</h2>
+      <form action="/settings/autoSaveDrafts" method="POST">
+        <label for="autoSaveDrafts">
+          تمكين الحفظ التلقائي للمسودات:
+          <input
+            type="checkbox"
+            id="autoSaveDrafts"
+            name="autoSaveDrafts"
+            <%= user.autoSaveDrafts ? 'checked' : '' %>
+          />
+        </label>
+        <button type="submit" title="حفظ إعدادات الحفظ التلقائي">حفظ</button>
+      </form>
+    </section>
+    <section>
+      <h2>موافقة مشاركة البيانات</h2>
+      <form action="/settings/dataSharingConsent" method="POST">
+        <label for="dataSharingConsent">
+          السماح بمشاركة البيانات:
+          <input
+            type="checkbox"
+            id="dataSharingConsent"
+            name="dataSharingConsent"
+            <%= user.dataSharingConsent ? 'checked' : '' %>
+          />
+        </label>
+        <button type="submit" title="حفظ إعدادات مشاركة البيانات">حفظ</button>
       </form>
     </section>
   </div>

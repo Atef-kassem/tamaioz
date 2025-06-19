@@ -1,8 +1,190 @@
-<h2>تفاصيل المستخدم</h2>
-<% if (user) { %>
-<p><strong>اسم المستخدم:</strong> <%= user.username %></p>
-<p><strong>البريد الإلكتروني:</strong> <%= user.email %></p>
-<!-- Add more user details here as needed -->
-<% } else { %>
-<p>لم يتم العثور على بيانات المستخدم.</p>
-<% } %>
+<style>
+.profile-container {
+    max-width: 900px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 32px 28px;
+    font-family: 'Cairo', Tahoma, Arial, sans-serif;
+    direction: rtl;
+}
+
+.profile-container h2 {
+    text-align: center;
+    color: #2d3e50;
+    margin-bottom: 24px;
+    font-weight: 700;
+}
+.profile-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.profile-details li {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 14px 10px;
+    border-bottom: none;
+    display: flex;
+    flex-direction: column;
+    min-height: 70px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+.profile-details strong {
+    color: #007b8f;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+.profile-details span {
+    color: #444;
+    word-break: break-all;
+}
+.profile-stats, .profile-reviews, .profile-reports, .profile-details-extra {
+    margin-top: 32px;
+    background: #f5fafd;
+    border-radius: 10px;
+    padding: 20px 16px;
+    box-shadow: 0 1px 6px rgba(0,123,143,0.06);
+}
+.profile-stats-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.profile-stats-list li {
+    min-width: 120px;
+    text-align: center;
+}
+.profile-stats-list strong {
+    display: block;
+    font-size: 1.3em;
+    color: #007b8f;
+    margin-bottom: 4px;
+}
+.profile-reviews-list, .profile-reports-list, .profile-details-extra-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.profile-reviews-list li, .profile-reports-list li, .profile-details-extra-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e7ef;
+}
+.profile-reviews-list li:last-child, .profile-reports-list li:last-child, .profile-details-extra-list li:last-child {
+    border-bottom: none;
+}
+@media (max-width: 700px) {
+    .profile-details {
+        grid-template-columns: 1fr;
+    }
+    .profile-stats-list {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+</style>
+
+<div class="profile-container">
+    <h2>تفاصيل المستخدم</h2>
+    <% if (user) { %>
+        <ul class="profile-details">
+            <li><strong>اسم المستخدم:</strong> <span><%= user.username || "user123" %></span></li>
+            <li><strong>البريد الإلكتروني:</strong> <span><%= user.email || "user@email.com" %></span></li>
+            <li><strong>الاسم الكامل:</strong> <span><%= user.fullName || "محمود أحمد" %></span></li>
+            <li><strong>رقم الهاتف:</strong> <span><%= user.phone || "+201234567890" %></span></li>
+            <li><strong>العنوان:</strong> <span><%= user.address || "شارع النيل، القاهرة" %></span></li>
+            <li><strong>تاريخ الميلاد:</strong> <span><%= user.birthDate || "1990-01-01" %></span></li>
+            <li><strong>الجنس:</strong> <span><%= user.gender || "ذكر" %></span></li>
+            <li><strong>الدولة:</strong> <span><%= user.country || "مصر" %></span></li>
+            <li><strong>المدينة:</strong> <span><%= user.city || "القاهرة" %></span></li>
+            <li><strong>تاريخ التسجيل:</strong> <span><%= user.createdAt || "2023-01-01" %></span></li>
+            <li><strong>آخر تسجيل دخول:</strong> <span><%= user.lastLogin || "2024-06-01" %></span></li>
+            <li><strong>الحالة:</strong> <span><%= user.status || "نشط" %></span></li>
+            <li><strong>المهنة:</strong> <span><%= user.job || "مبرمج" %></span></li>
+            <li><strong>الشركة:</strong> <span><%= user.company || "شركة التقنية" %></span></li>
+            <li><strong>الموقع الإلكتروني:</strong> <span><%= user.website || "https://example.com" %></span></li>
+            <li><strong>نبذة:</strong> <span><%= user.bio || "مستخدم نشط يحب البرمجة والتقنية." %></span></li>
+            <li><strong>الهوايات:</strong> <span><%= user.hobbies || "القراءة، البرمجة، السفر" %></span></li>
+            <li><strong>اللغة المفضلة:</strong> <span><%= user.language || "العربية" %></span></li>
+            <li><strong>تويتر:</strong> <span><%= user.twitter || "@user" %></span></li>
+            <li><strong>فيسبوك:</strong> <span><%= user.facebook || "facebook.com/user" %></span></li>
+            <li><strong>لينكدإن:</strong> <span><%= user.linkedin || "linkedin.com/in/user" %></span></li>
+        </ul>
+
+        <!-- احصائيات المستخدم -->
+        <div class="profile-stats">
+            <h3 style="text-align:center; color:#007b8f; margin-bottom:18px;">إحصائيات المستخدم</h3>
+            <ul class="profile-stats-list">
+                <li>
+                    <strong><%= user.stats?.totalAssociations || 5 %></strong>
+                    <span>عدد الجمعيات</span>
+                </li>
+                <li>
+                    <strong><%= user.stats?.reviewedAssociations || 3 %></strong>
+                    <span>جمعيات تم مراجعتها</span>
+                </li>
+                <li>
+                    <strong><%= user.stats?.reports || 2 %></strong>
+                    <span>عدد التقارير</span>
+                </li>
+                <li>
+                    <strong><%= user.stats?.totalDonations || 10 %></strong>
+                    <span>عدد التبرعات</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- الجمعيات التي تم مراجعتها -->
+        <div class="profile-reviews">
+            <h3 style="color:#2d3e50; margin-bottom:12px;">الجمعيات التي تم مراجعتها</h3>
+            <ul class="profile-reviews-list">
+                <% (user.reviewedAssociations || [
+                    { name: "جمعية البر", date: "2024-05-01" },
+                    { name: "جمعية النور", date: "2024-04-15" }
+                ]).forEach(function(assoc) { %>
+                    <li>
+                        <strong><%= assoc.name %></strong>
+                        <span style="color:#888; font-size:0.95em;"> - <%= assoc.date %></span>
+                    </li>
+                <% }); %>
+            </ul>
+        </div>
+
+        <!-- تقارير المستخدم -->
+        <div class="profile-reports">
+            <h3 style="color:#2d3e50; margin-bottom:12px;">تقارير المستخدم</h3>
+            <ul class="profile-reports-list">
+                <% (user.reports || [
+                    { title: "تقرير عن جمعية البر", date: "2024-05-10" },
+                    { title: "تقرير عن جمعية النور", date: "2024-04-20" }
+                ]).forEach(function(report) { %>
+                    <li>
+                        <strong><%= report.title %></strong>
+                        <span style="color:#888; font-size:0.95em;"> - <%= report.date %></span>
+                    </li>
+                <% }); %>
+            </ul>
+        </div>
+
+        <!-- تفاصيل إضافية -->
+        <div class="profile-details-extra">
+            <h3 style="color:#2d3e50; margin-bottom:12px;">تفاصيل إضافية</h3>
+            <ul class="profile-details-extra-list">
+                <li><strong>عدد المشاريع:</strong> <span><%= user.stats?.projects || 4 %></span></li>
+                <li><strong>عدد الأصدقاء:</strong> <span><%= user.stats?.friends || 12 %></span></li>
+                <li><strong>آخر تحديث للملف:</strong> <span><%= user.updatedAt || "2024-06-10" %></span></li>
+            </ul>
+        </div>
+
+    <% } else { %>
+        <p style="text-align:center; color:#b00;">لم يتم العثور على بيانات المستخدم.</p>
+    <% } %>
+</div>

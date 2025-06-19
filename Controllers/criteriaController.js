@@ -116,31 +116,6 @@ async function updateParentStatus(criteriaId) {
   }
 }
 
-// Update criteria
-exports.updateCriteria = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const updates = req.body;
-    const updated = await Criteria.findByIdAndUpdate(id, updates, {
-      new: true,
-    });
-    if (!updated) {
-      return res.status(404).json({ message: "Criteria not found" });
-    }
-
-    // Recalculate and update status of the updated criteria
-    await recalcAndUpdateStatus(updated);
-
-    // Recursively update parent statuses
-    await updateParentStatus(updated.parent);
-
-    res.json(updated);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
 // Delete criteria
 exports.deleteCriteria = async (req, res) => {
   try {
@@ -265,7 +240,7 @@ exports.uploadAttachmentsWithText = async (req, res) => {
   }
 };
 
-// Upload attachments without text and update criteria
+// Upload attachments
 exports.uploadAttachments = async (req, res) => {
   try {
     const { id } = req.params;

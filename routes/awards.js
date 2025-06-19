@@ -17,13 +17,23 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// Use multer fields to handle 'image' single file and 'attachments' multiple files
+const uploadFields = upload.fields([
+  { name: "image", maxCount: 1 },
+  { name: "attachments", maxCount: 10 },
+]);
+
 router.get("/", awardController.getAllAwards);
 
 router.get("/page", awardController.renderAwardPage);
 
-// Use multer middleware to handle multiple files with field name 'attachments'
-router.post("/", upload.array("attachments"), awardController.createAward);
-router.put("/:id", upload.array("attachments"), awardController.updateAward);
+router.get("/:id", awardController.getAwardById);
+
+// Use multer middleware to handle image and attachments fields
+router.post("/", uploadFields, awardController.createAward);
+router.put("/:id", uploadFields, awardController.updateAward);
 router.delete("/:id", awardController.deleteAward);
+
+router.post("/duplicate/:id", awardController.duplicateAward);
 
 module.exports = router;

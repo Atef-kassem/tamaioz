@@ -126,3 +126,221 @@ exports.updateAccount = async (req, res) => {
     res.redirect("/settings");
   }
 };
+
+exports.updateGeneralSettings = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/login");
+  }
+  try {
+    const { language } = req.body;
+    const User = require("../models/User");
+
+    if (!["ar", "en"].includes(language)) {
+      req.flash("error", "اللغة غير صالحة.");
+      return res.redirect("/settings");
+    }
+
+    await User.findByIdAndUpdate(req.user._id, { language });
+    req.flash("success", "تم تحديث الإعدادات العامة بنجاح.");
+    res.redirect("/settings");
+  } catch (error) {
+    console.error("Error updating general settings:", error);
+    req.flash("error", "حدث خطأ أثناء تحديث الإعدادات العامة.");
+    res.redirect("/settings");
+  }
+};
+
+exports.updateSecuritySettings = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/login");
+  }
+  try {
+    const { password } = req.body;
+    const User = require("../models/User");
+
+    if (!password || password.length < 6) {
+      req.flash("error", "كلمة المرور يجب أن تكون 6 أحرف على الأقل.");
+      return res.redirect("/settings");
+    }
+
+    // Hash password before saving (assuming bcrypt is used)
+    const bcrypt = require("bcrypt");
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await User.findByIdAndUpdate(req.user._id, { password: hashedPassword });
+    req.flash("success", "تم تحديث كلمة المرور بنجاح.");
+    res.redirect("/settings");
+  } catch (error) {
+    console.error("Error updating security settings:", error);
+    req.flash("error", "حدث خطأ أثناء تحديث كلمة المرور.");
+    res.redirect("/settings");
+  }
+};
+
+exports.updateNotificationsSettings = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/login");
+  }
+  try {
+    const emailNotifications = req.body.emailNotifications === "on";
+    const notificationFrequency = req.body.notificationFrequency;
+    const User = require("../models/User");
+
+    if (!["immediate", "daily", "weekly"].includes(notificationFrequency)) {
+      req.flash("error", "تكرار الإشعارات غير صالح.");
+      return res.redirect("/settings");
+    }
+
+    await User.findByIdAndUpdate(req.user._id, {
+      emailNotifications,
+      notificationFrequency,
+    });
+    req.flash("success", "تم تحديث إعدادات الإشعارات بنجاح.");
+    res.redirect("/settings");
+  } catch (error) {
+    console.error("Error updating notifications settings:", error);
+    req.flash("error", "حدث خطأ أثناء تحديث إعدادات الإشعارات.");
+    res.redirect("/settings");
+  }
+};
+
+exports.updatePrivacySettings = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/login");
+  }
+  try {
+    const profileVisibility = req.body.profileVisibility;
+    const User = require("../models/User");
+
+    if (!["public", "private"].includes(profileVisibility)) {
+      req.flash("error", "إعدادات الخصوصية غير صالحة.");
+      return res.redirect("/settings");
+    }
+
+    await User.findByIdAndUpdate(req.user._id, { profileVisibility });
+    req.flash("success", "تم تحديث إعدادات الخصوصية بنجاح.");
+    res.redirect("/settings");
+  } catch (error) {
+    console.error("Error updating privacy settings:", error);
+    req.flash("error", "حدث خطأ أثناء تحديث إعدادات الخصوصية.");
+    res.redirect("/settings");
+  }
+};
+
+exports.updateThemeSettings = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/login");
+  }
+  try {
+    const theme = req.body.theme;
+    const User = require("../models/User");
+
+    if (!["light", "dark"].includes(theme)) {
+      req.flash("error", "إعدادات السمة غير صالحة.");
+      return res.redirect("/settings");
+    }
+
+    await User.findByIdAndUpdate(req.user._id, { theme });
+    req.flash("success", "تم تحديث إعدادات السمة بنجاح.");
+    res.redirect("/settings");
+  } catch (error) {
+    console.error("Error updating theme settings:", error);
+    req.flash("error", "حدث خطأ أثناء تحديث إعدادات السمة.");
+    res.redirect("/settings");
+  }
+};
+
+exports.updateTimezoneSettings = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/login");
+  }
+  try {
+    const timezone = req.body.timezone;
+    const User = require("../models/User");
+
+    if (!timezone || timezone.trim() === "") {
+      req.flash("error", "المنطقة الزمنية غير صالحة.");
+      return res.redirect("/settings");
+    }
+
+    await User.findByIdAndUpdate(req.user._id, { timezone });
+    req.flash("success", "تم تحديث إعدادات المنطقة الزمنية بنجاح.");
+    res.redirect("/settings");
+  } catch (error) {
+    console.error("Error updating timezone settings:", error);
+    req.flash("error", "حدث خطأ أثناء تحديث إعدادات المنطقة الزمنية.");
+    res.redirect("/settings");
+  }
+};
+
+exports.updateTwoFactorAuthSettings = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/login");
+  }
+  try {
+    const twoFactorAuth = req.body.twoFactorAuth === "on";
+    const User = require("../models/User");
+
+    await User.findByIdAndUpdate(req.user._id, { twoFactorAuth });
+    req.flash("success", "تم تحديث إعدادات المصادقة الثنائية بنجاح.");
+    res.redirect("/settings");
+  } catch (error) {
+    console.error("Error updating two-factor auth settings:", error);
+    req.flash("error", "حدث خطأ أثناء تحديث إعدادات المصادقة الثنائية.");
+    res.redirect("/settings");
+  }
+};
+
+exports.updateShowOnlineStatusSettings = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/login");
+  }
+  try {
+    const showOnlineStatus = req.body.showOnlineStatus === "on";
+    const User = require("../models/User");
+
+    await User.findByIdAndUpdate(req.user._id, { showOnlineStatus });
+    req.flash("success", "تم تحديث إعدادات حالة الظهور على الإنترنت بنجاح.");
+    res.redirect("/settings");
+  } catch (error) {
+    console.error("Error updating show online status settings:", error);
+    req.flash("error", "حدث خطأ أثناء تحديث إعدادات حالة الظهور على الإنترنت.");
+    res.redirect("/settings");
+  }
+};
+
+exports.updateAutoSaveDraftsSettings = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/login");
+  }
+  try {
+    const autoSaveDrafts = req.body.autoSaveDrafts === "on";
+    const User = require("../models/User");
+
+    await User.findByIdAndUpdate(req.user._id, { autoSaveDrafts });
+    req.flash("success", "تم تحديث إعدادات الحفظ التلقائي للمسودات بنجاح.");
+    res.redirect("/settings");
+  } catch (error) {
+    console.error("Error updating auto save drafts settings:", error);
+    req.flash("error", "حدث خطأ أثناء تحديث إعدادات الحفظ التلقائي للمسودات.");
+    res.redirect("/settings");
+  }
+};
+
+exports.updateDataSharingConsentSettings = async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/login");
+  }
+  try {
+    const dataSharingConsent = req.body.dataSharingConsent === "on";
+    const User = require("../models/User");
+
+    await User.findByIdAndUpdate(req.user._id, { dataSharingConsent });
+    req.flash("success", "تم تحديث إعدادات موافقة مشاركة البيانات بنجاح.");
+    res.redirect("/settings");
+  } catch (error) {
+    console.error("Error updating data sharing consent settings:", error);
+    req.flash("error", "حدث خطأ أثناء تحديث إعدادات موافقة مشاركة البيانات.");
+    res.redirect("/settings");
+  }
+};
