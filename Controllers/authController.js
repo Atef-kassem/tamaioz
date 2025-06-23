@@ -94,3 +94,14 @@ exports.renderProfile = (req, res) => {
     role: req.user.role,
   });
 };
+
+// Handle logout
+exports.logout = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Logout error:", err);
+      return res.status(500).send("Server error");
+    }
+    res.redirect("/login");
+  });
+};

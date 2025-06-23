@@ -31,4 +31,7 @@ router.post("/login", authController.postLogin);
 // Render profile page
 router.get("/profile", isAuthenticated, authController.renderProfile);
 
+// Handle logout
+router.get("/logout", authController.logout);
+
 module.exports = router;
