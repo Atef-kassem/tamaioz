@@ -7,7 +7,7 @@
     <title>Login</title>
     <style>
       body {
-      background: url('/images/login-bg.jpg') no-repeat center center fixed;
+      background: url('/images/2023.png') no-repeat center center fixed;
       background-size: cover;
       min-height: 100vh;
       display: flex;
@@ -75,7 +75,7 @@
       background: #e0f7fa;
       }
       button[type="submit"] {
-      background: linear-gradient(90deg, #74ebd5 0%, #acb6e5 100%);
+      background: linear-gradient(90deg, #74ebd5 0%, #9BCA44 100%);
       color: #fff;
       border: none;
       border-radius: 12px;
@@ -90,7 +90,7 @@
       }
       button[type="submit"]:hover,
       button[type="submit"]:focus {
-      background: linear-gradient(90deg, #acb6e5 0%, #74ebd5 100%);
+      background: linear-gradient(90deg, #acb6e5 0%, #9BCA44 100%);
       transform: translateY(-2px) scale(1.04);
       box-shadow: 0 4px 16px #74ebd555;
       }
@@ -100,7 +100,7 @@
       color: #6b7280;
       }
       .login-container a {
-      color: #74ebd5;
+      color: #9BCA44;
       text-decoration: none;
       font-weight: 600;
       transition: color 0.2s;
@@ -186,31 +186,30 @@
     </head>
     
     <body>
-    <div class="login-container">
+    <div class="login-container"
+      style="transform: translateX(180px); max-width: 340px; padding-top: 2rem; padding-bottom: 2rem;">
       <h1>Login</h1>
       <form action="/login" method="POST">
       <div class="tooltip" tabindex="0">
       <label for="identifier">Username or Email</label>
-      <input type="text" id="identifier" name="identifier" required
-      aria-describedby="identifier-tip"
-      title="Enter your username or email"
-      />
+      <input type="text" id="identifier" name="identifier" required aria-describedby="identifier-tip"
+        title="Enter your username or email" />
       <span class="tooltiptext" id="identifier-tip">ادخل اسم المستخدم أو البريد الإلكتروني</span>
       </div>
 
       <div class="tooltip" tabindex="0">
-        <label for="password">Password</label>
+      <label for="password">Password</label>
       <input type="password" id="password" name="password" required aria-describedby="password-tip"
-        title="Enter your password" />
+      title="Enter your password" />
       <span class="tooltiptext" id="password-tip">ادخل كلمة المرور الخاصة بك</span>
       </div>
 
       <div class="tooltip" tabindex="0" style="width: 100%">
-        <button type="submit" title="Login to your account">Login</button>
-        <span class="tooltiptext">اضغط لتسجيل الدخول</span>
+      <button type="submit" title="Login to your account">Login</button>
+      <span class="tooltiptext">اضغط لتسجيل الدخول</span>
       </div>
       </form>
-      <p>
+      <p style="margin-top: 1rem;"></p>
       Don't have an account?
       <a href="/signup" title="Sign up for a new account">Sign up here</a>
       </p>
