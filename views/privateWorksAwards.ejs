@@ -1,0 +1,136 @@
+-ك
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <style>
+        body {
+            font-family: 'Cairo', Tahoma, Arial, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            perspective: 1200px;
+            perspective-origin: center center;
+        }
+
+        h1 {
+            background: #49bece;
+            color: #fff;
+            padding: 24px 0;
+            margin: 0 0 32px 0;
+            text-align: center;
+            border-radius: 0 0 24px 24px;
+            box-shadow: 0 2px 8px #0001;
+            letter-spacing: 1px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            max-width: 100%;
+            margin: 32px auto;
+        }
+
+        li {
+            background: #fff;
+            margin-bottom: 18px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #0002;
+            transition: transform 0.15s, box-shadow 0.15s;
+            transform-style: preserve-3d;
+        }
+
+        li:hover {
+            transform: translateZ(30px) translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 18px #0003;
+        }
+
+        a {
+            display: block;
+            color: #2d6cdf;
+            text-decoration: none;
+            padding: 18px 24px;
+            font-size: 1.15em;
+            border-radius: 12px;
+            transition: background 0.15s, color 0.15s;
+            transform-style: preserve-3d;
+        }
+
+        a:hover {
+            background: #2d6cdf;
+            color: #fff;
+        }
+
+        .back-link {
+            display: block;
+            width: fit-content;
+            margin: 40px auto 0 auto;
+            padding: 12px 32px;
+            background: #fff;
+            color: #2d6cdf;
+            border: 2px solid #2d6cdf;
+            border-radius: 24px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 2px 8px #0001;
+            transition: background 0.15s, color 0.15s;
+            transform-style: preserve-3d;
+        }
+
+        .back-link:hover {
+            background: #2d6cdf;
+            color: #fff;
+        }
+
+        .floating-container {
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            padding: 32px 24px;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            overflow-y: auto;
+            transform-style: preserve-3d;
+            transform: translateZ(0);
+        }
+
+        .floating-container:hover {
+            transform: translateZ(30px) translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="floating-container">
+        <h1>الجوائز - <%= association.name %>
+        </h1>
+        <ul style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; padding: 0;">
+            <% if (awards && awards.length) { %>
+                <% awards.forEach(function(award, index) { %>
+                    <li style="flex: 1 1 calc(33.333% - 24px); box-sizing: border-box;">
+                        <a href="/associations/private-works/<%= association._id %>/awards/<%= award._id %>/criteria">
+                            <%= award.name %> - رقم: <%= award.number %> - تاريخ: <%= award.date %>
+                        </a>
+                    </li>
+                    <% }); %>
+                        <% } else { %>
+                            <li>لا توجد جوائز لعرضها.</li>
+                            <% } %>
+        </ul>
+        <a class="back-link" href="/associations/private-works">العودة إلى الجمعيات</a>
+    </div>
+</body>
+
+</html>

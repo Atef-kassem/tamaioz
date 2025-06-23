@@ -4,6 +4,7 @@ const Element = require("../models/Element");
 exports.getAllElements = async (req, res) => {
   try {
     const elements = await Element.find().lean();
+    console.log("All elements fetched:", elements);
     const map = {};
     elements.forEach((item) => {
       item.children = [];
@@ -12,11 +13,16 @@ exports.getAllElements = async (req, res) => {
     const roots = [];
     elements.forEach((item) => {
       if (item.parent) {
-        map[item.parent]?.children.push(item);
+        if (map[item.parent]) {
+          map[item.parent].children.push(item);
+        } else {
+          console.warn("Parent not found for element:", item);
+        }
       } else {
         roots.push(item);
       }
     });
+    console.log("Roots with children:", roots);
     res.json(roots);
   } catch (error) {
     console.error(error);
@@ -27,12 +33,21 @@ exports.getAllElements = async (req, res) => {
 // Create new element
 exports.createElement = async (req, res) => {
   try {
-    const { name, type, parent, attachment, note, scale, indicator, rating } =
-      req.body;
+    const {
+      name,
+      type,
+      parent,
+      attachment,
+      note,
+      description,
+      scale,
+      indicator,
+      rating,
+    } = req.body;
     if (!name || !type) {
       return res.status(400).json({ message: "Name and type are required" });
     }
-    if (!["main", "sub", "subsub"].includes(type)) {
+    if (!["main", "sub", "subsub", "subsubsub"].includes(type)) {
       return res.status(400).json({ message: "Invalid type" });
     }
     // Validate parent type logic
@@ -46,12 +61,18 @@ exports.createElement = async (req, res) => {
         .status(400)
         .json({ message: "Subsub element must have a parent" });
     }
+    if (type === "subsubsub" && !parent) {
+      return res
+        .status(400)
+        .json({ message: "Subsubsub element must have a parent" });
+    }
     const newElement = new Element({
       name,
       type,
       parent: parent || null,
       attachment: attachment || null,
       note: note || "",
+      description: description || "",
       scale: scale || null,
       indicator: indicator || "",
       rating: rating || null,
@@ -118,6 +139,7 @@ exports.renderElementPage = (req, res) => {
       res.render("dashboard", {
         title: "لوحة التحكم",
         role,
+        user: req.user,
         body: html,
       });
     }

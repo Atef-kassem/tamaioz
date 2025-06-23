@@ -13,6 +13,12 @@ const awardSchema = new Schema(
     explanatoryText: { type: String }, // new field for explanatory text
     attachments: [{ type: String }], // new field for attachment file paths
     criteria: [{ type: Schema.Types.ObjectId, ref: "Criteria" }],
+    status: {
+      type: String,
+      enum: ["active", "inactive"],
+      default: "active",
+      required: true,
+    },
   },
   { timestamps: true }
 );

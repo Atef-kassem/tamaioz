@@ -25,6 +25,7 @@ exports.createAward = async (req, res) => {
       conditions,
       criteria,
       explanatoryText,
+      status,
     } = req.body;
 
     // Handle uploaded files
@@ -56,6 +57,7 @@ exports.createAward = async (req, res) => {
       explanatoryText: explanatoryText || "",
       attachments: attachments,
       image: imagePath,
+      status: status || "active",
     });
     await newAward.save();
     res.status(201).json(newAward);
@@ -102,6 +104,11 @@ exports.updateAward = async (req, res) => {
     // Handle image file if uploaded separately
     if (req.files && req.files.image && req.files.image.length > 0) {
       updates.image = "/uploads/" + req.files.image[0].filename;
+    }
+
+    // Ensure status is updated if provided
+    if (updates.status === undefined) {
+      updates.status = "active";
     }
 
     const updated = await Award.findByIdAndUpdate(id, updates, { new: true });
@@ -247,7 +254,8 @@ exports.renderAwardPage = async (req, res) => {
   try {
     const role = req.user ? req.user.role : null;
 
-    if (role !== "supervisor") {
+    // Allow both supervisor and superadmin roles
+    if (role !== "supervisor" && role !== "superadmin") {
       return res.status(403).send("Access denied");
     }
 

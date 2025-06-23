@@ -8,6 +8,9 @@ router.get("/", settingsController.showSettings);
 // GET route to show permissions page
 router.get("/permissions", settingsController.showPermissions);
 
+// POST route to update permissions
+router.post("/permissions", settingsController.updatePermissions);
+
 // إعدادات عامة
 router.post("/general", settingsController.updateGeneralSettings);
 // إعدادات الأمان

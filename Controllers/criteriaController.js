@@ -1,6 +1,10 @@
+// Existing imports
 const Criteria = require("../models/Criteria");
 const path = require("path");
 const fs = require("fs");
+
+// New import for CriterionReview model
+const CriterionReview = require("../models/CriterionReview");
 
 // Get all criteria in hierarchical structure
 exports.getAllCriteria = async (req, res) => {
@@ -21,6 +25,52 @@ exports.getAllCriteria = async (req, res) => {
       }
     });
     res.json(roots);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// New endpoint: Get criterion reviews by association and award
+exports.getCriterionReviews = async (req, res) => {
+  try {
+    const { associationId, awardId } = req.params;
+    const reviews = await CriterionReview.find({
+      associationId,
+      awardId,
+    }).lean();
+    res.json(reviews);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// New endpoint: Create or update a criterion review
+exports.saveCriterionReview = async (req, res) => {
+  try {
+    const { associationId, awardId, criterionId } = req.params;
+    const { rating, notes } = req.body;
+
+    let review = await CriterionReview.findOne({
+      associationId,
+      awardId,
+      criterionId,
+    });
+    if (review) {
+      review.rating = rating !== undefined ? rating : review.rating;
+      review.notes = notes !== undefined ? notes : review.notes;
+    } else {
+      review = new CriterionReview({
+        associationId,
+        awardId,
+        criterionId,
+        rating: rating || 0,
+        notes: notes || "",
+      });
+    }
+    await review.save();
+    res.json(review);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
@@ -134,6 +184,7 @@ exports.deleteCriteria = async (req, res) => {
 exports.renderCriteriaPage = async (req, res) => {
   try {
     const role = req.user ? req.user.role : null;
+    const permissions = req.user ? req.user.permissions || [] : [];
 
     if (role !== "supervisor") {
       return res.status(403).send("Access denied");
@@ -172,10 +223,10 @@ exports.renderCriteriaPage = async (req, res) => {
       submissionStatusCounts,
     };
 
-    // Render criteriaContent.ejs to HTML with user and title
+    // Render criteriaContent.ejs to HTML with user, permissions and title
     req.app.render(
       "criteriaContent",
-      { user: req.user, title: "إدارة المعايير" },
+      { user: req.user, permissions, title: "إدارة المعايير" },
       (err, html) => {
         if (err) {
           console.error("Error rendering criteriaContent:", err);

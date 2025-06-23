@@ -1,128 +1,163 @@
-
 <!doctype html>
-<html lang="ar" data-pc-preset="preset-1" data-pc-sidebar-caption="true" data-pc-direction="rtl" dir="rtl" data-pc-theme="light"></html>
-  <!-- [Head] start -->
+<html lang="ar" data-pc-preset="preset-1" data-pc-sidebar-caption="true" data-pc-direction="rtl" dir="rtl"
+  data-pc-theme="light">
 
-  <head>
-    <title>Home | Datta Able Dashboard Template</title>
-    <!-- [Meta] -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="description"
-      content="Datta Able is trending dashboard template made using Bootstrap 5 design framework. Datta Able is available in Bootstrap, React, CodeIgniter, Angular,  and .net Technologies."
-    />
-    <meta
-      name="keywords"
-      content="Bootstrap admin template, Dashboard UI Kit, Dashboard Template, Backend Panel, react dashboard, angular dashboard"
-    />
-    <meta name="author" content="CodedThemes" />
+</html>
+<!-- [Head] start -->
 
-    <!-- [Favicon] icon -->
-    <link rel="icon" href="../assets/images/favicon.svg" type="image/x-icon" />
+<head>
+  <title>Home | Datta Able Dashboard Template</title>
+  <!-- [Meta] -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description"
+    content="Datta Able is trending dashboard template made using Bootstrap 5 design framework. Datta Able is available in Bootstrap, React, CodeIgniter, Angular,  and .net Technologies." />
+  <meta name="keywords"
+    content="Bootstrap admin template, Dashboard UI Kit, Dashboard Template, Backend Panel, react dashboard, angular dashboard" />
+  <meta name="author" content="CodedThemes" />
 
-     <!-- [Font] Family -->
-     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-    <!-- [phosphor Icons] https://phosphoricons.com/ -->
-    <link rel="stylesheet" href="../assets/fonts/phosphor/duotone/style.css" />
-    <!-- [Tabler Icons] https://tablericons.com -->
-    <link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" />
-    <!-- [Feather Icons] https://feathericons.com -->
-    <link rel="stylesheet" href="../assets/fonts/feather.css" />
-    <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
-    <link rel="stylesheet" href="../assets/fonts/fontawesome.css" />
-    <!-- [Material Icons] https://fonts.google.com/icons -->
-    <link rel="stylesheet" href="../assets/fonts/material.css" />
-    <!-- [Template CSS Files] -->
-    <link rel="stylesheet" href="../assets/css/style.css" id="main-style-link" />
+  <!-- [Favicon] icon -->
+  <link rel="icon" href="../assets/images/favicon.svg" type="image/x-icon" />
 
-    <link rel="stylesheet" href="/css/style.css" />
+  <!-- [Font] Family -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- [phosphor Icons] https://phosphoricons.com/ -->
+  <link rel="stylesheet" href="../assets/fonts/phosphor/duotone/style.css" />
+  <!-- [Tabler Icons] https://tablericons.com -->
+  <link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" />
+  <!-- [Feather Icons] https://feathericons.com -->
+  <link rel="stylesheet" href="../assets/fonts/feather.css" />
+  <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+  <link rel="stylesheet" href="../assets/fonts/fontawesome.css" />
+  <!-- [Material Icons] https://fonts.google.com/icons -->
+  <link rel="stylesheet" href="../assets/fonts/material.css" />
+  <!-- [Template CSS Files] -->
+  <link rel="stylesheet" href="../assets/css/style.css" id="main-style-link" />
 
-    <style>
-      body, html {
-        direction: rtl !important;
-        text-align: right !important;
-      }
-      .pc-sidebar {
-        right: 0 !important;
-        left: auto !important;
-      }
-      .pc-header, .pc-container, .pc-content, .main-content, .page-header, .page-block, .breadcrumb {
-        direction: rtl !important;
-        text-align: right !important;
-      }
-      .breadcrumb {
-        justify-content: flex-end !important;
-      }
-      /* تحسين الشكل العام */
-      .pc-navbar .pc-link, .pc-navbar .pc-micon, .pc-navbar .pc-mtext, .btn, input, select, textarea {
-        transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-      }
-      .pc-navbar .pc-link:hover, .btn:hover, input:hover, select:hover, textarea:hover, .pc-navbar .pc-link:focus, .btn:focus, input:focus, select:focus, textarea:focus {
-        background: #f0f4fa !important;
-        color: #1e88e5 !important;
-        box-shadow: 0 2px 8px rgba(30,136,229,0.08);
-        outline: none;
-      }
-      .pc-navbar .pc-link[title], .btn[title], input[title], select[title], textarea[title] {
-        position: relative;
-      }
-      /* Tooltip style */
-      .custom-tooltip {
-        position: absolute;
-        right: 100%;
-        top: 50%;
-        transform: translateY(-50%);
-        background: #222;
-        color: #fff;
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-size: 13px;
-        white-space: nowrap;
-        z-index: 9999;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.2s;
-      }
-      .has-tooltip:hover .custom-tooltip, .has-tooltip:focus .custom-tooltip {
-        opacity: 1;
-        pointer-events: auto;
-      }
-    </style>
-    <script>
-      // إضافة tooltip تلقائيًا لكل عنصر له title
-      document.addEventListener("DOMContentLoaded", function () {
-        const tooltipElements = document.querySelectorAll('[title]');
-        tooltipElements.forEach(function (el) {
-          // تجنب تكرار التولتيب
-          if (!el.classList.contains('has-tooltip')) {
-            el.classList.add('has-tooltip');
-            const tooltip = document.createElement('span');
-            tooltip.className = 'custom-tooltip';
-            tooltip.innerText = el.getAttribute('title');
-            el.appendChild(tooltip);
-          }
-        });
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <style>
+    body,
+    html {
+      direction: rtl !important;
+      text-align: right !important;
+    }
+
+    .pc-sidebar {
+      right: 0 !important;
+      left: auto !important;
+    }
+
+    .pc-header,
+    .pc-container,
+    .pc-content,
+    .main-content,
+    .page-header,
+    .page-block,
+    .breadcrumb {
+      direction: rtl !important;
+      text-align: right !important;
+    }
+
+    .breadcrumb {
+      justify-content: flex-end !important;
+    }
+
+    /* تحسين الشكل العام */
+    .pc-navbar .pc-link,
+    .pc-navbar .pc-micon,
+    .pc-navbar .pc-mtext,
+    .btn,
+    input,
+    select,
+    textarea {
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+
+    .pc-navbar .pc-link:hover,
+    .btn:hover,
+    input:hover,
+    select:hover,
+    textarea:hover,
+    .pc-navbar .pc-link:focus,
+    .btn:focus,
+    input:focus,
+    select:focus,
+    textarea:focus {
+      background: #f0f4fa !important;
+      color: #1e88e5 !important;
+      box-shadow: 0 2px 8px rgba(30, 136, 229, 0.08);
+      outline: none;
+    }
+
+    .pc-navbar .pc-link[title],
+    .btn[title],
+    input[title],
+    select[title],
+    textarea[title] {
+      position: relative;
+    }
+
+    /* Tooltip style */
+    .custom-tooltip {
+      position: absolute;
+      right: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #222;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      white-space: nowrap;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .has-tooltip:hover .custom-tooltip,
+    .has-tooltip:focus .custom-tooltip {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+  <script>
+    // إضافة tooltip تلقائيًا لكل عنصر له title
+    document.addEventListener("DOMContentLoaded", function () {
+      const tooltipElements = document.querySelectorAll('[title]');
+      tooltipElements.forEach(function (el) {
+        // تجنب تكرار التولتيب
+        if (!el.classList.contains('has-tooltip')) {
+          el.classList.add('has-tooltip');
+          const tooltip = document.createElement('span');
+          tooltip.className = 'custom-tooltip';
+          tooltip.innerText = el.getAttribute('title');
+          el.appendChild(tooltip);
+        }
       });
-    </script>
-    </head>
-    <!-- [Head] end -->
+    });
+  </script>
+</head>
+<!-- [Head] end -->
 
-    <!-- [Body] Start -->
-  
-    <body>
-      
-      <!-- [ Pre-loader ] start -->
+<!-- [Body] Start -->
+
+<body>
+
+  <!-- [ Pre-loader ] start -->
   <div class="loader-bg fixed inset-0 bg-white dark:bg-themedark-cardbg z-[1034]">
-    
+
     <div class="loader-track h-[5px] w-full inline-block absolute overflow-hidden top-0">
-      <div class="loader-fill w-[300px] h-[5px] bg-primary-500 absolute top-0 left-0 animate-[hitZak_0.6s_ease-in-out_infinite_alternate]"></div>
+      <div
+        class="loader-fill w-[300px] h-[5px] bg-primary-500 absolute top-0 left-0 animate-[hitZak_0.6s_ease-in-out_infinite_alternate]">
+      </div>
     </div>
   </div>
   <!-- [ Pre-loader ] End -->
-   <!-- [ Sidebar Menu ] start -->
-  
+  <!-- [ Sidebar Menu ] start -->
+
   <!-- Navbar Start -->
   <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light" style="direction: rtl; text-align: right;">
     <div class="container-fluid">
@@ -165,10 +200,10 @@
     </div>
   </nav>  -->
   <!-- Navbar End-->
-  
-  
-    
-  
+
+
+
+
   <nav class="pc-sidebar">
     <div class="navbar-wrapper">
       <div class="m-header flex items-center py-4 px-6 h-header-height">
@@ -183,7 +218,7 @@
           <li class="pc-item pc-caption">
             <label>Navigation</label>
           </li>
-          <% if (role === "reviewer") { %>
+          <% if (role==="reviewer" ) { %>
             <li class="pc-item">
               <a href="../dashboard" class="pc-link">
                 <span class="pc-micon">
@@ -215,7 +250,7 @@
               </a>
               <ul class="pc-submenu">
                 <li>
-                  <a href="/settings" class="pc-link" >
+                  <a href="/settings" class="pc-link">
                     <span class="pc-micon"><i data-feather="settings"></i></span>
                     <span class="pc-mtext">الاعدادات العامة</span>
                   </a>
@@ -223,116 +258,122 @@
               </ul>
             </li>
             <li>
-              <a href="/criteria" class="pc-link" >
+              <a href="/criteria" class="pc-link">
                 <span class="pc-micon"><i data-feather="user-plus"></i></span>
                 <span class="pc-mtext">اداره المعايير</span>
               </a>
             </li>
-          <% } else { %>
-            <li class="pc-item">
-            <li class="pc-item">
-              <a href="../dashboard" class="pc-link">
-                <span class="pc-micon">
-                  <i data-feather="home"></i>
-                </span>
-                <span class="pc-mtext">الرئيسيه</span>
-              </a>
-            </li>
-            
-            <li class="pc-item pc-hasmenu">
-              <a href="#" class="pc-link">
-                <span class="pc-micon"><i data-feather="settings"></i></span>
-                <span class="pc-mtext">اداره النظام</span>
-                <span class="pc-arrow"><i data-feather="chevron-down"></i></span>
-              </a>
-              <ul class="pc-submenu">
-                <li>
-                  <a href="/profile" class="pc-link">
-                    <span class="pc-micon"><i data-feather="edit"></i></span>
-                    <span class="pc-mtext">الملف الشخصي</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="/settings/permissions" class="pc-link">
-                    <span class="pc-micon"><i data-feather="type"></i></span>
-                    <span class="pc-mtext">الصلاحيات</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="pc-link">
-                    <span class="pc-micon"><i data-feather="feather"></i></span>
-                    <span class="pc-mtext">اعدادات الحساب</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-  
-            
-            <li class="pc-item pc-hasmenu">
-              <a href="#" class="pc-link">
-                <span class="pc-micon"><i data-feather="settings"></i></span>
-                <span class="pc-mtext">الاعدادات </span>
-                <span class="pc-arrow"><i data-feather="chevron-down"></i></span>
-              </a>
-              <ul class="pc-submenu">
-                <li>
-                  <a href="/settings" class="pc-link" >
-              <span class="pc-micon"><i data-feather="settings"></i></span>
-              <span class="pc-mtext">الاعدادات العامة</span>
-                  </a>
-                </li>
-                <!-- <li>
+            <% } else { %>
+              <li class="pc-item">
+              <li class="pc-item">
+                <a href="../dashboard" class="pc-link">
+                  <span class="pc-micon">
+                    <i data-feather="home"></i>
+                  </span>
+                  <span class="pc-mtext">الرئيسيه</span>
+                </a>
+              </li>
+
+              <li class="pc-item pc-hasmenu">
+                <a href="#" class="pc-link">
+                  <span class="pc-micon"><i data-feather="settings"></i></span>
+                  <span class="pc-mtext">اداره النظام</span>
+                  <span class="pc-arrow"><i data-feather="chevron-down"></i></span>
+                </a>
+                <ul class="pc-submenu">
+                  <li>
+                    <a href="/profile" class="pc-link">
+                      <span class="pc-micon"><i data-feather="edit"></i></span>
+                      <span class="pc-mtext">الملف الشخصي</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/settings/permissions" class="pc-link">
+                      <span class="pc-micon"><i data-feather="type"></i></span>
+                      <span class="pc-mtext">الصلاحيات</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="pc-link">
+                      <span class="pc-micon"><i data-feather="feather"></i></span>
+                      <span class="pc-mtext">اعدادات الحساب</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+
+              <li class="pc-item pc-hasmenu">
+                <a href="#" class="pc-link">
+                  <span class="pc-micon"><i data-feather="settings"></i></span>
+                  <span class="pc-mtext">الاعدادات </span>
+                  <span class="pc-arrow"><i data-feather="chevron-down"></i></span>
+                </a>
+                <ul class="pc-submenu">
+                  <li>
+                    <a href="/settings" class="pc-link">
+                      <span class="pc-micon"><i data-feather="settings"></i></span>
+                      <span class="pc-mtext">الاعدادات العامة</span>
+                    </a>
+                  </li>
+                  <!-- <li>
                   <a href="#" id="reportsLink" class="pc-link" >
               <span class="pc-micon"><i data-feather="bar-chart-2"></i></span>
               <span class="pc-mtext">اعدادات التقارير</span>
                   </a>
                 </li> -->
-         
-          <li>
-            <a href="/associations/add" class="pc-link" >
-              <span class="pc-micon"><i data-feather="users"></i></span>
-              <span class="pc-mtext">اعدادات الجمعيات</span>
-            </a>
-          </li>
-                <li>
-                  <a href="/awards/page" class="pc-link" >
-              <span class="pc-micon"><i data-feather="award"></i></span>
-              <span class="pc-mtext">اعدادات الجوائز</span>
-                  </a>
-                </li>
-                <!-- <li>
+
+                  <li>
+                    <a href="/associations/add" class="pc-link">
+                      <span class="pc-micon"><i data-feather="users"></i></span>
+                      <span class="pc-mtext">اعدادات الجمعيات</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/awards/page" class="pc-link">
+                      <span class="pc-micon"><i data-feather="award"></i></span>
+                      <span class="pc-mtext">اعدادات الجوائز</span>
+                    </a>
+                  </li>
+                  <!-- <li>
                   <a href="/criteria" class="pc-link" >
               <span class="pc-micon"><i data-feather="list"></i></span>
               <span class="pc-mtext">اعدادات المعايير</span>
                   </a>
                 </li> -->
-              </ul>
-            </li>
-            <li>
-              <a href="/reports"  class="pc-link" >
-                <span class="pc-micon"><i data-feather="user-plus"></i></span>
-                <span class="pc-mtext">اداره التقارير </span>
-              </a>
-            </li>
-          <li>
-              <a href="/criteria" class="pc-link" >
-                <span class="pc-micon"><i data-feather="user-plus"></i></span>
-                <span class="pc-mtext">اداره المعايير الممكنات</span>
-              </a>
-            </li>
-            <li>
-              <a href="/elements/page" class="pc-link" >
-                <span class="pc-micon"><i data-feather="list"></i></span>
-                <span class="pc-mtext">اداره معايير النتائج</span>
-              </a>
-            </li>
-          <% } %>
+                </ul>
+              </li>
+              <li>
+                <a href="/reports" class="pc-link">
+                  <span class="pc-micon"><i data-feather="user-plus"></i></span>
+                  <span class="pc-mtext">اداره التقارير </span>
+                </a>
+              </li>
+              <li>
+                <a href="/criteria" class="pc-link">
+                  <span class="pc-micon"><i data-feather="user-plus"></i></span>
+                  <span class="pc-mtext">اداره المعايير الممكنات</span>
+                </a>
+              </li>
+              <li>
+                <a href="/elements/page" class="pc-link">
+                  <span class="pc-micon"><i data-feather="list"></i></span>
+                  <span class="pc-mtext">اداره معايير النتائج</span>
+                </a>
+              </li>
+              <li>
+                <a href="/associations/private-works" class="pc-link">
+                  <span class="pc-micon"><i data-feather="users"></i></span>
+                  <span class="pc-mtext">إدارة الأعمال الخاصة</span>
+                </a>
+              </li>
+              <% } %>
         </ul>
       </div>
     </div>
   </nav>
   <!-- [ Sidebar Menu ] end -->
-   <!-- [ Header Topbar ] start -->
+  <!-- [ Header Topbar ] start -->
   <header class="pc-header bg-white shadow-md rounded-b-lg">
     <div class="header-wrapper flex max-sm:px-[15px] px-[25px] grow items-center justify-between">
       <!-- [Mobile Media Block] start -->
@@ -362,10 +403,12 @@
       <!-- Center: Date, Time, Weather, Greeting -->
       <div class="flex flex-col items-center gap-1 mx-4">
         <div class="flex items-center gap-2">
-          <span id="dateTimeDisplay" class="text-base font-semibold text-theme-bodycolor dark:text-themedark-bodycolor" style="min-width: 220px; white-space: nowrap;">
+          <span id="dateTimeDisplay" class="text-base font-semibold text-theme-bodycolor dark:text-themedark-bodycolor"
+            style="min-width: 220px; white-space: nowrap;">
             <!-- Time and Date will be displayed here -->
           </span>
-          <select id="localeSelect" class="form-select form-select-sm rounded border-gray-300 focus:border-primary-500 focus:ring-0 text-xs">
+          <select id="localeSelect"
+            class="form-select form-select-sm rounded border-gray-300 focus:border-primary-500 focus:ring-0 text-xs">
             <option value="ar-EG">العربية</option>
             <option value="en-US">English</option>
           </select>
@@ -437,7 +480,8 @@
                 <div class="card mb-2">
                   <div class="card-body flex gap-4">
                     <div class="shrink-0">
-                      <img class="img-radius w-12 h-12 rounded-0" src="../assets/images/user/avatar-1.jpg" alt="Generic placeholder image" />
+                      <img class="img-radius w-12 h-12 rounded-0" src="../assets/images/user/avatar-1.jpg"
+                        alt="Generic placeholder image" />
                     </div>
                     <div class="grow">
                       <span class="float-end text-sm text-muted">قبل دقيقتين</span>
@@ -449,7 +493,8 @@
                 <div class="card mb-2">
                   <div class="card-body flex gap-4">
                     <div class="shrink-0">
-                      <img class="img-radius w-12 h-12 rounded-0" src="../assets/images/user/avatar-2.jpg" alt="Generic placeholder image" />
+                      <img class="img-radius w-12 h-12 rounded-0" src="../assets/images/user/avatar-2.jpg"
+                        alt="Generic placeholder image" />
                     </div>
                     <div class="grow">
                       <span class="float-end text-sm text-muted">قبل ساعة</span>
@@ -462,7 +507,8 @@
                 <div class="card mb-2">
                   <div class="card-body flex gap-4">
                     <div class="shrink-0">
-                      <img class="img-radius w-12 h-12 rounded-0" src="../assets/images/user/avatar-3.jpg" alt="Generic placeholder image" />
+                      <img class="img-radius w-12 h-12 rounded-0" src="../assets/images/user/avatar-3.jpg"
+                        alt="Generic placeholder image" />
                     </div>
                     <div class="grow ms-3">
                       <span class="float-end text-sm text-muted">قبل 5 ساعات</span>
@@ -482,15 +528,17 @@
           <li class="dropdown pc-h-item header-user-profile">
             <a class="pc-head-link dropdown-toggle arrow-none me-0" data-pc-toggle="dropdown" href="#" role="button"
               aria-haspopup="false" data-pc-auto-close="outside" aria-expanded="false" id="navbarAvatar" title="الحساب">
-              <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="w-8 h-8 rounded-full border-2 border-primary-500" />
+              <img src="../assets/images/user/avatar-2.jpg" alt="user-image"
+                class="w-8 h-8 rounded-full border-2 border-primary-500" />
             </a>
-            <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown p-2 overflow-hidden" id="avatarPopup">
+            <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown p-2 overflow-hidden"
+              id="avatarPopup">
               <div class="dropdown-header flex items-center justify-between py-4 px-5 bg-primary-500">
                 <div class="flex mb-1 items-center">
                   <div class="shrink-0">
                     <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="w-10 rounded-full" />
                   </div>
-                  
+
                 </div>
               </div>
               <div class="dropdown-body py-4 px-5">
@@ -514,7 +562,8 @@
                     </span>
                   </a>
                   <div class="grid my-3">
-                    <button class="btn btn-primary flex items-center justify-center" onclick="window.location.href='/logout'">
+                    <button class="btn btn-primary flex items-center justify-center"
+                      onclick="window.location.href='/logout'">
                       <i data-feather="log-out" class="me-2"></i>
                       تسجيل الخروج
                     </button>
@@ -549,194 +598,187 @@
     </script>
   </header>
   <!-- [ Header ] end -->
-  
-      <!-- [ Main Content ] start -->
-      <div class="pc-container" >
-        <!-- <div class="pc-content"> -->
-          
-          <!-- [ breadcrumb ] end -->
-  
-          <!-- [ Main Content ] start -->
-          <main class="main-content" id="mainContent">
-            <% if (typeof body !== 'undefined') { %>
-              <%- body %>
-            <% } else if (showReportsContent) { %>
-              <%- include("reports", { associations: associations, criteriaList: criteriaList }) %>
-            <% } else if (role === "superadmin") { %>
-              <%- include("partials/dashboard_superadmin", {
-                statistics: statistics,
-                notifications: notifications,
-                quickLinks: quickLinks
-              }) %>
-            <% } else if (role === "supervisor") { %>
-              <%- include("partials/dashboard_supervisor", {
-                statistics: statistics,
-                notifications: notifications,
-                quickLinks: quickLinks
-              }) %>
-            <% } else if (role === "reviewer") { %>
-              <%- include("partials/dashboard_reviewer", {
-                statistics: statistics,
-                notifications: notifications,
-                quickLinks: quickLinks
-              }) %>
-            <% } else { %>
-              <p>دور المستخدم غير معروف.</p>
-            <% } %>
-          </main>
-          <!-- [ Main Content ] end -->
-        <!-- </div> -->
-      </div>
-      
-      <!-- [ Main Content ] end -->
-      <footer class="pc-footer">
-        <div class="footer-wrapper container-fluid mx-10">
-          <div class="grid grid-cols-12 gap-1.5">
-            <div class="col-span-12 sm:col-span-6 my-1">
-              <p class="m-0"></p>
-                <a href="https://codedthemes.com/" class="text-theme-bodycolor dark:text-themedark-bodycolor hover:text-primary-500 dark:hover:text-primary-500" >CodedThemes</a>
-                , Built with ♥ for a smoother web presence.
-              </p>
-            </div>
-            
-          </div>
+
+  <!-- [ Main Content ] start -->
+  <div class="pc-container">
+    <!-- <div class="pc-content"> -->
+
+    <!-- [ breadcrumb ] end -->
+
+    <!-- [ Main Content ] start -->
+    <main class="main-content" id="mainContent">
+      <% if (typeof body !=='undefined' ) { %>
+        <%- body %>
+          <% } else if (showReportsContent) { %>
+            <%- include("reports", { associations: associations, criteriaList: criteriaList }) %>
+              <% } else if (role==="superadmin" ) { %>
+                <%- include("partials/dashboard_superadmin", { statistics: statistics, notifications: notifications,
+                  quickLinks: quickLinks }) %>
+                  <% } else if (role==="supervisor" ) { %>
+                    <%- include("partials/dashboard_supervisor", { statistics: statistics, notifications: notifications,
+                      quickLinks: quickLinks }) %>
+                      <% } else if (role==="reviewer" ) { %>
+                        <%- include("partials/dashboard_reviewer", { statistics: statistics, notifications:
+                          notifications, quickLinks: quickLinks }) %>
+                          <% } else { %>
+                            <p>دور المستخدم غير معروف.</p>
+                            <% } %>
+    </main>
+    <!-- [ Main Content ] end -->
+    <!-- </div> -->
+  </div>
+
+  <!-- [ Main Content ] end -->
+  <footer class="pc-footer">
+    <div class="footer-wrapper container-fluid mx-10">
+      <div class="grid grid-cols-12 gap-1.5">
+        <div class="col-span-12 sm:col-span-6 my-1">
+          <p class="m-0"></p>
+          <a href="https://codedthemes.com/"
+            class="text-theme-bodycolor dark:text-themedark-bodycolor hover:text-primary-500 dark:hover:text-primary-500">CodedThemes</a>
+          , Built with ♥ for a smoother web presence.
+          </p>
         </div>
-      </footer>
-   
-      <!-- Required Js -->
-      <script src="../assets/js/plugins/simplebar.min.js"></script>
-      <script src="../assets/js/plugins/popper.min.js"></script>
-      <script src="../assets/js/icon/custom-icon.js"></script>
-      <script src="../assets/js/plugins/feather.min.js"></script>
-      <script src="../assets/js/component.js"></script>
-      <script src="../assets/js/theme.js"></script>
-      <script src="../assets/js/script.js"></script>
-  
-      <div class="floting-button fixed bottom-[50px] right-[30px] z-[1030]">
+
       </div>
-  
-      
-      <script>
-        layout_change('false');
-      </script>
-        <script>
-          function updateDateTime() {
-            const now = new Date();
-            const options = {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
-              hour12: false,
-              timeZoneName: "short",
-            };
-            const localeSelect = document.getElementById("localeSelect");
-            const selectedLocale = localeSelect ? localeSelect.value : "ar-EG";
-            const formattedDateTime = now.toLocaleString(selectedLocale, options);
-            document.getElementById("dateTimeDisplay").textContent =
-              formattedDateTime;
-          }
-    
-          document
-            .getElementById("localeSelect")
-            .addEventListener("change", function () {
-              localStorage.setItem("selectedLocale", this.value);
-              updateDateTime();
-            });
-    
-          // Load saved locale from localStorage or default to 'ar-EG'
-          window.addEventListener("DOMContentLoaded", () => {
-            const savedLocale = localStorage.getItem("selectedLocale") || "ar-EG";
-            const localeSelect = document.getElementById("localeSelect");
-            if (localeSelect) {
-              localeSelect.value = savedLocale;
+    </div>
+  </footer>
+
+  <!-- Required Js -->
+  <script src="../assets/js/plugins/simplebar.min.js"></script>
+  <script src="../assets/js/plugins/popper.min.js"></script>
+  <script src="../assets/js/icon/custom-icon.js"></script>
+  <script src="../assets/js/plugins/feather.min.js"></script>
+  <script src="../assets/js/component.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/script.js"></script>
+
+  <div class="floting-button fixed bottom-[50px] right-[30px] z-[1030]">
+  </div>
+
+
+  <script>
+    layout_change('false');
+  </script>
+  <script>
+    function updateDateTime() {
+      const now = new Date();
+      const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+        timeZoneName: "short",
+      };
+      const localeSelect = document.getElementById("localeSelect");
+      const selectedLocale = localeSelect ? localeSelect.value : "ar-EG";
+      const formattedDateTime = now.toLocaleString(selectedLocale, options);
+      document.getElementById("dateTimeDisplay").textContent =
+        formattedDateTime;
+    }
+
+    document
+      .getElementById("localeSelect")
+      .addEventListener("change", function () {
+        localStorage.setItem("selectedLocale", this.value);
+        updateDateTime();
+      });
+
+    // Load saved locale from localStorage or default to 'ar-EG'
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedLocale = localStorage.getItem("selectedLocale") || "ar-EG";
+      const localeSelect = document.getElementById("localeSelect");
+      if (localeSelect) {
+        localeSelect.value = savedLocale;
+      }
+      updateDateTime();
+      setInterval(updateDateTime, 1000);
+    });
+
+    document
+      .getElementById("reportsLink")
+      .addEventListener("click", function (event) {
+        event.preventDefault();
+        fetch("/reports")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
             }
-            updateDateTime();
-            setInterval(updateDateTime, 1000);
+            return response.text();
+          })
+          .then((html) => {
+            document.getElementById("mainContent").innerHTML = html;
+          })
+          .catch((error) => {
+            document.getElementById("mainContent").innerHTML =
+              "<p>حدث خطأ أثناء تحميل شاشة التقارير.</p>";
+            console.error("Error loading reports content:", error);
           });
-    
-          document
-            .getElementById("reportsLink")
-            .addEventListener("click", function (event) {
-              event.preventDefault();
-              fetch("/reports")
-                .then((response) => {
-                  if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                  }
-                  return response.text();
-                })
-                .then((html) => {
-                  document.getElementById("mainContent").innerHTML = html;
-                })
-                .catch((error) => {
-                  document.getElementById("mainContent").innerHTML =
-                    "<p>حدث خطأ أثناء تحميل شاشة التقارير.</p>";
-                  console.error("Error loading reports content:", error);
-                });
-            });
-    
-          // Avatar popup toggle
-          const navbarAvatar = document.getElementById("navbarAvatar");
-          const avatarPopup = document.getElementById("avatarPopup");
-    
-          navbarAvatar.addEventListener("click", () => {
-            avatarPopup.classList.toggle("show");
-          });
-    
-          // Close popup when clicking outside
-          window.addEventListener("click", (event) => {
-            if (
-              !avatarPopup.contains(event.target) &&
-              event.target !== navbarAvatar
-            ) {
-              avatarPopup.classList.remove("show");
-            }
-          });
-        </script>
-      <script>
-        // Toggle sidebar and arrow direction
-        document.getElementById('sidebar-hide').addEventListener('click', function(e) {
-          e.preventDefault();
-          const sidebar = document.querySelector('.pc-sidebar');
-          const arrowIcon = document.getElementById('sidebar-arrow');
-          sidebar.classList.toggle('collapsed');
-          if (sidebar.classList.contains('collapsed')) {
-            arrowIcon.setAttribute('data-feather', 'chevron-left');
-          } else {
-            arrowIcon.setAttribute('data-feather', 'chevron-right');
-          }
-          if (window.feather) feather.replace();
-        });
-      </script>
-      <script>
-        layout_theme_sidebar_change('dark');
-      </script>
-      
-       
-      <script>
-        change_box_container('false');
-      </script>
-       
-      <script>
-        layout_caption_change('true');
-      </script>
-       
-      <script>
-        layout_rtl_change('true');
-      </script>
-       
-      <script>
-        preset_change('preset-1');
-      </script>
-       
-      <script>
-        main_layout_change('vertical');
-      </script>
-      
-  
-    </body>
-  <!-- [Body] end -->
+      });
+
+    // Avatar popup toggle
+    const navbarAvatar = document.getElementById("navbarAvatar");
+    const avatarPopup = document.getElementById("avatarPopup");
+
+    navbarAvatar.addEventListener("click", () => {
+      avatarPopup.classList.toggle("show");
+    });
+
+    // Close popup when clicking outside
+    window.addEventListener("click", (event) => {
+      if (
+        !avatarPopup.contains(event.target) &&
+        event.target !== navbarAvatar
+      ) {
+        avatarPopup.classList.remove("show");
+      }
+    });
+  </script>
+  <script>
+    // Toggle sidebar and arrow direction
+    document.getElementById('sidebar-hide').addEventListener('click', function (e) {
+      e.preventDefault();
+      const sidebar = document.querySelector('.pc-sidebar');
+      const arrowIcon = document.getElementById('sidebar-arrow');
+      sidebar.classList.toggle('collapsed');
+      if (sidebar.classList.contains('collapsed')) {
+        arrowIcon.setAttribute('data-feather', 'chevron-left');
+      } else {
+        arrowIcon.setAttribute('data-feather', 'chevron-right');
+      }
+      if (window.feather) feather.replace();
+    });
+  </script>
+  <script>
+    layout_theme_sidebar_change('dark');
+  </script>
+
+
+  <script>
+    change_box_container('false');
+  </script>
+
+  <script>
+    layout_caption_change('true');
+  </script>
+
+  <script>
+    layout_rtl_change('true');
+  </script>
+
+  <script>
+    preset_change('preset-1');
+  </script>
+
+  <script>
+    main_layout_change('vertical');
+  </script>
+
+
+</body>
+<!-- [Body] end -->
+
 </html>

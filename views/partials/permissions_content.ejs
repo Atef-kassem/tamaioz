@@ -82,28 +82,73 @@
     background: linear-gradient(90deg, #005fa3 60%, #0078d7 100%);
     box-shadow: 0 4px 16px rgba(0, 120, 215, 0.13);
   }
+  .user-list {
+    max-width: 900px;
+    margin: 20px auto;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 20px 28px;
+    direction: rtl;
+  }
+  .user-list h2 {
+    color: #1a2b4c;
+    font-size: 1.35rem;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+  .user-list ul {
+    list-style: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .user-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+  }
+  .user-list li.selected {
+    background-color: #0078d7;
+    color: white;
+    font-weight: bold;
+  }
 </style>
+
+<% if (user.role === "superadmin") { %>
+<div class="user-list">
+  <h2>المستخدمون</h2>
+  <ul>
+    <% users.forEach(function(u) { %>
+      <li class="<%= selectedUser && selectedUser._id.toString() === u._id.toString() ? 'selected' : '' %>">
+        <a href="/settings/permissions?userId=<%= u._id %>"><%= u.username %> (<%= u.role %>)</a>
+      </li>
+    <% }); %>
+  </ul>
+</div>
 
 <div class="permissions-container">
   <h1>صفحة الصلاحيات</h1>
   <div class="permissions-sections">
     <section>
-      <h2>الصلاحيات المتاحة</h2>
+      <h2>الصلاحيات المتاحة للمستخدم: <%= selectedUser ? selectedUser.username : '' %></h2>
       <form action="/settings/permissions" method="POST">
+        <input type="hidden" name="userId" value="<%= selectedUser ? selectedUser._id : '' %>" />
+        <% allPermissions.forEach(function(permission) { %>
         <label>
-          <input type="checkbox" name="permission1" <% if (permissions &&
-          permissions.includes('permission1')) { %>checked<% } %> /> صلاحية 1
+          <input
+            type="checkbox"
+            name="<%= permission %>"
+            <% if (permissions && permissions.includes(permission)) { %>checked<% } %>
+          />
+          <%= permission.replace(/_/g, " ").replace(/\b\w/g, function(l) { return l.toUpperCase(); }) %>
         </label>
-        <label>
-          <input type="checkbox" name="permission2" <% if (permissions &&
-          permissions.includes('permission2')) { %>checked<% } %> /> صلاحية 2
-        </label>
-        <label>
-          <input type="checkbox" name="permission3" <% if (permissions &&
-          permissions.includes('permission3')) { %>checked<% } %> /> صلاحية 3
-        </label>
+        <% }); %>
         <button type="submit" title="حفظ الصلاحيات">حفظ</button>
       </form>
     </section>
   </div>
 </div>
+<% } %>

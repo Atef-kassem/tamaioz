@@ -10,7 +10,7 @@ const criteriaRoutes = require("./routes/criteria");
 const associationsRoutes = require("./routes/associations");
 const elementsRoutes = require("./routes/elements");
 const reportsRouter = require("./routes/reports");
-const submissionsRoutes = require("./routes/submissions");
+// const submissionsRoutes = require("./routes/submissions"); // Removed as per request
 const awardsRoutes = require("./routes/awards");
 const settingsRoutes = require("./routes/settings");
 const { db } = require("./models/index");
@@ -30,6 +30,8 @@ app.use(
 // Use flash middleware
 app.use(flash());
 
+const ensureSuperadminPermissions = require("./middleware/ensureSuperadminPermissions");
+
 // Middleware to populate req.user from session
 app.use(async (req, res, next) => {
   if (req.session && req.session.userId) {
@@ -46,6 +48,9 @@ app.use(async (req, res, next) => {
   next();
 });
 
+// Use the middleware early in the request pipeline
+app.use(ensureSuperadminPermissions);
+
 // Middleware to parse form data
 app.use(express.urlencoded({ extended: true }));
 
@@ -54,7 +59,7 @@ app.use(express.json());
 
 // Register routes
 app.use("/reports", reportsRouter);
-app.use("/submissions", submissionsRoutes);
+// app.use("/submissions", submissionsRoutes); // Removed as per request
 app.use("/settings", settingsRoutes);
 app.use("/", authRoutes);
 app.use("/api/criteria", criteriaRoutes);
@@ -147,9 +152,10 @@ app.get("/dashboard", async (req, res) => {
 
     app.render(
       "partials/dashboard_superadmin",
-      { statistics, notifications, quickLinks },
+      { statistics, notifications, quickLinks, user: req.user },
       (err, html) => {
         if (err) {
+          console.error("Error rendering dashboard_superadmin partial:", err);
           return res.status(500).send("Error rendering dashboard");
         }
         res.render("dashboard", {
@@ -177,8 +183,7 @@ app.get("/dashboard", async (req, res) => {
       { id: 2, message: "Meeting scheduled for supervisors." },
     ];
     quickLinks = [
-      { name: "Manage Criteria", url: "/criteria" },
-      { name: "Review Submissions", url: "/submissions/review" },
+      { name: "Manage Criteria", url: "/criteria" }
     ];
 
     // Fetch data for reports content
@@ -224,13 +229,18 @@ app.get("/dashboard", async (req, res) => {
         },
         (err, reviewHtml) => {
           if (err) {
+            console.error("Error rendering review_content partial:", err);
             return res.status(500).send("Error rendering review content");
           }
           app.render(
             "partials/dashboard_supervisor",
-            { statistics, notifications, quickLinks },
+            { statistics, notifications, quickLinks, user: req.user },
             (err2, dashboardHtml) => {
               if (err2) {
+                console.error(
+                  "Error rendering dashboard_supervisor partial:",
+                  err2
+                );
                 return res.status(500).send("Error rendering dashboard");
               }
               res.render("dashboard", {
@@ -250,9 +260,10 @@ app.get("/dashboard", async (req, res) => {
 
     app.render(
       "partials/dashboard_supervisor",
-      { statistics, notifications, quickLinks },
+      { statistics, notifications, quickLinks, user: req.user },
       (err, html) => {
         if (err) {
+          console.error("Error rendering dashboard_supervisor partial:", err);
           return res.status(500).send("Error rendering dashboard");
         }
         res.render("dashboard", {
@@ -289,6 +300,7 @@ app.get("/dashboard", async (req, res) => {
       { statistics, notifications, quickLinks },
       (err, html) => {
         if (err) {
+          console.error("Error rendering dashboard_reviewer partial:", err);
           return res.status(500).send("Error rendering dashboard");
         }
         res.render("dashboard", {
@@ -324,7 +336,25 @@ app.get("/criteria", async (req, res) => {
   let notifications = [];
   let quickLinks = [];
 
-  if (role === "supervisor") {
+  if (role === "superadmin") {
+    statistics = {
+      criteriaEntered: 20,
+      criteriaRemaining: 0,
+      submissionStatusCounts: {
+        pending: 1,
+        approved: 15,
+        rejected: 0,
+      },
+    };
+    notifications = [
+      { id: 1, message: "New system-wide notification for superadmin." },
+      { id: 2, message: "System maintenance scheduled." },
+    ];
+    quickLinks = [
+      { name: "Manage Users", url: "/users" },
+      { name: "System Settings", url: "/settings" },
+    ];
+  } else if (role === "supervisor") {
     statistics = {
       criteriaEntered: 10,
       criteriaRemaining: 5,
@@ -339,8 +369,7 @@ app.get("/criteria", async (req, res) => {
       { id: 2, message: "Meeting scheduled for supervisors." },
     ];
     quickLinks = [
-      { name: "Manage Criteria", url: "/criteria" },
-      { name: "Review Submissions", url: "/submissions/review" },
+      { name: "Manage Criteria", url: "/criteria" }
     ];
   } else if (role === "reviewer") {
     statistics = {
@@ -362,81 +391,22 @@ app.get("/criteria", async (req, res) => {
     ];
   }
 
-  app.render("criteriaContent", {}, (err, html) => {
-    if (err) {
-      return res.status(500).send("Server error");
+  app.render(
+    "criteriaContent",
+    { user: req.user, permissions: req.user.permissions || [] },
+    (err, html) => {
+      if (err) {
+        return res.status(500).send("Server error");
+      }
+      res.render("dashboard", {
+        body: html,
+        role: role,
+        statistics: statistics,
+        notifications: notifications,
+        quickLinks: quickLinks,
+      });
     }
-    res.render("dashboard", {
-      body: html,
-      role: role,
-      statistics: statistics,
-      notifications: notifications,
-      quickLinks: quickLinks,
-    });
-  });
-});
-
-app.get("/criterias", async (req, res) => {
-  if (!req.user) {
-    return res.redirect("/login");
-  }
-
-  const role = req.user.role;
-
-  let statistics = {};
-  let notifications = [];
-  let quickLinks = [];
-
-  if (role === "supervisor") {
-    statistics = {
-      criteriaEntered: 10,
-      criteriaRemaining: 5,
-      submissionStatusCounts: {
-        pending: 3,
-        approved: 7,
-        rejected: 2,
-      },
-    };
-    notifications = [
-      { id: 1, message: "New submission pending review." },
-      { id: 2, message: "Meeting scheduled for supervisors." },
-    ];
-    quickLinks = [
-      { name: "Manage Criteria", url: "/criterias" },
-      { name: "Review Submissions", url: "/submissions/review" },
-    ];
-  } else if (role === "reviewer") {
-    statistics = {
-      criteriaEntered: 7,
-      criteriaRemaining: 8,
-      submissionStatusCounts: {
-        pending: 5,
-        approved: 4,
-        rejected: 1,
-      },
-    };
-    notifications = [
-      { id: 1, message: "New criteria assigned for review." },
-      { id: 2, message: "Reminder: Submit your reviews." },
-    ];
-    quickLinks = [
-      { name: "View Criteria", url: "/criterias" },
-      { name: "Submit Reviews", url: "/reviews/submit" },
-    ];
-  }
-
-  app.render("criteriaContent", {}, (err, html) => {
-    if (err) {
-      return res.status(500).send("Server error");
-    }
-    res.render("dashboard", {
-      body: html,
-      role: role,
-      statistics: statistics,
-      notifications: notifications,
-      quickLinks: quickLinks,
-    });
-  });
+  );
 });
 
 // Start server

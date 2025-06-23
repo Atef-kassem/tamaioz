@@ -1,6 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const authController = require("../controllers/authController");
+const authController = require("../Controllers/authController");
+
+// Middleware to check if user is authenticated
+function isAuthenticated(req, res, next) {
+  if (req.user) {
+    return next();
+  }
+  res.status(401).json({ message: "Unauthorized" });
+}
+
+router.put(
+  "/users/:id/permissions",
+  isAuthenticated,
+  authController.updateUserPermissions
+);
 
 // Render signup page
 router.get("/signup", authController.getSignup);
@@ -15,6 +29,6 @@ router.get("/login", authController.getLogin);
 router.post("/login", authController.postLogin);
 
 // Render profile page
-router.get("/profile", authController.renderProfile);
+router.get("/profile", isAuthenticated, authController.renderProfile);
 
 module.exports = router;

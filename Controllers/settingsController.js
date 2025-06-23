@@ -30,36 +30,90 @@ exports.showSettings = (req, res) => {
   );
 };
 
-exports.showPermissions = (req, res) => {
+exports.showPermissions = async (req, res) => {
   if (!req.user) {
     return res.redirect("/login");
   }
 
-  // Render the permissions_content partial to HTML with user permissions
-  req.app.render(
-    "partials/permissions_content",
-    {
-      user: req.user,
-      permissions: req.user.permissions || [],
-      title: "الصلاحيات",
-    },
-    (err, permissionsHtml) => {
-      if (err) {
-        console.error("Error rendering permissions content:", err);
-        return res.status(500).send("Error rendering permissions page");
-      }
+  // Allow only superadmin to access permissions page
+  if (req.user.role !== "superadmin") {
+    return res.status(403).send("Access denied");
+  }
 
-      // Render the dashboard with permissionsHtml as body
-      res.render("dashboard", {
+  const User = require("../models/User");
+
+  // Define all available permissions
+  const allPermissions = [
+    "view_awards",
+    "add_awards",
+    "edit_awards",
+    "delete_awards",
+    "duplicate_award",
+    "view_elements",
+    "add_elements",
+    "edit_elements",
+    "delete_elements",
+    "add_criteria",
+    "edit_criteria",
+    "view_criteria_page",
+    "delete_criteria",
+    "view_criteria",
+    "save_criteria_methodology",
+    "save_criteria_definition",
+    "upload_criteria_attachment",
+    "view_sidebar_awards",
+    "view_sidebar_elements",
+    "save_award",
+    "view_permissions", // New permission for viewing permissions
+    "update_permissions", // New permission for updating permissions
+    "manage_users", // New permission for managing users
+    "manage_settings", // New permission for managing settings
+    "view_statistics", // New permission for viewing statistics
+  ];
+
+  try {
+    // Fetch all users including current superadmin
+    const users = await User.find({}).lean();
+
+    // Get selected user ID from query parameter or default to first user
+    const selectedUserId =
+      req.query.userId || (users.length > 0 ? users[0]._id.toString() : null);
+
+    // Find selected user
+    const selectedUser = users.find((u) => u._id.toString() === selectedUserId);
+
+    // Render the permissions_content partial to HTML with user permissions
+    req.app.render(
+      "partials/permissions_content",
+      {
         user: req.user,
-        role: req.user.role,
-        body: permissionsHtml,
-        statistics: {},
-        notifications: [],
-        quickLinks: [],
-      });
-    }
-  );
+        users,
+        selectedUser,
+        permissions: selectedUser ? selectedUser.permissions : [],
+        allPermissions,
+        title: "الصلاحيات",
+      },
+      (err, permissionsHtml) => {
+        if (err) {
+          console.error("Error rendering permissions content:", err);
+          return res.status(500).send("Error rendering permissions page");
+        }
+
+        // Render the dashboard with permissionsHtml as body
+        res.render("dashboard", {
+          user: req.user,
+          role: req.user.role,
+          body: permissionsHtml,
+          statistics: {},
+          notifications: [],
+          quickLinks: [],
+        });
+      }
+    );
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).send("Error fetching users");
+  }
 };
 
 exports.updatePermissions = async (req, res) => {
@@ -69,20 +123,71 @@ exports.updatePermissions = async (req, res) => {
 
   try {
     const User = require("../models/User");
-    // Extract permissions from form submission
-    // The form sends permission1, permission2, permission3 as checkbox names
-    const submittedPermissions = [];
-    if (req.body.permission1) submittedPermissions.push("permission1");
-    if (req.body.permission2) submittedPermissions.push("permission2");
-    if (req.body.permission3) submittedPermissions.push("permission3");
 
-    // Update user's permissions in DB
-    await User.findByIdAndUpdate(req.user._id, {
+    // Define all available permissions
+    const allPermissions = [
+      "view_awards",
+      "add_awards",
+      "edit_awards",
+      "delete_awards",
+      "duplicate_award",
+      "view_elements",
+      "add_elements",
+      "edit_elements",
+      "delete_elements",
+      "add_criteria",
+      "edit_criteria",
+      "view_criteria_page",
+      "delete_criteria",
+      "view_criteria",
+      "save_criteria_methodology",
+      "save_criteria_definition",
+      "upload_criteria_attachment",
+      "view_sidebar_awards",
+      "view_sidebar_elements",
+      "save_award",
+      "view_permissions", // New permission for viewing permissions
+      "update_permissions", // New permission for updating permissions
+      "manage_users", // New permission for managing users
+      "manage_settings", // New permission for managing settings
+      "view_statistics", // New permission for viewing statistics
+    ];
+
+    // Extract permissions from form submission
+    const submittedPermissions = allPermissions.filter(
+      (perm) => req.body[perm] === "on"
+    );
+
+    // Get userId from form submission
+    const userId = req.body.userId;
+
+    if (!userId) {
+      return res.status(400).send("User ID is required");
+    }
+
+    // Update selected user's permissions and updatedAt timestamp in DB
+    await User.findByIdAndUpdate(userId, {
       permissions: submittedPermissions,
+      updatedAt: new Date(),
     });
 
-    // Redirect back to permissions page with success message (optional)
-    res.redirect("/settings/permissions");
+    // If the updated user is the logged-in user, destroy session to force logout
+    if (req.user._id.toString() === userId) {
+      req.session.destroy((err) => {
+        if (err) {
+          console.error(
+            "Error destroying session after permissions update:",
+            err
+          );
+          return res.status(500).send("Error updating permissions");
+        }
+        // Redirect to login after logout
+        res.redirect("/login");
+      });
+    } else {
+      // Redirect back to permissions page with selected userId query param
+      res.redirect(`/settings/permissions?userId=${userId}`);
+    }
   } catch (error) {
     console.error("Error updating permissions:", error);
     res.status(500).send("Error updating permissions");

@@ -2,7 +2,11 @@ const mongoose = require("mongoose");
 
 const elementSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  type: { type: String, enum: ["main", "sub", "subsub"], required: true },
+  type: {
+    type: String,
+    enum: ["main", "sub", "subsub", "subsubsub"],
+    required: true,
+  },
   parent: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Element",
@@ -10,6 +14,7 @@ const elementSchema = new mongoose.Schema({
   },
   attachment: { type: String, default: null }, // URL or file path
   note: { type: String, default: "" },
+  description: { type: String, default: "" },
   scale: { type: Number, default: null },
   indicator: { type: String, default: "" },
   rating: { type: Number, min: 1, max: 5, default: null },

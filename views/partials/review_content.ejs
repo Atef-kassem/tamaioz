@@ -79,96 +79,70 @@
         class="approve"
         formaction="/associations/<%= association._id %>/approve"
         formmethod="POST"
-        title="اعتماد الجمعية"
       >
         اعتماد
       </button>
-      <button
-        type="button"
-        class="reject"
-        id="rejectBtn"
-        title="رفض الجمعية مؤقتاً مع ذكر السبب"
-      >
-        رفض مؤقت
-      </button>
+      <button type="button" class="reject" id="rejectBtn">رفض مؤقت</button>
     </div>
   </form>
 </div>
 
 <style>
   body {
-    background: linear-gradient(135deg, #e0e7ff 0%, #f7f8fa 100%);
+    background: #f7f8fa;
     font-family: "Cairo", Tahoma, Arial, sans-serif;
     direction: rtl;
   }
   .review-container {
-    max-width: 750px;
-    margin: 48px auto;
+    max-width: 700px;
+    margin: 40px auto;
     background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 6px 32px #0002;
-    padding: 40px 32px;
-    border: 1.5px solid #e0e7ef;
-    transition: box-shadow 0.2s;
-  }
-  .review-container:hover {
-    box-shadow: 0 10px 40px #0003;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px #0001;
+    padding: 32px 28px;
   }
   h1 {
-    font-size: 2.2rem;
-    margin-bottom: 28px;
-    color: #1e293b;
+    font-size: 2rem;
+    margin-bottom: 24px;
+    color: #2d3a4a;
     text-align: center;
     letter-spacing: 1px;
-    font-weight: bold;
-    background: linear-gradient(90deg, #3b82f6 30%, #22c55e 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
   }
   .card {
     background: #f3f6fa;
-    border-radius: 12px;
-    padding: 22px 18px;
-    margin-bottom: 26px;
-    box-shadow: 0 2px 8px #0001;
-    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 18px 16px;
+    margin-bottom: 22px;
+    box-shadow: 0 1px 4px #0001;
   }
   h2 {
-    font-size: 1.25rem;
-    margin-bottom: 14px;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
     color: #1a2233;
-    border-right: 5px solid #3b82f6;
-    padding-right: 12px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    border-right: 4px solid #3b82f6;
+    padding-right: 10px;
   }
   .criteria-item {
     display: flex;
     justify-content: space-between;
-    padding: 9px 0;
+    padding: 7px 0;
     border-bottom: 1px solid #e5e7eb;
-    font-size: 1.05rem;
-    align-items: center;
+    font-size: 1rem;
   }
   .criteria-item:last-child {
     border-bottom: none;
   }
   .criteria-name {
-    font-weight: 700;
+    font-weight: 600;
     color: #2563eb;
   }
   .criteria-points {
     color: #374151;
-    background: #e0e7ef;
-    border-radius: 6px;
-    padding: 2px 10px;
-    font-size: 0.98em;
   }
   .empty {
     color: #888;
     font-style: italic;
     margin: 0;
-    text-align: center;
   }
   .attached-files ul {
     list-style: none;
@@ -176,29 +150,21 @@
     margin: 0;
   }
   .attached-files li {
-    margin-bottom: 8px;
+    margin-bottom: 7px;
   }
   .attached-files a {
     color: #2563eb;
     text-decoration: underline;
-    transition: color 0.2s, background 0.2s;
-    padding: 2px 6px;
-    border-radius: 4px;
+    transition: color 0.2s;
   }
   .attached-files a:hover {
-    color: #fff;
-    background: #2563eb;
+    color: #1e40af;
   }
   .review-comment {
     background: #e0e7ef;
-    border-radius: 9px;
-    padding: 12px 14px;
-    margin-bottom: 12px;
-    border: 1px solid #cbd5e1;
-    transition: box-shadow 0.2s;
-  }
-  .review-comment:hover {
-    box-shadow: 0 2px 8px #2563eb22;
+    border-radius: 7px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
   }
   .review-comment .author {
     font-weight: bold;
@@ -206,7 +172,7 @@
     margin-bottom: 2px;
   }
   .review-comment .date {
-    font-size: 0.93em;
+    font-size: 0.9em;
     color: #6b7280;
     margin-bottom: 4px;
   }
@@ -214,100 +180,69 @@
     color: #222;
   }
   .comments-section {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
   label {
     display: block;
-    margin-bottom: 7px;
+    margin-bottom: 6px;
     color: #1a2233;
-    font-weight: 600;
-    font-size: 1.05em;
+    font-weight: 500;
   }
   textarea,
   input[type="text"] {
     width: 100%;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 1.05rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 1rem;
     background: #f9fafb;
-    transition: border 0.2s, box-shadow 0.2s;
-    resize: vertical;
+    transition: border 0.2s;
   }
   textarea:focus,
   input[type="text"]:focus {
     border-color: #2563eb;
     outline: none;
-    box-shadow: 0 0 0 2px #3b82f633;
   }
   .buttons {
     display: flex;
-    gap: 16px;
+    gap: 12px;
     justify-content: flex-end;
-    margin-top: 14px;
+    margin-top: 10px;
   }
   button {
-    padding: 12px 34px;
+    padding: 10px 28px;
     border: none;
-    border-radius: 8px;
-    font-size: 1.08rem;
+    border-radius: 6px;
+    font-size: 1rem;
     font-family: inherit;
     cursor: pointer;
-    font-weight: bold;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 8px #0001;
-    position: relative;
+    transition: background 0.2s, color 0.2s;
   }
   button.approve {
-    background: linear-gradient(90deg, #22c55e 60%, #16a34a 100%);
+    background: #22c55e;
     color: #fff;
+    font-weight: bold;
   }
   button.approve:hover {
-    background: linear-gradient(90deg, #16a34a 60%, #22c55e 100%);
-    box-shadow: 0 4px 16px #22c55e33;
+    background: #16a34a;
   }
   button.reject {
-    background: linear-gradient(90deg, #ef4444 60%, #b91c1c 100%);
+    background: #ef4444;
     color: #fff;
+    font-weight: bold;
   }
   button.reject:hover {
-    background: linear-gradient(90deg, #b91c1c 60%, #ef4444 100%);
-    box-shadow: 0 4px 16px #ef444433;
-  }
-  button:focus {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
-  }
-  button[title]:hover::after {
-    content: attr(title);
-    position: absolute;
-    bottom: 120%;
-    right: 50%;
-    transform: translateX(50%);
-    background: #222;
-    color: #fff;
-    padding: 6px 14px;
-    border-radius: 6px;
-    white-space: nowrap;
-    font-size: 0.98em;
-    z-index: 10;
-    opacity: 0.95;
-    pointer-events: none;
-    box-shadow: 0 2px 8px #0003;
+    background: #b91c1c;
   }
   @media (max-width: 600px) {
     .review-container {
-      padding: 14px 4px;
+      padding: 16px 6px;
     }
     h1 {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
     }
     .card {
-      padding: 8px 4px;
-    }
-    button {
-      padding: 10px 10px;
-      font-size: 0.98rem;
+      padding: 10px 6px;
     }
   }
 </style>
