@@ -8,33 +8,63 @@
     <style>
       body {
       background: url('/images/2025.jpg') no-repeat center center fixed;
-      background-size: cover;
+      background-size: 100vw 100vh;
       min-height: 100vh;
+      min-width: 100vw;
+      width: 100vw;
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: "Segoe UI", Arial, sans-serif;
       margin: 0;
       transition: background 0.8s;
+      overflow: hidden;
+      }
+      /* Birds, stars, and suns canvas overlay */
+      #birds-canvas, #stars-canvas, #suns-canvas, #light-effects-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
       }
       .login-container {
-      background: rgba(255, 255, 255, 0.92);
-      padding: 2.7rem 2.2rem;
+      background: rgba(255, 255, 255, 0.18); /* شفافية عالية */
+      padding: 2.2rem 2.2rem;
       border-radius: 24px;
       box-shadow: 0 12px 40px 0 rgba(44, 62, 80, 0.22), 0 1.5px 8px #74ebd5;
       width: 100%;
       max-width: 390px;
       text-align: center;
       position: relative;
-      backdrop-filter: blur(4px);
-      transition: transform 0.4s cubic-bezier(.4,2,.6,1), box-shadow 0.3s, background 0.4s;
-      will-change: transform;
+      backdrop-filter: blur(8px);
+      transition: 
+      transform 0.5s cubic-bezier(.4,2,.6,1), 
+      box-shadow 0.3s, 
+      background 0.4s,
+      box-shadow 0.4s;
+      will-change: transform, box-shadow;
+      animation: cardEntrance 1s cubic-bezier(.4,2,.6,1);
+      z-index: 1;
+      }
+      @keyframes cardEntrance {
+      0% {
+      opacity: 0;
+      transform: scale(0.8) translateY(60px) rotate(-8deg);
+      }
+      100% {
+      opacity: 1;
+      transform: scale(1) translateY(0) rotate(0);
+      }
       }
       .login-container.active,
       .login-container:hover {
-      transform: scale(1.03) rotate(-1deg) translateY(-8px);
-      box-shadow: 0 20px 60px 0 rgba(44, 62, 80, 0.28), 0 2px 12px #74ebd5;
-      background: linear-gradient(135deg, #f8fffe 60%, #e0f7fa 100%);
+      transform: scale(1.05) rotate(-2deg) translateY(-10px) skewY(-1deg);
+      box-shadow: 0 24px 70px 0 rgba(44, 62, 80, 0.32), 0 4px 18px #74ebd5;
+      background: rgba(255,255,255,0.28);
       }
       .login-container h1 {
       margin-bottom: 1.6rem;
@@ -43,11 +73,16 @@
       letter-spacing: 1.5px;
       font-size: 2.1rem;
       text-shadow: 0 2px 8px #acb6e533;
+      animation: fadeInDown 1.1s 0.2s backwards;
+      }
+      @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-30px);}
+      100% { opacity: 1; transform: translateY(0);}
       }
       form {
       display: flex;
       flex-direction: column;
-      gap: 1.15rem;
+      gap: 1.05rem;
       }
       label {
       text-align: left;
@@ -56,46 +91,76 @@
       margin-bottom: 0.25rem;
       font-weight: 600;
       letter-spacing: 0.2px;
+      transition: color 0.3s;
+      }
+      .input-group {
+      position: relative;
+      width: 100%;
+      margin-bottom: 0.9rem;
       }
       input[type="text"],
       input[type="password"] {
-      padding: 0.85rem;
+      padding: 0.75rem;
       border: 1.7px solid #d1d5db;
       border-radius: 12px;
       font-size: 1.05rem;
-      transition: border 0.2s, box-shadow 0.2s, background 0.3s;
+      transition: 
+      border 0.25s, 
+      box-shadow 0.25s, 
+      background 0.3s,
+      transform 0.18s;
       outline: none;
       background: #f7fafc;
       box-shadow: 0 2px 8px rgba(116, 235, 213, 0.06);
+      position: relative;
+      z-index: 1;
       }
       input[type="text"]:focus,
       input[type="password"]:focus {
       border-color: #74ebd5;
-      box-shadow: 0 0 0 3px #acb6e555;
+      box-shadow: 0 0 0 4px #acb6e555, 0 2px 12px #74ebd533;
       background: #e0f7fa;
+      transform: scale(1.03) translateY(-2px);
+      }
+      input[type="text"]:hover,
+      input[type="password"]:hover {
+      border-color: #9BCA44;
+      box-shadow: 0 0 0 2px #9BCA4455;
+      }
+      input[type="text"]:not(:placeholder-shown):not(:focus),
+      input[type="password"]:not(:placeholder-shown):not(:focus) {
+      background: #f0fdfb;
+      border-color: #b2f0e6;
       }
       button[type="submit"] {
       background: linear-gradient(90deg, #74ebd5 0%, #9BCA44 100%);
       color: #fff;
       border: none;
       border-radius: 12px;
-      padding: 0.95rem;
+      padding: 0.85rem;
       font-size: 1.09rem;
       font-weight: 800;
       cursor: pointer;
-      transition: background 0.2s, transform 0.13s, box-shadow 0.2s;
-      margin-top: 0.5rem;
+      transition: 
+      background 0.2s, 
+      transform 0.18s, 
+      box-shadow 0.2s,
+      letter-spacing 0.2s;
+      margin-top: 0.3rem;
       box-shadow: 0 2px 10px rgba(44, 62, 80, 0.09);
       letter-spacing: 0.5px;
+      position: relative;
+      z-index: 1;
       }
       button[type="submit"]:hover,
       button[type="submit"]:focus {
       background: linear-gradient(90deg, #acb6e5 0%, #9BCA44 100%);
-      transform: translateY(-2px) scale(1.04);
+      transform: translateY(-2px) scale(1.07) rotate(-1deg);
       box-shadow: 0 4px 16px #74ebd555;
+      letter-spacing: 1px;
       }
       .login-container p {
-      margin-top: 1.7rem;
+      margin-top: 1.2rem; 
       font-size: 1rem;
       color: #6b7280;
       }
@@ -126,7 +191,7 @@
       border-radius: 6px;
       padding: 7px 12px;
       position: absolute;
-      z-index: 1;
+      z-index: 2;
       bottom: 125%;
       left: 50%;
       transform: translateX(-50%);
@@ -145,11 +210,47 @@
       visibility: visible;
       opacity: 1;
       }
+      /* Floating label effect */
+      .input-group label {
+      position: absolute;
+      left: 16px;
+      top: 16px;
+      background: transparent;
+      color: #888;
+      pointer-events: none;
+      transition: 
+      top 0.22s cubic-bezier(.4,2,.6,1), 
+      left 0.22s cubic-bezier(.4,2,.6,1), 
+      font-size 0.22s, 
+      color 0.22s;
+      font-size: 1.05rem;
+      z-index: 2;
+      padding: 0 4px;
+      }
+      .input-group input:focus + label,
+      .input-group input:not(:placeholder-shown) + label {
+      top: -12px;
+      left: 10px;
+      font-size: 0.92rem;
+      color: #74ebd5;
+      background: #fff;
+      border-radius: 6px;
+      padding: 0 6px;
+      }
+      .input-group input {
+      width: 100%;
+      padding: 1.1rem 0.85rem 0.5rem 0.85rem;
+      background: #f7fafc;
+      }
       /* Responsive */
       @media (max-width: 480px) {
       .login-container {
-      padding: 1.5rem 0.5rem;
+      padding: 1.1rem 0.5rem;
       max-width: 98vw;
+      }
+      #birds-canvas, #stars-canvas, #suns-canvas, #light-effects-canvas {
+      width: 100vw !important;
+      height: 100vh !important;
       }
       }
     </style>
@@ -163,56 +264,331 @@
             container.classList.add('active');
           });
           input.addEventListener('blur', () => {
-            // Remove active only if no input is focused
-            setTimeout(() => {
-              if (![...inputs].some(i => i === document.activeElement)) {
-                container.classList.remove('active');
-              }
-            }, 50);
-          });
+          setTimeout(() => {
+            if (![...inputs].some(i => i === document.activeElement)) {
+              container.classList.remove('active');
+            }
+          }, 50);
         });
-        // Add hover effect for login-container
+      });
         container.addEventListener('mouseenter', () => {
           container.classList.add('active');
         });
         container.addEventListener('mouseleave', () => {
-          // Only remove if no input is focused
-          if (![...inputs].some(i => i === document.activeElement)) {
-            container.classList.remove('active');
-          }
+        if (![...inputs].some(i => i === document.activeElement)) {
+          container.classList.remove('active');
+        }
+      });
+
+        // Floating label effect for accessibility
+        document.querySelectorAll('.input-group input').forEach(input => {
+          input.addEventListener('input', function () {
+            if (this.value !== "") {
+              this.classList.add('filled');
+            } else {
+              this.classList.remove('filled');
+            }
+          });
         });
+
+        // --- Birds Canvas Setup ---
+        const birdsCanvas = document.createElement('canvas');
+        birdsCanvas.id = 'birds-canvas';
+        document.body.appendChild(birdsCanvas);
+        const birdsCtx = birdsCanvas.getContext('2d');
+
+        function resizeBirdsCanvas() {
+          birdsCanvas.width = window.innerWidth;
+          birdsCanvas.height = window.innerHeight;
+        }
+        resizeBirdsCanvas();
+        window.addEventListener('resize', resizeBirdsCanvas);
+
+        // --- Bird Shape (simple V) ---
+        function drawBird(x, y, size, color, flip) {
+          birdsCtx.save();
+          birdsCtx.translate(x, y);
+          if (flip) birdsCtx.scale(-1, 1);
+          birdsCtx.beginPath();
+          birdsCtx.moveTo(0, 0);
+          birdsCtx.lineTo(size, -size * 0.5);
+          birdsCtx.lineTo(size * 2, 0);
+          birdsCtx.lineTo(size, size * 0.5);
+          birdsCtx.closePath();
+          birdsCtx.strokeStyle = color;
+          birdsCtx.lineWidth = 2.2;
+          birdsCtx.globalAlpha = 0.7;
+          birdsCtx.stroke();
+          birdsCtx.globalAlpha = 1;
+          birdsCtx.restore();
+        }
+
+        // --- Birds Data ---
+        const birds = [];
+        const birdColors = ['#222', '#444', '#555', '#666', '#74ebd5', '#9BCA44'];
+        const birdCount = 12;
+        for (let i = 0; i < birdCount; i++) {
+          birds.push({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight * 0.4 + 30,
+            size: 16 + Math.random() * 18,
+            speed: 0.7 + Math.random() * 1.2,
+            color: birdColors[Math.floor(Math.random() * birdColors.length)],
+            flip: Math.random() > 0.5,
+            offset: Math.random() * Math.PI * 2
+          });
+        }
+
+        // --- Animation Loop for Birds ---
+        function animateBirds() {
+          birdsCtx.clearRect(0, 0, birdsCanvas.width, birdsCanvas.height);
+          const t = Date.now() * 0.001;
+          for (let bird of birds) {
+            // Sine wave for up/down movement
+            let wave = Math.sin(t * 1.2 + bird.offset) * 12;
+            bird.x += bird.speed;
+            if (bird.x > birdsCanvas.width + 40) {
+              bird.x = -40;
+              bird.y = Math.random() * birdsCanvas.height * 0.4 + 30;
+              bird.size = 16 + Math.random() * 18;
+              bird.speed = 0.7 + Math.random() * 1.2;
+              bird.color = birdColors[Math.floor(Math.random() * birdColors.length)];
+              bird.flip = Math.random() > 0.5;
+              bird.offset = Math.random() * Math.PI * 2;
+            }
+            drawBird(bird.x, bird.y + wave, bird.size, bird.color, bird.flip);
+          }
+          requestAnimationFrame(animateBirds);
+        }
+        animateBirds();
+
+        // --- Stars Canvas Setup ---
+        const starsCanvas = document.createElement('canvas');
+        starsCanvas.id = 'stars-canvas';
+        document.body.appendChild(starsCanvas);
+        const starsCtx = starsCanvas.getContext('2d');
+
+        function resizeStarsCanvas() {
+          starsCanvas.width = window.innerWidth;
+          starsCanvas.height = window.innerHeight;
+        }
+        resizeStarsCanvas();
+        window.addEventListener('resize', resizeStarsCanvas);
+
+        // --- Stars Data ---
+        const stars = [];
+        const starCount = 80;
+        for (let i = 0; i < starCount; i++) {
+          stars.push({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            r: Math.random() * 1.2 + 0.6,
+            speed: 0.1 + Math.random() * 0.25,
+            twinkle: Math.random() * Math.PI * 2
+          });
+        }
+
+        // --- Animation Loop for Stars ---
+        function animateStars() {
+          starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+          const t = Date.now() * 0.002;
+          for (let star of stars) {
+            // Twinkle effect
+            let alpha = 0.7 + 0.3 * Math.sin(t * 2 + star.twinkle);
+            starsCtx.save();
+            starsCtx.globalAlpha = alpha;
+            starsCtx.beginPath();
+            starsCtx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+            starsCtx.fillStyle = "#fff";
+            starsCtx.shadowColor = "#fff";
+            starsCtx.shadowBlur = 8;
+            starsCtx.fill();
+            starsCtx.restore();
+
+            // Move star slowly downward for a drifting effect
+            star.y += star.speed;
+            if (star.y > starsCanvas.height + 2) {
+              star.y = -2;
+              star.x = Math.random() * starsCanvas.width;
+            }
+          }
+          requestAnimationFrame(animateStars);
+        }
+        animateStars();
+
+        // --- Suns Canvas Setup ---
+        const sunsCanvas = document.createElement('canvas');
+        sunsCanvas.id = 'suns-canvas';
+        document.body.appendChild(sunsCanvas);
+        const sunsCtx = sunsCanvas.getContext('2d');
+
+        function resizeSunsCanvas() {
+          sunsCanvas.width = window.innerWidth;
+          sunsCanvas.height = window.innerHeight;
+        }
+        resizeSunsCanvas();
+        window.addEventListener('resize', resizeSunsCanvas);
+
+        // --- Suns Data ---
+        const suns = [];
+        const sunCount = 3;
+        const sunColors = [
+          { core: "#FFD700", glow: "rgba(255, 215, 0, 0.25)" },
+          { core: "#FFB300", glow: "rgba(255, 179, 0, 0.18)" },
+          { core: "#FFF176", glow: "rgba(255, 241, 118, 0.18)" }
+        ];
+        for (let i = 0; i < sunCount; i++) {
+          let angle = Math.PI * 2 * (i / sunCount) + Math.random();
+          let radius = 120 + Math.random() * 80;
+          suns.push({
+            x: window.innerWidth * (0.2 + 0.6 * Math.random()),
+            y: 80 + Math.random() * 120,
+            r: 38 + Math.random() * 22,
+            color: sunColors[i % sunColors.length],
+            angle: angle,
+            orbitRadius: radius,
+            speed: 0.12 + Math.random() * 0.07,
+            phase: Math.random() * Math.PI * 2
+          });
+        }
+
+        // --- Draw Sun Function ---
+        function drawSun(sun, t) {
+          // Orbit animation
+          let ox = Math.cos(sun.angle + t * sun.speed + sun.phase) * sun.orbitRadius;
+          let oy = Math.sin(sun.angle + t * sun.speed + sun.phase) * (sun.orbitRadius * 0.18);
+          let cx = sun.x + ox;
+          let cy = sun.y + oy;
+
+          // Glow
+          for (let i = 5; i > 0; i--) {
+            sunsCtx.beginPath();
+            sunsCtx.arc(cx, cy, sun.r + i * 12, 0, Math.PI * 2);
+            sunsCtx.fillStyle = sun.color.glow;
+            sunsCtx.globalAlpha = 0.08 * i;
+            sunsCtx.fill();
+          }
+          sunsCtx.globalAlpha = 1;
+
+          // Rays
+          for (let i = 0; i < 16; i++) {
+            let rayAngle = (Math.PI * 2 * i) / 16 + t * 0.7;
+            let rayLen = sun.r + 18 + Math.sin(t * 2 + i) * 8;
+            sunsCtx.save();
+            sunsCtx.beginPath();
+            sunsCtx.moveTo(cx, cy);
+            sunsCtx.lineTo(
+              cx + Math.cos(rayAngle) * rayLen,
+              cy + Math.sin(rayAngle) * rayLen
+            );
+            sunsCtx.strokeStyle = sun.color.core;
+            sunsCtx.globalAlpha = 0.18 + 0.12 * Math.abs(Math.sin(t + i));
+            sunsCtx.lineWidth = 3.2;
+            sunsCtx.shadowColor = sun.color.core;
+            sunsCtx.shadowBlur = 12;
+            sunsCtx.stroke();
+            sunsCtx.restore();
+          }
+          sunsCtx.globalAlpha = 1;
+
+          // Core
+          sunsCtx.beginPath();
+          sunsCtx.arc(cx, cy, sun.r, 0, Math.PI * 2);
+          sunsCtx.fillStyle = sun.color.core;
+          sunsCtx.shadowColor = sun.color.core;
+          sunsCtx.shadowBlur = 24;
+          sunsCtx.fill();
+          sunsCtx.shadowBlur = 0;
+        }
+
+        // --- Animation Loop for Suns ---
+        function animateSuns() {
+          sunsCtx.clearRect(0, 0, sunsCanvas.width, sunsCanvas.height);
+          const t = Date.now() * 0.001;
+          for (let sun of suns) {
+            drawSun(sun, t);
+          }
+          requestAnimationFrame(animateSuns);
+        }
+        animateSuns();
+
+        // --- Light Effects Canvas Setup ---
+        const lightCanvas = document.createElement('canvas');
+        lightCanvas.id = 'light-effects-canvas';
+        document.body.appendChild(lightCanvas);
+        const lightCtx = lightCanvas.getContext('2d');
+
+        function resizeLightCanvas() {
+          lightCanvas.width = window.innerWidth;
+          lightCanvas.height = window.innerHeight;
+        }
+        resizeLightCanvas();
+        window.addEventListener('resize', resizeLightCanvas);
+
+        // --- Light Effects Animation ---
+        function animateLightEffects() {
+          lightCtx.clearRect(0, 0, lightCanvas.width, lightCanvas.height);
+          const t = Date.now() * 0.001;
+          // Moving radial light spots
+          for (let i = 0; i < 3; i++) {
+            let x = lightCanvas.width * (0.2 + 0.6 * Math.abs(Math.sin(t * 0.18 + i)));
+            let y = lightCanvas.height * (0.15 + 0.25 * Math.abs(Math.cos(t * 0.22 + i)));
+            let r = 90 + 40 * Math.abs(Math.sin(t * 0.7 + i));
+            let grad = lightCtx.createRadialGradient(x, y, 0, x, y, r);
+            grad.addColorStop(0, "rgba(255,255,200,0.18)");
+            grad.addColorStop(0.5, "rgba(255,255,200,0.08)");
+            grad.addColorStop(1, "rgba(255,255,200,0)");
+            lightCtx.beginPath();
+            lightCtx.arc(x, y, r, 0, Math.PI * 2);
+            lightCtx.fillStyle = grad;
+            lightCtx.fill();
+          }
+          // Subtle moving horizontal light streaks
+          for (let i = 0; i < 2; i++) {
+            let y = lightCanvas.height * (0.3 + 0.3 * Math.sin(t * 0.12 + i));
+            let grad = lightCtx.createLinearGradient(0, y, lightCanvas.width, y);
+            grad.addColorStop(0, "rgba(255,255,255,0)");
+            grad.addColorStop(0.45, "rgba(255,255,220,0.09)");
+            grad.addColorStop(0.55, "rgba(255,255,220,0.09)");
+            grad.addColorStop(1, "rgba(255,255,255,0)");
+            lightCtx.beginPath();
+            lightCtx.rect(0, y - 18, lightCanvas.width, 36);
+            lightCtx.fillStyle = grad;
+            lightCtx.globalAlpha = 0.5 + 0.3 * Math.abs(Math.sin(t * 0.7 + i));
+            lightCtx.fill();
+            lightCtx.globalAlpha = 1;
+          }
+          requestAnimationFrame(animateLightEffects);
+        }
+        animateLightEffects();
       });
     </script>
     </head>
-    
     <body>
     <div class="login-container"
-      style="transform: translateX(180px); max-width: 340px; padding-top: 2rem; padding-bottom: 2rem;">
+      style="transform: translateX(150px); max-width: 340px; padding-top: 1.2rem; padding-bottom: 1.2rem;">
       <h1>Login</h1>
       <form action="/login" method="POST">
-      <div class="tooltip" tabindex="0">
-      <label for="identifier">Username or Email</label>
+      <div class="input-group tooltip" tabindex="0">
       <input type="text" id="identifier" name="identifier" required aria-describedby="identifier-tip"
-        title="Enter your username or email" />
+      title="Enter your username or email" placeholder=" " autocomplete="username" />
+      <label for="identifier">Username or Email</label>
       <span class="tooltiptext" id="identifier-tip">ادخل اسم المستخدم أو البريد الإلكتروني</span>
       </div>
-
-      <div class="tooltip" tabindex="0">
-      <label for="password">Password</label>
+      <div class="input-group tooltip" tabindex="0">
       <input type="password" id="password" name="password" aria-describedby="password-tip"
-      title="Enter your password" />
+      title="Enter your password" placeholder=" " autocomplete="current-password" />
+      <label for="password">Password</label>
       <span class="tooltiptext" id="password-tip">ادخل كلمة المرور الخاصة بك</span>
       </div>
-
       <div class="tooltip" tabindex="0" style="width: 100%">
       <button type="submit" title="Login to your account">Login</button>
       <span class="tooltiptext">اضغط لتسجيل الدخول</span>
       </div>
       </form>
-      <p style="margin-top: 1rem;"></p>
+      <p style="margin-top: 0.7rem;">
       Don't have an account?
       <a href="/signup" title="Sign up for a new account">Sign up here</a>
       </p>
     </div>
-    </body>
 </html>
