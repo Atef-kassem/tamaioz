@@ -31,4 +31,8 @@ router.post(
   associationsController.saveCriterionEvaluation
 );
 
+// New routes for editing associations
+router.get("/:id/edit", associationsController.getAssociationById);
+router.post("/:id/edit", associationsController.updateAssociation);
+
 module.exports = router;

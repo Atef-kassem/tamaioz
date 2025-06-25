@@ -122,7 +122,7 @@
         const rating = parseInt(ratingDiv.querySelector(".rating-slider").value, 10);
         const notes = ratingDiv.querySelector(".rating-notes").value;
 
-        const response = await fetch(`/criteria/reviews/${associationId}/${awardId}/${criterionId}`, {
+        const response = await fetch(`/private-works/${associationId}/awards/${awardId}/criteria/${criterionId}/evaluate`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ rating, notes }),

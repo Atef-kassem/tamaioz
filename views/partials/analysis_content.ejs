@@ -1,0 +1,54 @@
+<div class="pc-container" style="padding: 20px;">
+    <h2 class="text-center mb-6">تحليل ومقارنة بين الجمعيات والجوائز والمعايير</h2>
+
+    <style>
+        canvas {
+            display: block !important;
+            max-width: 100% !important;
+            height: auto !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            position: relative !important;
+            z-index: 10 !important;
+        }
+    </style>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <h3>عدد الجمعيات حسب حالة المراجعة</h3>
+            <canvas id="associationsStatusChart" width="600" height="400" style="border:1px solid #ccc;"></canvas>
+            <p id="associationsStatusMsg" style="color:red; display:none;">لا توجد بيانات لعرض الرسم البياني.</p>
+        </div>
+        <div>
+            <h3>عدد الجوائز حسب الحالة</h3>
+            <canvas id="awardsStatusChart" width="600" height="400" style="border:1px solid #ccc;"></canvas>
+            <p id="awardsStatusMsg" style="color:red; display:none;">لا توجد بيانات لعرض الرسم البياني.</p>
+        </div>
+        <div>
+            <h3>عدد المعايير حسب النوع</h3>
+            <canvas id="criteriaCountChart" width="600" height="400" style="border:1px solid #ccc;"></canvas>
+            <p id="criteriaCountMsg" style="color:red; display:none;">لا توجد بيانات لعرض الرسم البياني.</p>
+        </div>
+        <div>
+            <h3>متوسط النقاط لكل نوع من المعايير</h3>
+            <canvas id="avgPointsChart" width="600" height="400" style="border:1px solid #ccc;"></canvas>
+            <p id="avgPointsMsg" style="color:red; display:none;">لا توجد بيانات لعرض الرسم البياني.</p>
+        </div>
+        <div>
+            <h3>عدد الجوائز المرتبطة بكل جمعية</h3>
+            <canvas id="awardsPerAssociationChart" width="600" height="400" style="border:1px solid #ccc;"></canvas>
+            <p id="awardsPerAssociationMsg" style="color:red; display:none;">لا توجد بيانات لعرض الرسم البياني.</p>
+        </div>
+        <div>
+            <h3>تقييمات المعايير</h3>
+            <canvas id="criteriaRatingsChart" width="600" height="400" style="border:1px solid #ccc;"></canvas>
+            <p id="criteriaRatingsMsg" style="color:red; display:none;">لا توجد بيانات لعرض الرسم البياني.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        window.chartData = <% - JSON.stringify(data) %>
+    </script>
+    <script src="/js/analysis.js"></script>
+</div>

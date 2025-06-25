@@ -18,6 +18,7 @@ const elementSchema = new mongoose.Schema({
   scale: { type: Number, default: null },
   indicator: { type: String, default: "" },
   rating: { type: Number, min: 1, max: 5, default: null },
+  properties: { type: Map, of: String, default: {} },
   createdAt: { type: Date, default: Date.now },
 });
 

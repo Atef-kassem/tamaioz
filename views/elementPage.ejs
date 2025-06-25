@@ -23,7 +23,7 @@
     #elementTree {
       max-width: 800px;
       margin: 0 auto;
-      list-style: none;
+      list-style: null;
       padding: 0 20px;
     }
 
@@ -94,11 +94,73 @@
     .deleteBtn:hover {
       background: #c0392b;
     }
+
+    .propertiesBtn {
+      background: #9b59b6;
+    }
+
+    .propertiesBtn:hover {
+      background: #8e44ad;
+    }
+
+    .properties-container {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px dashed #ddd;
+      border-radius: 5px;
+      display: none;
+    }
+
+    .properties-container.visible {
+      display: block;
+    }
+
+    .property-item {
+      display: flex;
+      margin: 5px 0;
+      align-items: center;
+    }
+
+    .property-key,
+    .property-value {
+      padding: 5px;
+      margin-left: 5px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+
+    .property-key {
+      width: 120px;
+    }
+
+    .property-value {
+      flex-grow: 1;
+    }
+
+    .property-remove {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      padding: 5px 8px;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+
+    .add-property-btn {
+      margin-top: 5px;
+    }
+
+    .leaf-indicator {
+      background-color: #f0f0f0;
+      padding: 3px 6px;
+      border-radius: 3px;
+      font-weight: bold;
+    }
   </style>
-  </head>
+</head>
 
 <body>
-
   <h1>إدارة العناصر</h1>
   <div style="max-width: 800px; margin: 0 auto 20px auto; text-align: center">
     <% if (user.permissions && user.permissions.includes("add_elements")) { %>
@@ -113,17 +175,82 @@
 
       let elementsCache = [];
 
+      function calculateParentIndicators(elements) {
+        const elementMap = {};
+        elements.forEach(el => {
+          elementMap[el._id] = { ...el, children: [] };
+        });
+
+        // بناء هيكل الشجرة
+        elements.forEach(el => {
+          if (el.parent && elementMap[el.parent]) {
+            elementMap[el.parent].children.push(elementMap[el._id]);
+          }
+        });
+
+        // حساب المؤشرات بشكل تراكمي من الأسفل إلى الأعلى
+        function calculateWeightedAverage(element) {
+          if (!element.children || element.children.length === 0) {
+            return {
+              indicator: element.indicator || null,
+              weight: element.scale || 1
+            };
+          }
+
+          let totalWeight = 0;
+          let weightedSum = 0;
+          let validChildren = 0;
+
+          element.children.forEach(child => {
+            const childResult = calculateWeightedAverage(child);
+            if (childResult.indicator !== null) {
+              weightedSum += parseFloat(childResult.indicator) * (childResult.weight || 1);
+              totalWeight += childResult.weight || 1;
+              validChildren++;
+            }
+          });
+
+          const avgIndicator = validChildren > 0 ? (weightedSum / totalWeight).toFixed(2) : null;
+
+          // فقط العناصر غير الورقية يتم تحديث مؤشراتها تلقائياً
+          if (element.type !== 'subsubsub' && avgIndicator !== null) {
+            element.indicator = avgIndicator;
+          }
+
+          return {
+            indicator: avgIndicator,
+            weight: totalWeight / Math.max(validChildren, 1)
+          };
+        }
+
+        // حساب المؤشرات للجذور
+        Object.values(elementMap)
+          .filter(el => !el.parent)
+          .forEach(root => calculateWeightedAverage(root));
+
+        // إعادة العناصر مع المؤشرات المحدثة
+        return elements.map(el => ({
+          ...el,
+          indicator: elementMap[el._id].indicator || el.indicator
+        }));
+      }
+
       async function fetchElements() {
         try {
           const res = await fetch("/elements");
           if (!res.ok) throw new Error("Failed to fetch elements");
-          const data = await res.json();
-          elementsCache = data;
-          renderTree(data, elementTree);
-        } catch (err) {
-          alert(err.message);
-        }
+        let data = await res.json();
+
+        // حساب المؤشرات بشكل هرمي
+        data = calculateParentIndicators(data);
+
+        elementsCache = data;
+        renderTree(data, elementTree);
+      } catch (err) {
+        console.error("Error fetching elements:", err);
+        alert(err.message);
       }
+    }
 
       function renderTree(elements, parentUl) {
         parentUl.innerHTML = "";
@@ -132,325 +259,341 @@
           li.dataset.id = el._id;
           li.dataset.type = el.type;
 
-          if (el.children && el.children.length > 0) {
-            const ul = document.createElement("ul");
-            ul.className = "children collapsed";
-            renderTree(el.children, ul);
+        const toggleSpan = document.createElement("span");
+        toggleSpan.className = "toggle-children";
+        toggleSpan.textContent = "";
 
-            const toggleSpan = document.createElement("span");
-            toggleSpan.className = "toggle-children";
-            toggleSpan.textContent = "";
-            toggleSpan.classList.remove("collapsed");
-            toggleSpan.addEventListener("click", () => {
-              ul.classList.toggle("collapsed");
-              toggleSpan.classList.toggle("open");
-            });
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = el.name;
 
-            const nameSpan = document.createElement("span");
-            nameSpan.textContent = el.name;
-
-            // New fields UI
-            const attachmentInput = document.createElement("input");
-            attachmentInput.type = "file";
-            attachmentInput.title = "إضافة مرفق";
-            attachmentInput.style.marginLeft = "8px";
-            attachmentInput.addEventListener("change", async (event) => {
-              const file = event.target.files[0];
-              if (!file) return;
-              // TODO: Implement file upload API call here
-              alert("رفع المرفق غير مفعّل بعد");
-            });
-
-            const noteInput = document.createElement("textarea");
-            noteInput.placeholder = "أدخل ملحوظة";
-            noteInput.value = el.note || "";
-            noteInput.style.marginLeft = "8px";
-            noteInput.rows = 2;
-            noteInput.cols = 20;
-            noteInput.addEventListener("change", async () => {
-              await updateElementField(el._id, { note: noteInput.value });
-            });
-
-            const scaleInput = document.createElement("input");
-            scaleInput.type = "number";
-            scaleInput.placeholder = "مقياس";
-            scaleInput.value = el.scale || "";
-            scaleInput.style.marginLeft = "8px";
-            scaleInput.min = 0;
-            scaleInput.addEventListener("change", async () => {
-              await updateElementField(el._id, {
-                scale: Number(scaleInput.value),
-              });
-            });
-
-            const indicatorInput = document.createElement("input");
-            indicatorInput.type = "text";
-            indicatorInput.placeholder = "مؤشر";
-            indicatorInput.value = el.indicator || "";
-            indicatorInput.style.marginLeft = "8px";
-            indicatorInput.addEventListener("change", async () => {
-              await updateElementField(el._id, {
-                indicator: indicatorInput.value,
-              });
-            });
-
-            const ratingInput = document.createElement("input");
-            ratingInput.type = "number";
-            ratingInput.placeholder = "تقييم (1-5)";
-            ratingInput.value = el.rating || "";
-            ratingInput.style.marginLeft = "8px";
-            ratingInput.min = 1;
-            ratingInput.max = 5;
-            ratingInput.addEventListener("change", async () => {
-              let val = Number(ratingInput.value);
-              if (val < 1) val = 1;
-              if (val > 5) val = 5;
-              ratingInput.value = val;
-              await updateElementField(el._id, { rating: val });
-            });
-
-            <% if (user.permissions && user.permissions.includes("add_elements")) { %>
-              const addBtn = document.createElement("button");
-            addBtn.textContent = "+";
-            addBtn.title = "إضافة عنصر فرعي";
-            addBtn.addEventListener("click", async () => {
-              let newName = prompt("أدخل اسم العنصر الجديد:");
-              if (!newName) return;
-              let newType;
-              if (el.type === "main") newType = "sub";
-              else if (el.type === "sub") newType = "subsub";
-              else if (el.type === "subsub") newType = "subsubsub";
-              else {
-                alert("لا يمكن إضافة عناصر فرعية لهذا النوع");
-                return;
-              }
-              try {
-                const res = await fetch("/elements", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    name: newName,
-                    type: newType,
-                    parent: el._id,
-                  }),
-                });
-                if (res.ok) {
-                  fetchElements();
-                } else {
-                  alert("فشل في إضافة العنصر");
-                }
-              } catch (error) {
-                alert("خطأ في الإضافة");
-              }
-            });
-            <% } %>
-
-            <% if (user.permissions && user.permissions.includes("delete_elements")) { %>
-            const deleteBtn = document.createElement("button");
-            deleteBtn.textContent = "-";
-            deleteBtn.title = "حذف العنصر";
-            deleteBtn.className = "deleteBtn";
-            deleteBtn.addEventListener("click", async () => {
-              if (!confirm("هل أنت متأكد من حذف هذا العنصر؟")) return;
-              try {
-                const res = await fetch(`/elements/${el._id}`, {
-                  method: "DELETE",
-                });
-                if (res.ok) {
-                  fetchElements();
-                } else {
-                  alert("فشل في حذف العنصر");
-                }
-              } catch (error) {
-                alert("خطأ في الحذف");
-              }
-            });
-            <% } %>
-
-            li.appendChild(toggleSpan);
-            li.appendChild(nameSpan);
-            li.appendChild(attachmentInput);
-            li.appendChild(noteInput);
-            li.appendChild(scaleInput);
-            li.appendChild(indicatorInput);
-            li.appendChild(ratingInput);
-            li.appendChild(addBtn);
-            li.appendChild(deleteBtn);
-            li.appendChild(ul);
-          } else {
-            const toggleSpan = document.createElement("span");
-            toggleSpan.className = "toggle-children";
-            toggleSpan.textContent = "";
-            toggleSpan.style.visibility = "hidden";
-
-            const nameSpan = document.createElement("span");
-            nameSpan.textContent = el.name;
-
-            // New fields UI for leaf nodes
-            const attachmentInput = document.createElement("input");
-            attachmentInput.type = "file";
-            attachmentInput.title = "إضافة مرفق";
-            attachmentInput.style.marginLeft = "8px";
-            attachmentInput.addEventListener("change", async (event) => {
-              const file = event.target.files[0];
-              if (!file) return;
-              // TODO: Implement file upload API call here
-              alert("رفع المرفق غير مفعّل بعد");
-            });
-
-            const noteInput = document.createElement("textarea");
-            noteInput.placeholder = "أدخل ملحوظة";
-            noteInput.value = el.note || "";
-            noteInput.style.marginLeft = "8px";
-            noteInput.rows = 2;
-            noteInput.cols = 20;
-            noteInput.addEventListener("change", async () => {
-              await updateElementField(el._id, { note: noteInput.value });
-            });
-
-            const scaleInput = document.createElement("input");
-            scaleInput.type = "number";
-            scaleInput.placeholder = "مقياس";
-            scaleInput.value = el.scale || "";
-            scaleInput.style.marginLeft = "8px";
-            scaleInput.min = 0;
-            scaleInput.addEventListener("change", async () => {
-              await updateElementField(el._id, {
-                scale: Number(scaleInput.value),
-              });
-            });
-
-            const indicatorInput = document.createElement("input");
-            indicatorInput.type = "text";
-            indicatorInput.placeholder = "مؤشر";
-            indicatorInput.value = el.indicator || "";
-            indicatorInput.style.marginLeft = "8px";
-            indicatorInput.addEventListener("change", async () => {
-              await updateElementField(el._id, {
-                indicator: indicatorInput.value,
-              });
-            });
-
-            const ratingInput = document.createElement("input");
-            ratingInput.type = "number";
-            ratingInput.placeholder = "تقييم (1-5)";
-            ratingInput.value = el.rating || "";
-            ratingInput.style.marginLeft = "8px";
-            ratingInput.min = 1;
-            ratingInput.max = 5;
-            ratingInput.addEventListener("change", async () => {
-              let val = Number(ratingInput.value);
-              if (val < 1) val = 1;
-              if (val > 5) val = 5;
-              ratingInput.value = val;
-              await updateElementField(el._id, { rating: val });
-            });
-
-            const addBtn = document.createElement("button");
-            addBtn.textContent = "+";
-            addBtn.title = "إضافة عنصر فرعي";
-            addBtn.addEventListener("click", async () => {
-              let newName = prompt("أدخل اسم العنصر الجديد:");
-              if (!newName) return;
-              let newType;
-              if (el.type === "main") newType = "sub";
-              else if (el.type === "sub") newType = "subsub";
-              else if (el.type === "subsub") newType = "subsubsub";
-              else {
-                alert("لا يمكن إضافة عناصر فرعية لهذا النوع");
-                return;
-              }
-              try {
-                const res = await fetch("/elements", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    name: newName,
-                    type: newType,
-                    parent: el._id,
-                  }),
-                });
-                if (res.ok) {
-                  fetchElements();
-                } else {
-                  alert("فشل في إضافة العنصر");
-                }
-              } catch (error) {
-                alert("خطأ في الإضافة");
-              }
-            });
-
-            const deleteBtn = document.createElement("button");
-            deleteBtn.textContent = "-";
-            deleteBtn.title = "حذف العنصر";
-            deleteBtn.className = "deleteBtn";
-            deleteBtn.addEventListener("click", async () => {
-              if (!confirm("هل أنت متأكد من حذف هذا العنصر؟")) return;
-              try {
-                const res = await fetch(`/elements/${el._id}`, {
-                  method: "DELETE",
-                });
-                if (res.ok) {
-                  fetchElements();
-                } else {
-                  alert("فشل في حذف العنصر");
-                }
-              } catch (error) {
-                alert("خطأ في الحذف");
-              }
-            });
-
-            li.appendChild(toggleSpan);
-            li.appendChild(nameSpan);
-            li.appendChild(attachmentInput);
-            li.appendChild(noteInput);
-            li.appendChild(scaleInput);
-            li.appendChild(indicatorInput);
-            li.appendChild(ratingInput);
-            li.appendChild(addBtn);
-            li.appendChild(deleteBtn);
-          }
-
-          parentUl.appendChild(li);
+        // حقل المرفق
+        const attachmentInput = document.createElement("input");
+        attachmentInput.type = "file";
+        attachmentInput.title = "إضافة مرفق";
+        attachmentInput.style.marginLeft = "8px";
+        attachmentInput.addEventListener("change", async (event) => {
+          const file = event.target.files[0];
+          if (!file) return;
+          alert("رفع المرفق غير مفعّل بعد");
         });
-      }
 
-      addMainBtn.addEventListener("click", async () => {
-        let newName = prompt("أدخل اسم العنصر الرئيسي الجديد:");
-        if (!newName) return;
-        try {
-          const res = await fetch("/elements", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name: newName, type: "main", parent: null }),
-          });
-          if (res.ok) {
-            fetchElements();
-          } else {
-            alert("فشل في إضافة العنصر الرئيسي");
+        // حقل الملاحظة
+        const noteInput = document.createElement("textarea");
+        noteInput.placeholder = "أدخل ملحوظة";
+        noteInput.value = el.note || "";
+        noteInput.style.marginLeft = "8px";
+        noteInput.rows = 2;
+        noteInput.cols = 20;
+        noteInput.addEventListener("change", async () => {
+          await updateElementField(el._id, { note: noteInput.value });
+        });
+
+        // حقل الوصف
+        const descriptionInput = document.createElement("textarea");
+        descriptionInput.placeholder = "أدخل الوصف";
+        descriptionInput.value = el.description || "";
+        descriptionInput.style.marginLeft = "8px";
+        descriptionInput.rows = 2;
+        descriptionInput.cols = 20;
+        descriptionInput.addEventListener("change", async () => {
+          await updateElementField(el._id, { description: descriptionInput.value });
+        });
+
+        // حقل المقياس
+        const scaleInput = document.createElement("input");
+        scaleInput.type = "number";
+        scaleInput.placeholder = "مقياس";
+        scaleInput.value = el.scale || "";
+        scaleInput.style.marginLeft = "8px";
+        scaleInput.min = 0;
+        scaleInput.addEventListener("change", async () => {
+          const updates = { scale: Number(scaleInput.value) };
+          if (el.type === 'subsubsub') {
+            updates.indicator = el.indicator; // الحفاظ على المؤشر اليدوي للجيل الرابع
           }
-        } catch (error) {
-          alert("خطأ في الإضافة");
+          await updateElementField(el._id, updates);
+        });
+
+        // حقل المؤشر
+        const indicatorInput = document.createElement("input");
+        indicatorInput.type = "number";
+        indicatorInput.placeholder = "مؤشر";
+        indicatorInput.value = el.indicator || "";
+        indicatorInput.style.marginLeft = "8px";
+        indicatorInput.step = "0.01";
+
+        if (el.type === 'subsubsub') {
+        // الجيل الرابع - يمكن تعديله يدوياً
+          indicatorInput.addEventListener("change", async () => {
+            await updateElementField(el._id, {
+              indicator: Number(indicatorInput.value)
+            });
+          });
+        } else {
+          // الأجيال الأعلى - للعرض فقط
+          indicatorInput.readOnly = true;
+          indicatorInput.style.backgroundColor = "#f5f5f5";
+          indicatorInput.title = "يتم حسابه تلقائياً من الأبناء";
         }
+
+        // حقل التقييم
+        const ratingInput = document.createElement("input");
+        ratingInput.type = "number";
+        ratingInput.placeholder = "تقييم (1-5)";
+        ratingInput.value = el.rating || "";
+        ratingInput.style.marginLeft = "8px";
+        ratingInput.min = 1;
+        ratingInput.max = 5;
+        ratingInput.addEventListener("change", async () => {
+          let val = Number(ratingInput.value);
+          if (val < 1) val = 1;
+          if (val > 5) val = 5;
+          ratingInput.value = val;
+          await updateElementField(el._id, { rating: val });
+        });
+
+        // زر إضافة عنصر فرعي
+        const addBtn = document.createElement("button");
+        addBtn.textContent = "+";
+        addBtn.title = "إضافة عنصر فرعي";
+        addBtn.addEventListener("click", async () => {
+          const newName = prompt("أدخل اسم العنصر الجديد:");
+          if (!newName) return;
+
+          let newType;
+          switch (el.type) {
+            case 'main': newType = 'sub'; break;
+            case 'sub': newType = 'subsub'; break;
+            case 'subsub': newType = 'subsubsub'; break;
+            default:
+              alert("لا يمكن إضافة عناصر فرعية لهذا النوع");
+              return;
+          }
+
+          try {
+            const newElement = {
+              name: newName,
+              type: newType,
+              parent: el._id,
+              scale: 1 // قيمة افتراضية
+            };
+
+            const res = await fetch("/elements", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(newElement),
+            });
+
+            if (res.ok) {
+              fetchElements();
+            } else {
+              alert("فشل في إضافة العنصر");
+            }
+          } catch (error) {
+            alert("خطأ في الإضافة: " + error.message);
+          }
+        });
+
+        // زر حذف العنصر
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "-";
+        deleteBtn.title = "حذف العنصر";
+        deleteBtn.className = "deleteBtn";
+        deleteBtn.addEventListener("click", async () => {
+          if (!confirm("هل أنت متأكد من حذف هذا العنصر وجميع عناصره الفرعية؟")) return;
+          try {
+            const res = await fetch(`/elements/${el._id}`, {
+              method: "DELETE",
+            });
+            if (res.ok) {
+              fetchElements();
+            } else {
+              alert("فشل في حذف العنصر");
+            }
+          } catch (error) {
+            alert("خطأ في الحذف: " + error.message);
+          }
+        });
+
+        // زر إدارة الخصائص
+        const propertiesBtn = document.createElement("button");
+        propertiesBtn.textContent = "خصائص";
+        propertiesBtn.className = "propertiesBtn";
+        propertiesBtn.title = "إدارة خصائص العنصر";
+        propertiesBtn.addEventListener("click", () => {
+          propsContainer.classList.toggle("visible");
+        });
+
+        // حاوية الخصائص
+        const propsContainer = document.createElement("div");
+        propsContainer.className = "properties-container";
+
+        // عرض الخصائص الحالية
+        if (el.properties) {
+          for (const [key, value] of Object.entries(el.properties)) {
+            addPropertyInput(propsContainer, key, value, el._id);
+          }
+        }
+
+        // زر إضافة خاصية جديدة
+        const addPropertyBtn = document.createElement("button");
+        addPropertyBtn.textContent = "+ إضافة خاصية";
+        addPropertyBtn.className = "add-property-btn";
+        addPropertyBtn.addEventListener("click", () => {
+          addPropertyInput(propsContainer, "", "", el._id);
+        });
+
+        propsContainer.appendChild(addPropertyBtn);
+
+        // تجميع العناصر في واجهة المستخدم
+        li.appendChild(toggleSpan);
+        li.appendChild(nameSpan);
+
+        // إضافة زر المؤشر اليدوي للجيل الرابع فقط
+        if (el.type === 'subsubsub') {
+          const indicatorLabel = document.createElement("span");
+          indicatorLabel.textContent = "مؤشر يدوي:";
+          indicatorLabel.style.marginLeft = "8px";
+          li.appendChild(indicatorLabel);
+          li.appendChild(indicatorInput);
+        } else {
+          const indicatorLabel = document.createElement("span");
+          indicatorLabel.textContent = "مؤشر محسوب:";
+          indicatorLabel.style.marginLeft = "8px";
+          li.appendChild(indicatorLabel);
+          li.appendChild(indicatorInput);
+        }
+
+        li.appendChild(attachmentInput);
+        li.appendChild(noteInput);
+        li.appendChild(descriptionInput);
+        li.appendChild(scaleInput);
+        li.appendChild(ratingInput);
+        li.appendChild(addBtn);
+        li.appendChild(deleteBtn);
+        li.appendChild(propertiesBtn);
+        li.appendChild(propsContainer);
+
+        // إضافة الأبناء إن وجدوا
+        if (el.children && el.children.length > 0) {
+          const ul = document.createElement("ul");
+          ul.className = "children collapsed";
+          renderTree(el.children, ul);
+          li.appendChild(ul);
+
+          toggleSpan.classList.add("open");
+          toggleSpan.addEventListener("click", () => {
+            ul.classList.toggle("collapsed");
+            toggleSpan.classList.toggle("open");
+          });
+        } else {
+          toggleSpan.style.visibility = "hidden";
+        }
+
+        parentUl.appendChild(li);
+      });
+    }
+
+      function addPropertyInput(container, key, value, elementId) {
+        const propItem = document.createElement("div");
+        propItem.className = "property-item";
+
+      const keyInput = document.createElement("input");
+      keyInput.type = "text";
+      keyInput.className = "property-key";
+      keyInput.value = key;
+      keyInput.placeholder = "اسم الخاصية";
+
+      const valueInput = document.createElement("input");
+      valueInput.type = "text";
+      valueInput.className = "property-value";
+      valueInput.value = value;
+      valueInput.placeholder = "قيمة الخاصية";
+
+      const saveBtn = document.createElement("button");
+      saveBtn.textContent = "حفظ";
+      saveBtn.addEventListener("click", async () => {
+        if (!keyInput.value.trim()) {
+          alert("يجب إدخال اسم الخاصية");
+          return;
+        }
+
+        const updates = {
+          properties: {
+            [keyInput.value.trim()]: valueInput.value
+          }
+        };
+
+        await updateElementField(elementId, updates);
       });
 
-      async function updateElementField(id, updates) {
-        try {
-          const res = await fetch(`/elements/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updates),
-          });
-          if (!res.ok) {
-            alert("فشل في تحديث العنصر");
+      const removeBtn = document.createElement("button");
+      removeBtn.textContent = "حذف";
+      removeBtn.className = "property-remove";
+      removeBtn.addEventListener("click", async () => {
+        const updates = {
+          $unset: {
+            [`properties.${keyInput.value.trim()}`]: ""
           }
-        } catch (error) {
-          alert("خطأ في تحديث العنصر");
+        };
+
+        await updateElementField(elementId, updates);
+      });
+
+      propItem.appendChild(keyInput);
+      propItem.appendChild(valueInput);
+      propItem.appendChild(saveBtn);
+      propItem.appendChild(removeBtn);
+
+      container.insertBefore(propItem, container.lastChild);
+    }
+
+  async function updateElementField(id, updates) {
+      try {
+        const res = await fetch(`/elements/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updates),
+        });
+
+        if (!res.ok) {
+          throw new Error("فشل في تحديث العنصر");
         }
+
+        // إعادة حساب المؤشرات بعد التحديث
+        fetchElements();
+      } catch (error) {
+        console.error("Error updating element:", error);
+        alert(error.message);
       }
+    }
+
+      addMainBtn.addEventListener("click", async () => {
+      const newName = prompt("أدخل اسم العنصر الرئيسي الجديد:");
+      if (!newName) return;
+
+      try {
+        const res = await fetch("/elements", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: newName,
+            type: "main",
+            parent: null,
+            scale: 1 // قيمة افتراضية
+          }),
+        });
+
+        if (res.ok) {
+          fetchElements();
+        } else {
+          alert("فشل في إضافة العنصر الرئيسي");
+        }
+      } catch (error) {
+        alert("خطأ في إضافة العنصر الرئيسي: " + error.message);
+      }
+    });
 
       fetchElements();
     </script>
   </body>
-
-</html>

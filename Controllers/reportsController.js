@@ -1,5 +1,7 @@
 const Association = require("../models/Association");
+const Award = require("../models/Award");
 const Criteria = require("../models/Criteria");
+const CriterionReview = require("../models/CriterionReview");
 const PDFDocument = require("pdfkit");
 const ExcelJS = require("exceljs");
 
@@ -36,6 +38,77 @@ exports.showReportsScreen = async (req, res) => {
     // Log detailed error stack for debugging
     console.error(error.stack);
     res.status(500).send("حدث خطأ أثناء تحميل شاشة التقارير");
+  }
+};
+
+// New method to render criteria report page with all details and comparisons
+exports.showCriteriaReport = async (req, res) => {
+  try {
+    // Fetch all criteria with hierarchy
+    const criteria = await Criteria.find().lean();
+
+    // Build tree structure
+    const map = {};
+    criteria.forEach((item) => {
+      item.children = [];
+      map[item._id] = item;
+    });
+    const roots = [];
+    criteria.forEach((item) => {
+      if (item.parent) {
+        map[item.parent]?.children.push(item);
+      } else {
+        roots.push(item);
+      }
+    });
+
+    // Fetch criterion reviews for comparison (optional, can be enhanced)
+    // For now, fetch all reviews
+    const reviews = await CriterionReview.find().lean();
+
+    // Fetch all associations and awards to map names
+    const associations = await Association.find().lean();
+    const awards = await Award.find().lean();
+
+    // Create maps from id to name
+    const associationMap = {};
+    associations.forEach((assoc) => {
+      associationMap[assoc._id.toString()] = assoc.name;
+    });
+    const awardMap = {};
+    awards.forEach((award) => {
+      awardMap[award._id.toString()] = award.name;
+    });
+
+    // Add associationName and awardName to each review
+    const updatedReviews = reviews.map((review) => {
+      const assocId = review.associationId
+        ? review.associationId.toString()
+        : null;
+      const awardId = review.awardId ? review.awardId.toString() : null;
+      return {
+        ...review,
+        associationName:
+          assocId && associationMap.hasOwnProperty(assocId)
+            ? associationMap[assocId]
+            : "غير معروف",
+        awardName:
+          awardId && awardMap.hasOwnProperty(awardId)
+            ? awardMap[awardId]
+            : "غير معروف",
+      };
+    });
+
+    // Render criteriaReport.ejs with criteria tree and updated reviews
+    res.render("criteriaReport", {
+      title: "تقرير المعايير",
+      user: req.user,
+      criteriaTree: roots,
+      reviews: updatedReviews,
+    });
+  } catch (error) {
+    console.error("Error loading criteria report:", error);
+    res.status(500).send("حدث خطأ أثناء تحميل تقرير المعايير");
   }
 };
 
@@ -195,5 +268,60 @@ exports.generateReport = async (req, res) => {
   } catch (error) {
     console.error("Error generating report:", error);
     res.status(500).send("حدث خطأ أثناء توليد التقرير");
+  }
+};
+
+// New method to render criteria report inside dashboard layout
+exports.showCriteriaReportInDashboard = async (req, res) => {
+  try {
+    // Fetch all criteria with hierarchy
+    const criteria = await Criteria.find().lean();
+
+    // Build tree structure
+    const map = {};
+    criteria.forEach((item) => {
+      item.children = [];
+      map[item._id] = item;
+    });
+    const roots = [];
+    criteria.forEach((item) => {
+      if (item.parent) {
+        map[item.parent]?.children.push(item);
+      } else {
+        roots.push(item);
+      }
+    });
+
+    // Fetch criterion reviews for comparison
+    const reviews = await CriterionReview.find().lean();
+
+    // Render criteriaReport.ejs to HTML string
+    req.app.render(
+      "criteriaReport",
+      {
+        title: "تقرير المعايير",
+        user: req.user,
+        criteriaTree: roots,
+        reviews,
+      },
+      (err, html) => {
+        if (err) {
+          console.error("Error rendering criteria report:", err);
+          return res.status(500).send("حدث خطأ أثناء تحميل تقرير المعايير");
+        }
+        // Render dashboard with criteriaReport HTML as body
+        res.render("dashboard", {
+          title: "لوحة التحكم - تقرير المعايير",
+          role: req.user ? req.user.role : null,
+          body: html,
+          statistics: {},
+          notifications: [],
+          quickLinks: [],
+        });
+      }
+    );
+  } catch (error) {
+    console.error("Error loading criteria report in dashboard:", error);
+    res.status(500).send("حدث خطأ أثناء تحميل تقرير المعايير");
   }
 };

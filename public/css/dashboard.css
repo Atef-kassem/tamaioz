@@ -1,0 +1,84 @@
+body,
+html {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.pc-sidebar {
+  right: 0 !important;
+  left: auto !important;
+}
+
+.pc-header,
+.pc-container,
+.pc-content,
+.main-content,
+.page-header,
+.page-block,
+.breadcrumb {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.breadcrumb {
+  justify-content: flex-end !important;
+}
+
+/* تحسين الشكل العام */
+.pc-navbar .pc-link,
+.pc-navbar .pc-micon,
+.pc-navbar .pc-mtext,
+.btn,
+input,
+select,
+textarea {
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.pc-navbar .pc-link:hover,
+.btn:hover,
+input:hover,
+select:hover,
+textarea:hover,
+.pc-navbar .pc-link:focus,
+.btn:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  background: #f0f4fa !important;
+  color: #1e88e5 !important;
+  box-shadow: 0 2px 8px rgba(30, 136, 229, 0.08);
+  outline: none;
+}
+
+.pc-navbar .pc-link[title],
+.btn[title],
+input[title],
+select[title],
+textarea[title] {
+  position: relative;
+}
+
+/* Tooltip style */
+.custom-tooltip {
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #222;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.has-tooltip:hover .custom-tooltip,
+.has-tooltip:focus .custom-tooltip {
+  opacity: 1;
+  pointer-events: auto;
+}

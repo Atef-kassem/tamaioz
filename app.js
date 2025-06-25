@@ -132,42 +132,74 @@ app.get("/dashboard", async (req, res) => {
   const CriteriaModel = require("./models/Criteria");
 
   if (role === "superadmin") {
-    statistics = {
-      criteriaEntered: 20,
-      criteriaRemaining: 0,
-      submissionStatusCounts: {
-        pending: 1,
-        approved: 15,
-        rejected: 0,
-      },
-    };
-    notifications = [
-      { id: 1, message: "New system-wide notification for superadmin." },
-      { id: 2, message: "System maintenance scheduled." },
-    ];
-    quickLinks = [
-      { name: "Manage Users", url: "/users" },
-      { name: "System Settings", url: "/settings" },
-    ];
+    try {
+      const criteriaEnteredCount = await Criteria.countDocuments({
+        status: "entered",
+      });
+      const criteriaRemainingCount = await Criteria.countDocuments({
+        status: "not-entered",
+      });
 
-    app.render(
-      "partials/dashboard_superadmin",
-      { statistics, notifications, quickLinks, user: req.user },
-      (err, html) => {
-        if (err) {
-          console.error("Error rendering dashboard_superadmin partial:", err);
-          return res.status(500).send("Error rendering dashboard");
+      const associationStatusCounts = await Association.aggregate([
+        {
+          $group: {
+            _id: "$reviewStatus",
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+
+      const submissionStatusCounts = {
+        pending: 0,
+        approved: 0,
+        rejected: 0,
+      };
+
+      associationStatusCounts.forEach((item) => {
+        if (item._id === "pending") submissionStatusCounts.pending = item.count;
+        else if (item._id === "approved")
+          submissionStatusCounts.approved = item.count;
+        else if (item._id === "rejected")
+          submissionStatusCounts.rejected = item.count;
+      });
+
+      statistics = {
+        criteriaEntered: criteriaEnteredCount,
+        criteriaRemaining: criteriaRemainingCount,
+        submissionStatusCounts,
+      };
+
+      notifications = [
+        { id: 1, message: "New system-wide notification for superadmin." },
+        { id: 2, message: "System maintenance scheduled." },
+      ];
+      quickLinks = [
+        { name: "Manage Users", url: "/users" },
+        { name: "System Settings", url: "/settings" },
+      ];
+
+      app.render(
+        "partials/dashboard_superadmin",
+        { statistics, notifications, quickLinks, user: req.user },
+        (err, html) => {
+          if (err) {
+            console.error("Error rendering dashboard_superadmin partial:", err);
+            return res.status(500).send("Error rendering dashboard");
+          }
+          res.render("dashboard", {
+            user: req.user,
+            role,
+            statistics,
+            notifications,
+            quickLinks,
+            body: html,
+          });
         }
-        res.render("dashboard", {
-          user: req.user,
-          role,
-          statistics,
-          notifications,
-          quickLinks,
-          body: html,
-        });
-      }
-    );
+      );
+    } catch (error) {
+      console.error("Error fetching dashboard data for superadmin:", error);
+      res.status(500).send("Error fetching dashboard data");
+    }
   } else if (role === "supervisor") {
     statistics = {
       criteriaEntered: 10,
@@ -182,9 +214,7 @@ app.get("/dashboard", async (req, res) => {
       { id: 1, message: "New submission pending review." },
       { id: 2, message: "Meeting scheduled for supervisors." },
     ];
-    quickLinks = [
-      { name: "Manage Criteria", url: "/criteria" }
-    ];
+    quickLinks = [{ name: "Manage Criteria", url: "/criteria" }];
 
     // Fetch data for reports content
     let associations = [];
@@ -295,9 +325,11 @@ app.get("/dashboard", async (req, res) => {
       { name: "Submit Reviews", url: "/reviews/submit" },
     ];
 
+    const associations = await Association.find().lean();
+
     app.render(
       "partials/dashboard_reviewer",
-      { statistics, notifications, quickLinks },
+      { statistics, notifications, quickLinks, associations },
       (err, html) => {
         if (err) {
           console.error("Error rendering dashboard_reviewer partial:", err);
@@ -325,88 +357,168 @@ app.get("/dashboard", async (req, res) => {
   }
 });
 
-app.get("/criteria", async (req, res) => {
+const Association = require("./models/Association");
+const Award = require("./models/Award");
+const Criteria = require("./models/Criteria");
+
+app.get("/analysis", async (req, res) => {
   if (!req.user) {
     return res.redirect("/login");
   }
 
   const role = req.user.role;
 
-  let statistics = {};
-  let notifications = [];
-  let quickLinks = [];
+  // Aggregate data for charts
+  try {
+    // Associations by reviewStatus
+    const associationsByStatusRaw = await Association.aggregate([
+      { $group: { _id: "$reviewStatus", count: { $sum: 1 } } },
+    ]);
 
-  if (role === "superadmin") {
-    statistics = {
-      criteriaEntered: 20,
-      criteriaRemaining: 0,
-      submissionStatusCounts: {
-        pending: 1,
-        approved: 15,
-        rejected: 0,
-      },
-    };
-    notifications = [
-      { id: 1, message: "New system-wide notification for superadmin." },
-      { id: 2, message: "System maintenance scheduled." },
-    ];
-    quickLinks = [
-      { name: "Manage Users", url: "/users" },
-      { name: "System Settings", url: "/settings" },
-    ];
-  } else if (role === "supervisor") {
-    statistics = {
-      criteriaEntered: 10,
-      criteriaRemaining: 5,
-      submissionStatusCounts: {
-        pending: 3,
-        approved: 7,
-        rejected: 2,
-      },
-    };
-    notifications = [
-      { id: 1, message: "New submission pending review." },
-      { id: 2, message: "Meeting scheduled for supervisors." },
-    ];
-    quickLinks = [
-      { name: "Manage Criteria", url: "/criteria" }
-    ];
-  } else if (role === "reviewer") {
-    statistics = {
-      criteriaEntered: 7,
-      criteriaRemaining: 8,
-      submissionStatusCounts: {
-        pending: 5,
-        approved: 4,
-        rejected: 1,
-      },
-    };
-    notifications = [
-      { id: 1, message: "New criteria assigned for review." },
-      { id: 2, message: "Reminder: Submit your reviews." },
-    ];
-    quickLinks = [
-      { name: "View Criteria", url: "/criteria" },
-      { name: "Submit Reviews", url: "/reviews/submit" },
-    ];
-  }
+    // Awards by status
+    const awardsByStatusRaw = await Award.aggregate([
+      { $group: { _id: "$status", count: { $sum: 1 } } },
+    ]);
 
-  app.render(
-    "criteriaContent",
-    { user: req.user, permissions: req.user.permissions || [] },
-    (err, html) => {
-      if (err) {
-        return res.status(500).send("Server error");
+    // Criteria count by type
+    const criteriaCountByTypeRaw = await Criteria.aggregate([
+      { $group: { _id: "$type", count: { $sum: 1 } } },
+    ]);
+
+    // Average points per criteria type
+    const avgPointsByTypeRaw = await Criteria.aggregate([
+      {
+        $group: {
+          _id: "$type",
+          avgPoints: { $avg: "$points" },
+        },
+      },
+    ]);
+
+    // Number of awards linked to associations
+    const awardsCountPerAssociationRaw = await Association.aggregate([
+      {
+        $project: {
+          name: 1,
+          awardsCount: {
+            $cond: {
+              if: { $isArray: "$awards" },
+              then: { $size: "$awards" },
+              else: 0,
+            },
+          },
+        },
+      },
+    ]);
+
+    // User provided criteria ratings data (hardcoded here for example)
+    const userCriteriaRatings = [
+      { criterion: "العمل", rating: 4 },
+      { criterion: "سيسي", rating: 2 },
+      { criterion: "سيسي", rating: 4 },
+      { criterion: "سييس", rating: 3 },
+      { criterion: "الحب", rating: 3 },
+      { criterion: "الاصدقاء", rating: 0 },
+    ];
+
+    // Aggregate user criteria ratings by criterion name (average if duplicates)
+    const ratingsMap = {};
+    userCriteriaRatings.forEach(({ criterion, rating }) => {
+      if (!ratingsMap[criterion]) {
+        ratingsMap[criterion] = { total: 0, count: 0 };
       }
-      res.render("dashboard", {
-        body: html,
-        role: role,
-        statistics: statistics,
-        notifications: notifications,
-        quickLinks: quickLinks,
-      });
+      ratingsMap[criterion].total += rating;
+      ratingsMap[criterion].count += 1;
+    });
+
+    const criteriaLabels = Object.keys(ratingsMap);
+    const criteriaData = criteriaLabels.map(
+      (label) => ratingsMap[label].total / ratingsMap[label].count
+    );
+
+    const criteriaRatingsData = {
+      labels: criteriaLabels,
+      datasets: [
+        {
+          label: "تقييمات المعايير",
+          data: criteriaData,
+          backgroundColor: "#f67019",
+        },
+      ],
+    };
+
+    // Transform raw data to chart.js format
+    function transformToChartData(rawData, labelKey, dataKey) {
+      return {
+        labels: rawData.map(
+          (item) => item[labelKey] || item._id || "غير معروف"
+        ),
+        datasets: [
+          {
+            label: dataKey,
+            data: rawData.map(
+              (item) => item[dataKey] || item.count || item.avgPoints || 0
+            ),
+            backgroundColor: [
+              "#4dc9f6",
+              "#f67019",
+              "#f53794",
+              "#537bc4",
+              "#acc236",
+              "#166a8f",
+              "#00a950",
+              "#58595b",
+              "#8549ba",
+            ],
+          },
+        ],
+      };
     }
-  );
+
+    const data = {
+      associationsStatus: transformToChartData(
+        associationsByStatusRaw,
+        "_id",
+        "count"
+      ),
+      awardsStatus: transformToChartData(awardsByStatusRaw, "_id", "count"),
+      criteriaCount: transformToChartData(
+        criteriaCountByTypeRaw,
+        "_id",
+        "count"
+      ),
+      avgPoints: transformToChartData(avgPointsByTypeRaw, "_id", "avgPoints"),
+      awardsPerAssociation: {
+        labels: awardsCountPerAssociationRaw.map(
+          (item) => item.name || "غير معروف"
+        ),
+        datasets: [
+          {
+            label: "عدد الجوائز",
+            data: awardsCountPerAssociationRaw.map(
+              (item) => item.awardsCount || 0
+            ),
+            backgroundColor: "#4dc9f6",
+          },
+        ],
+      },
+      criteriaRatings: criteriaRatingsData,
+    };
+
+    // Render dashboard with analysis_content partial as body
+    res.render("dashboard", {
+      role,
+      body: await new Promise((resolve, reject) => {
+        app.render("partials/analysis_content", { data }, (err, html) => {
+          if (err) reject(err);
+          else resolve(html);
+        });
+      }),
+    });
+  } catch (error) {
+    console.error("Error fetching analysis data:", error);
+    res.status(500).send("Error fetching analysis data");
+  }
 });
 
 // Start server

@@ -347,6 +347,17 @@ exports.approveAssociation = async (req, res) => {
       return res.status(404).send("Association not found");
     }
 
+    // Fix: Remove empty string or invalid entries from awards array
+    let awards = association.awards || [];
+    if (Array.isArray(awards)) {
+      awards = awards.filter(
+        (id) => id && id !== "" && mongoose.Types.ObjectId.isValid(id)
+      );
+    } else {
+      awards = [];
+    }
+    association.awards = awards;
+
     // Update review status and add comment and history
     association.reviewStatus = "approved";
     if (comment) {
@@ -366,6 +377,61 @@ exports.approveAssociation = async (req, res) => {
     console.error(error);
     res.status(500).send("Error approving association");
   }
+};
+
+// New method: Get association by ID for editing
+exports.getAssociationById = async (req, res) => {
+  try {
+    const associationId = req.params.id;
+    const association = await Association.findById(associationId);
+    if (!association) {
+      return res.status(404).json({ message: "Association not found" });
+    }
+    res.json(association);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching association" });
+  }
+};
+
+// New method: Update association
+exports.updateAssociation = async (req, res) => {
+  upload.single("image")(req, res, async function (err) {
+    if (err) {
+      console.error("Multer error:", err);
+      return res.status(500).json({ message: "Error uploading image" });
+    }
+    try {
+      const associationId = req.params.id;
+      const { name, taxRecordNumber, phoneNumber, creationDate } = req.body;
+      let awards = req.body.awards || [];
+      if (!Array.isArray(awards)) {
+        awards = [awards];
+      }
+      const image = req.file ? req.file.filename : null;
+
+      const association = await Association.findById(associationId);
+      if (!association) {
+        return res.status(404).json({ message: "Association not found" });
+      }
+
+      association.name = name;
+      association.taxRecordNumber = taxRecordNumber;
+      association.phoneNumber = phoneNumber;
+      association.creationDate = creationDate;
+      association.awards = awards;
+      if (image) {
+        association.image = image;
+      }
+
+      await association.save();
+
+      res.json({ message: "Association updated successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error updating association" });
+    }
+  });
 };
 
 const mongoose = require("mongoose");

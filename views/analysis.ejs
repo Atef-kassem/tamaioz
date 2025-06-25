@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-pc-direction="rtl" data-pc-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>تحليل البيانات - لوحة التحكم</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/dashboard.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <%- include('dashboard', { body: '' }) %>
+
+        <div class="pc-container" style="padding: 20px;">
+            <h2 class="text-center mb-6">تحليل ومقارنة بين الجمعيات والجوائز والمعايير</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3>عدد الجمعيات حسب حالة المراجعة</h3>
+                    <canvas id="associationsStatusChart"></canvas>
+                </div>
+                <div>
+                    <h3>عدد الجوائز حسب الحالة</h3>
+                    <canvas id="awardsStatusChart"></canvas>
+                </div>
+                <div>
+                    <h3>عدد المعايير حسب النوع</h3>
+                    <canvas id="criteriaCountChart"></canvas>
+                </div>
+                <div>
+                    <h3>متوسط النقاط لكل نوع من المعايير</h3>
+                    <canvas id="avgPointsChart"></canvas>
+                </div>
+                <div>
+                    <h3>عدد الجوائز المرتبطة بكل جمعية</h3>
+                    <canvas id="awardsPerAssociationChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            window.chartData = <% - JSON.stringify(data) %>;
+        </script>
+        <script src="/js/analysis.js"></script>
+</body>
+
+</html>
